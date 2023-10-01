@@ -1,0 +1,5 @@
+../APP/Src/app_eth_process.c:22:6:ETH_BufferNotEmpty	4	static
+../APP/Src/app_eth_process.c:32:6:ETH_BufferNotFull	4	static
+../APP/Src/app_eth_process.c:40:6:ETH_WriteBuffer	24	static
+../APP/Src/app_eth_process.c:57:9:ETH_ReadBuffer	16	static
+../APP/Src/app_eth_process.c:73:6:ETH_Send	16	static
