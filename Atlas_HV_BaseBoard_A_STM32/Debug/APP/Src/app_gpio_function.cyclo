@@ -1,0 +1,3 @@
+app_gpio_function.c:13:6:LedSwitch	1
+app_gpio_function.c:24:6:Enable_GPIO	5
+app_gpio_function.c:53:6:Output_GPIO	7

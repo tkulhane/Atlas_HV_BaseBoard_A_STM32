@@ -1,0 +1,8 @@
+app_function_ADC.c:64:6:LoadADCConstant	4
+app_function_ADC.c:97:6:StoreADCConstant	1
+app_function_ADC.c:108:7:GetADCConstant	5
+app_function_ADC.c:136:6:SendADCCoefficients	2
+app_function_ADC.c:153:10:CalcAvg	2
+app_function_ADC.c:172:7:CalcAdcValue	1
+app_function_ADC.c:184:6:ReadADCChannels	1
+app_function_ADC.c:196:6:ADCStore	5

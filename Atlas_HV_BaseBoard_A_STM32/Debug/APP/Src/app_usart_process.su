@@ -1,0 +1,5 @@
+../APP/Src/app_usart_process.c:22:6:Uart_BufferNotEmpty	4	static
+../APP/Src/app_usart_process.c:32:6:Uart_BufferNotFull	4	static
+../APP/Src/app_usart_process.c:40:6:Uart_WriteBuffer	16	static
+../APP/Src/app_usart_process.c:55:9:Uart_ReadBuffer	16	static
+../APP/Src/app_usart_process.c:71:6:Uart_Send	16	static

@@ -73,7 +73,7 @@ uint32_t ETH_GetIP()
 	}
 	else
 	{
-		uint32_t temp = MAKEU32(myNetInfo.ip[0], myNetInfo.ip[1], myNetInfo.ip[2], myNetInfo.ip[3]);
+		uint32_t temp = ip_MAKEU32(myNetInfo.ip[0], myNetInfo.ip[1], myNetInfo.ip[2], myNetInfo.ip[3]);
 		return temp;
 	}
 }
@@ -90,8 +90,8 @@ uint32_t ETH_GetNETMASK()
 	}
 	else
 	{
-		ip_addr_t temp_ip = LWIP_Get_DefalutNetMask();
-		return temp_ip.addr;
+		uint32_t temp = ip_MAKEU32(myNetInfo.sn[0], myNetInfo.sn[1], myNetInfo.sn[2], myNetInfo.sn[3]);
+		return temp;
 	}
 }
 
@@ -107,8 +107,8 @@ uint32_t ETH_GetGATEWAY()
 	}
 	else
 	{
-		ip_addr_t temp_ip = LWIP_Get_DefalutGateWay();
-		return temp_ip.addr;
+		uint32_t temp = ip_MAKEU32(myNetInfo.gw[0], myNetInfo.gw[1], myNetInfo.gw[2], myNetInfo.gw[3]);
+		return temp;
 	}
 }
 
