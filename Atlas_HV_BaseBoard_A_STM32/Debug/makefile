@@ -15,8 +15,6 @@ RM := rm -rf
 -include LIB/ioLibrary_Driver-master/Internet/SNMP/subdir.mk
 -include LIB/ioLibrary_Driver-master/Internet/MQTT/MQTTPacket/src/subdir.mk
 -include LIB/ioLibrary_Driver-master/Internet/MQTT/subdir.mk
--include LIB/ioLibrary_Driver-master/Internet/FTPServer/subdir.mk
--include LIB/ioLibrary_Driver-master/Internet/FTPClient/subdir.mk
 -include LIB/ioLibrary_Driver-master/Internet/DNS/subdir.mk
 -include LIB/ioLibrary_Driver-master/Internet/DHCP/subdir.mk
 -include LIB/ioLibrary_Driver-master/Ethernet/W5500/subdir.mk

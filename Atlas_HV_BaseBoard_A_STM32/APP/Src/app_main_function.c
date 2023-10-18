@@ -19,7 +19,8 @@
 float AdjCoef_k[3];
 float AdjCoef_q[3];
 
-
+ChannelStatusStruct ChannelsStatus[3];
+ChannelChangeStruct ChannelsChange[3];
 
 
 /* @brief load coefficient from sram

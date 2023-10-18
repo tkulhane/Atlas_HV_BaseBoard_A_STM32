@@ -14,12 +14,8 @@
 #include "app_backup_sram.h"
 
 #define meas_size 5
-uint16_t meas_data[8][meas_size];
-uint8_t meas_counter;
-uint8_t Read_Data[16]; //read data from ADC
 
-
-float *p_ADC_data[8];
+extern float *p_ADC_data[8];
 
 void ReadADCChannels();
 void ADCStore();

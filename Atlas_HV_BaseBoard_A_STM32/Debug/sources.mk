@@ -36,8 +36,6 @@ LIB/ioLibrary_Driver-master/Ethernet/W5500 \
 LIB/ioLibrary_Driver-master/Ethernet \
 LIB/ioLibrary_Driver-master/Internet/DHCP \
 LIB/ioLibrary_Driver-master/Internet/DNS \
-LIB/ioLibrary_Driver-master/Internet/FTPClient \
-LIB/ioLibrary_Driver-master/Internet/FTPServer \
 LIB/ioLibrary_Driver-master/Internet/MQTT \
 LIB/ioLibrary_Driver-master/Internet/MQTT/MQTTPacket/src \
 LIB/ioLibrary_Driver-master/Internet/SNMP \

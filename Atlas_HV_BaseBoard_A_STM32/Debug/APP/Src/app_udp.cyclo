@@ -13,6 +13,6 @@ app_udp.c:149:6:W5500_WriteByte	1
 app_udp.c:159:6:ETH_SendSetting	1
 app_udp.c:169:6:ETH_load_ip	4
 app_udp.c:208:6:ETH_udp_Init	1
-app_udp.c:244:6:ETH_udp_StoreEndpoint	1
-app_udp.c:259:6:ETH_udp_Transmit	3
-app_udp.c:290:6:ETH_udp_Receive	4
+app_udp.c:247:6:ETH_udp_StoreEndpoint	1
+app_udp.c:262:6:ETH_udp_Transmit	3
+app_udp.c:293:6:ETH_udp_Receive	4

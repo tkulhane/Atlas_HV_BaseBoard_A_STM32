@@ -15,15 +15,15 @@ void BACKUP_SRAM_enable(void)
 {
 
     /* Enable the power interface clock */
-    RCC->APB1ENR |= RCC_APB1ENR_PWREN;
+    //RCC->APB1ENR |= RCC_APB1ENR_PWREN;
     /* Set the DBP bit to enable access to the backup domain */
-    PWR->CR |= PWR_CR_DBP;
+    //PWR->CR |= PWR_CR_DBP;
     /* Enable the backup SRAM clock */
-    RCC->AHB1ENR |= RCC_AHB1ENR_BKPSRAMEN;
+    //RCC->AHB1ENR |= RCC_AHB1ENR_BKPSRAMEN;
     /* Enable backup regulator */
-    PWR->CSR |= PWR_CSR_BRE;
+    //PWR->CSR |= PWR_CSR_BRE;
     /* Wait for backup regulator to be ready  */
-    while (!(PWR->CSR & (PWR_FLAG_BRR)));
+    //while (!(PWR->CSR & (PWR_FLAG_BRR)));
 
 }
 
@@ -35,6 +35,7 @@ void BACKUP_SRAM_enable(void)
  */
 bool BACKUP_SRAM_read_StoreControl(int position)
 {
+	/*
 	uint32_t *addr_0 = (uint32_t *)BKPSRAM_BASE + (4 * sramOffset_StoreControl_0);
 	if(*addr_0  != STORE_VALIDE_CODE) return false;
 
@@ -42,6 +43,9 @@ bool BACKUP_SRAM_read_StoreControl(int position)
 
 	uint32_t flag_reg = *addr_1;
 	return  (flag_reg >> position) & 0x000001;
+	*/
+
+	return false;
 }
 
 /* @brief write to control registers with information about store information
@@ -52,6 +56,7 @@ bool BACKUP_SRAM_read_StoreControl(int position)
  */
 void BACKUP_SRAM_write_StoreControl(int position, bool flag)
 {
+	/*
 	uint32_t *addr_0 = (uint32_t *)BKPSRAM_BASE + (4 * sramOffset_StoreControl_0);
 	uint32_t *addr_1 = (uint32_t *)BKPSRAM_BASE + (4 * sramOffset_StoreControl_1);
 
@@ -73,6 +78,7 @@ void BACKUP_SRAM_write_StoreControl(int position, bool flag)
 	}
 
 	*addr_1 =  flag_reg;
+*/
 }
 
 /* @brief read backup register
@@ -83,9 +89,12 @@ void BACKUP_SRAM_write_StoreControl(int position, bool flag)
  */
 uint32_t BACKUP_SRAM_read(int word_offset)
 {
+	/*
 	uint32_t *addr = (uint32_t *)BKPSRAM_BASE + (4 * word_offset);
 
 	return *addr;
+	*/
+	return 0;
 }
 
 /* @brief write to backup register
@@ -96,9 +105,11 @@ uint32_t BACKUP_SRAM_read(int word_offset)
  */
 void BACKUP_SRAM_write(int word_offset, uint32_t value)
 {
+	/*
 	uint32_t *addr = (uint32_t *)BKPSRAM_BASE + (4 * word_offset);
 
 	*addr = value;
+	*/
 }
 
 /* @brief read backup register in float format
@@ -109,9 +120,12 @@ void BACKUP_SRAM_write(int word_offset, uint32_t value)
  */
 float BACKUP_SRAM_read_float(int word_offset)
 {
+	/*
 	float *addr = (float *)BKPSRAM_BASE + (4 * word_offset);
 
 	return *addr;
+	*/
+	return 0;
 }
 
 /* @brief write to backup register in float format
@@ -122,7 +136,9 @@ float BACKUP_SRAM_read_float(int word_offset)
  */
 void BACKUP_SRAM_write_float(int word_offset, float value)
 {
+	/*
 	float *addr = (float *)BKPSRAM_BASE + (4 * word_offset);
 
 	*addr = value;
+	*/
 }

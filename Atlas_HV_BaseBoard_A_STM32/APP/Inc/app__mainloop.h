@@ -23,6 +23,7 @@
 #include "app_spi_function_DAC.h"
 #include "app_error.h"
 #include "app_udp.h"
+# include "app_function_ADC.h"
 
 void application_main();
 

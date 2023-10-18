@@ -232,7 +232,10 @@ void ETH_udp_Init()
 
     int udp_socket = socket(UDP_SOCKET, Sn_MR_UDP, UDP_PORT, SF_IO_NONBLOCK);
 
-
+    if(udp_socket != UDP_SOCKET)
+    {
+    	//error
+    }
 
 }
 

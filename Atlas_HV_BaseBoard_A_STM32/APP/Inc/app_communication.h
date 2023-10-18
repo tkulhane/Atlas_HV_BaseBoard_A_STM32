@@ -122,12 +122,7 @@ typedef enum
 	cparse_u32t
 }eCommand_parse;
 
-int _command_id;
-int _command_value;
-float _float_command_value;
-uint32_t _u32_command_value;
-eCommand_Form _command_form;
-eCommand_source _command_source;
+extern int _command_id;
 
 void ProcessCommand(int command_id);
 int get_string_length(const char* s);

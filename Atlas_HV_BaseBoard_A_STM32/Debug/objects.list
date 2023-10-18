@@ -56,8 +56,6 @@
 "./LIB/ioLibrary_Driver-master/Ethernet/wizchip_conf.o"
 "./LIB/ioLibrary_Driver-master/Internet/DHCP/dhcp.o"
 "./LIB/ioLibrary_Driver-master/Internet/DNS/dns.o"
-"./LIB/ioLibrary_Driver-master/Internet/FTPClient/ftpc.o"
-"./LIB/ioLibrary_Driver-master/Internet/FTPServer/ftpd.o"
 "./LIB/ioLibrary_Driver-master/Internet/MQTT/MQTTClient.o"
 "./LIB/ioLibrary_Driver-master/Internet/MQTT/mqtt_interface.o"
 "./LIB/ioLibrary_Driver-master/Internet/MQTT/MQTTPacket/src/MQTTConnectClient.o"

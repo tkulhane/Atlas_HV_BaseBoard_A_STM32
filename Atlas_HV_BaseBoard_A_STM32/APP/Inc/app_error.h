@@ -15,13 +15,12 @@
 #include "app_usart_process.h"
 #include "app_communication.h"
 
+
+extern bool *p_ERROR_data[6];
+extern bool _Found_Error;
+
 #define Error_Array_Size 20
 #define Error_Threshold 16
-uint8_t Error_Array_Reg[Error_Array_Size];
-uint8_t Error_Array_Counter;
-
-bool *p_ERROR_data[6];
-bool _Found_Error;
 
 void ErrorExecute(uint8_t channel);
 void ErrorProcess();

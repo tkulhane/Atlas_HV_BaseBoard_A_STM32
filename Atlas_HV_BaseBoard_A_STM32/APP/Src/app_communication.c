@@ -6,6 +6,13 @@
  */
 #include "app_communication.h"
 
+int _command_id;
+int _command_value;
+float _float_command_value;
+uint32_t _u32_command_value;
+eCommand_Form _command_form;
+eCommand_source _command_source;
+
 
 //table of command string - corresponds with eCommand_Id enumeration
 const char command_strings[][20]=

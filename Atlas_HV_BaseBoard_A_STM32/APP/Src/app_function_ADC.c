@@ -9,6 +9,12 @@
 
 #define ADC_coef 1241.58836
 
+uint16_t meas_data[8][meas_size];
+uint8_t meas_counter;
+uint8_t Read_Data[16]; //read data from ADC
+
+float *p_ADC_data[8];
+
 
 float ReadCoef_k[6];
 float ReadCoef_q[6];

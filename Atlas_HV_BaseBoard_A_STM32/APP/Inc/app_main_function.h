@@ -60,8 +60,8 @@ typedef struct
 }ChannelChangeStruct;
 
 
-ChannelStatusStruct ChannelsStatus[3];
-ChannelChangeStruct ChannelsChange[3];
+extern ChannelStatusStruct ChannelsStatus[3];
+extern ChannelChangeStruct ChannelsChange[3];
 
 void LoadDACConstant();
 void StoreDACConstant(uint8_t coef, float value);

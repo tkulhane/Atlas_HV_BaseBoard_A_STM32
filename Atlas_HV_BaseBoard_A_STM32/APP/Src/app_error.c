@@ -8,6 +8,13 @@
 
 #include "app_error.h"
 
+uint8_t Error_Array_Reg[Error_Array_Size];
+uint8_t Error_Array_Counter;
+
+bool *p_ERROR_data[6];
+bool _Found_Error;
+
+
 /* @brief reaction on error signal
  *
  */
