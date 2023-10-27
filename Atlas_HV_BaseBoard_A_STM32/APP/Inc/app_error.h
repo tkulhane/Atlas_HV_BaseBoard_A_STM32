@@ -19,6 +19,8 @@
 extern bool *p_ERROR_data[6];
 extern bool _Found_Error;
 
+extern bool _EnableErrorExecute;
+
 #define Error_Array_Size 20
 #define Error_Threshold 16
 

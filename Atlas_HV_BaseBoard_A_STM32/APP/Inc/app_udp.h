@@ -29,7 +29,7 @@
 
 
 #ifndef DATA_BUF_SIZE
-	#define DATA_BUF_SIZE			1024
+	#define DATA_BUF_SIZE			4096
 #endif
 
 #define UDP_SOCKET 3
@@ -58,5 +58,6 @@ void ETH_SendSetting();
 void ETH_udp_Init();
 void ETH_udp_StoreEndpoint();
 void ETH_udp_Transmit(uint8_t *pData, uint16_t Size);
+void ETH_udp_Receive();
 
 #endif /* INC_APP_UDP_H_ */

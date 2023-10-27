@@ -15,7 +15,6 @@
 void application_main()
 {
 
-
 	  BACKUP_SRAM_enable();
 
 	  //hand address for ADC data store
@@ -43,12 +42,15 @@ void application_main()
 	  DAC_Init();
 	  HAL_TIM_Base_Start_IT(&htim10); //start timer for ADC reading
 
+	  _EnableErrorExecute = false;
 
 	  while(1)
 	  {
 		  //MX_LWIP_Process();
+		  ETH_udp_Receive();
 
-		  if(_Found_Error)
+
+		  if(_Found_Error && _EnableErrorExecute)
 		  {
 			  ErrorExecute(0);
 			  ErrorExecute(1);
@@ -69,6 +71,9 @@ void application_main()
 			  //HAL_GPIO_WritePin(LED_green_GPIO_Port, LED_green_Pin, GPIO_PIN_SET);
 			  ProcessCommand(_command_id);
 			  //HAL_GPIO_WritePin(LED_green_GPIO_Port, LED_green_Pin, GPIO_PIN_RESET);
+
+
+			  //ETH_udp_Transmit(msg, sizeof(msg));
 		  }
 
 

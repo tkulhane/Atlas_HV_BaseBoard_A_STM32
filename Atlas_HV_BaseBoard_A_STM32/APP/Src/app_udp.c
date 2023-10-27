@@ -17,7 +17,7 @@ wiz_NetInfo myNetInfo =
 	.ip = {192, 168, 0, 22},
 	.sn = {255, 255, 255, 0},
 	.gw = {192, 168, 0, 1},
-	.dns = {0, 0, 0, 0},
+	.dns = {192, 168, 0, 1},
     .dhcp = NETINFO_STATIC
 };
 
@@ -121,22 +121,22 @@ uint32_t ETH_GetGATEWAY()
 
 void W5500_Select(void)
 {
-    HAL_GPIO_WritePin(SPI1_CS_GPIO_Port, SPI1_CS_Pin, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(SPI3_CS_GPIO_Port, SPI3_CS_Pin, GPIO_PIN_RESET);
 }
 
 void W5500_Unselect(void)
 {
-    HAL_GPIO_WritePin(SPI1_CS_GPIO_Port, SPI1_CS_Pin, GPIO_PIN_SET);
+    HAL_GPIO_WritePin(SPI3_CS_GPIO_Port, SPI3_CS_Pin, GPIO_PIN_SET);
 }
 
 void W5500_ReadBuff(uint8_t* buff, uint16_t len)
 {
-    HAL_SPI_Receive(&hspi1, buff, len, HAL_MAX_DELAY);
+    HAL_SPI_Receive(&hspi3, buff, len, HAL_MAX_DELAY);
 }
 
 void W5500_WriteBuff(uint8_t* buff, uint16_t len)
 {
-    HAL_SPI_Transmit(&hspi1, buff, len, HAL_MAX_DELAY);
+    HAL_SPI_Transmit(&hspi3, buff, len, HAL_MAX_DELAY);
 }
 
 uint8_t W5500_ReadByte(void)
@@ -226,7 +226,7 @@ void ETH_udp_Init()
     wizchip_init(rx_tx_buff_sizes, rx_tx_buff_sizes);
 
 
-    ETH_load_ip();
+    //ETH_load_ip();
 
     wizchip_setnetinfo(&myNetInfo);
 
@@ -249,7 +249,13 @@ void ETH_udp_StoreEndpoint()
 	//---------endpoint_ip = last_message_ip;
 	//---------udp_connect(udp_pcb, &endpoint_ip, UDP_PORT);
 
-		memcpy(endpoint_ip,last_message_ip,sizeof(last_message_ip));
+		//memcpy(endpoint_ip,last_message_ip,sizeof(last_message_ip));
+
+	endpoint_ip[0] = last_message_ip[0];
+	endpoint_ip[1] = last_message_ip[1];
+	endpoint_ip[2] = last_message_ip[2];
+	endpoint_ip[3] = last_message_ip[3];
+
 }
 
 
@@ -271,20 +277,27 @@ void ETH_udp_Transmit(uint8_t *pData, uint16_t Size)
 
 	//int result = sendto(UDP_SOCKET, pData, Size, address, UDP_PORT);
 
-	int32_t  ret;
+	int  ret;
 	uint16_t sentsize;
 
-    while(sentsize != Size)
-    {
-    	ret = sendto(UDP_SOCKET, pData+sentsize, Size-sentsize, endpoint_ip, UDP_PORT);
+    //while(!(sentsize >= Size))
+    //{
+
+    	ret = sendto(UDP_SOCKET, pData, Size, endpoint_ip, UDP_PORT);
+    	//ret = sendto(UDP_SOCKET, pData+sentsize, Size-sentsize, endpoint_ip, UDP_PORT);
+
+    	//char buff[256];
+    	//int size = sprintf(buff, "ret=%d\r\n",ret);
+        //HAL_UART_Transmit(&huart2, (uint8_t*)buff, size,HAL_MAX_DELAY);
+
 
     	if(ret < 0)
     	{
-    		return;
+    		//return;
     	}
 
-    	sentsize += ret; // Don't care SOCKERR_BUSY, because it is zero.
-    }
+    	//sentsize += ret; // Don't care SOCKERR_BUSY, because it is zero.
+    //}
 
 
 }
@@ -298,12 +311,16 @@ void ETH_udp_Receive()
 	uint16_t size;
 	uint16_t destport;
 
-    if((size = getSn_RX_RSR(UDP_SOCKET)) > 0)
+	size = getSn_RX_RSR(UDP_SOCKET);
+
+    if(size > 0)
     {
 
     	if(size > DATA_BUF_SIZE) size = DATA_BUF_SIZE;
 
     	ret = recvfrom(UDP_SOCKET, buf, size, last_message_ip, (uint16_t*)&destport);
+
+    	//ETH_udp_Transmit(buf, size);
 
     	if(ret <= 0)
     	{
@@ -315,6 +332,7 @@ void ETH_udp_Receive()
 
     	ETH_WriteBuffer(buf, size);
 
+    	//ETH_udp_Transmit(buf, size);
     }
 
 

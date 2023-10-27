@@ -14,6 +14,8 @@ uint8_t Error_Array_Counter;
 bool *p_ERROR_data[6];
 bool _Found_Error;
 
+bool _EnableErrorExecute;
+
 
 /* @brief reaction on error signal
  *

@@ -14,5 +14,5 @@
 ../APP/Src/app_udp.c:169:6:ETH_load_ip	16	static
 ../APP/Src/app_udp.c:208:6:ETH_udp_Init	24	static
 ../APP/Src/app_udp.c:247:6:ETH_udp_StoreEndpoint	4	static
-../APP/Src/app_udp.c:262:6:ETH_udp_Transmit	32	static
-../APP/Src/app_udp.c:293:6:ETH_udp_Receive	1056	static
+../APP/Src/app_udp.c:268:6:ETH_udp_Transmit	32	static
+../APP/Src/app_udp.c:306:6:ETH_udp_Receive	4128	static
