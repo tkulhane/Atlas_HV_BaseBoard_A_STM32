@@ -7,6 +7,20 @@
 
 #include "app_backup_sram.h"
 
+/********************************************************************************************
+Tady mas ukazku fce na update toho parametru netusim kam si to budes chtit prcnout :D
+void UpdateFlashParam(FlashSectorParams* s_Params,eSRAM_Offsets ParamType,uint32_t ParamValue)
+{
+/*
+ * TODO : Tohle ti vezme tu tvoji strukturu (musi byt nekde tady se nevycte z flashky), a podle toho jaky zvolis parametr pomoci
+ * enumu tak ti to k nemu priradi ParamValue hodnotu
+ */
+/*
+	*((uint32_t*)(s_Params)+ParamType) = ParamValue;
+}
+
+********************************************************************************************/
+
 
 /* @brief enable access to backup sram
  *
