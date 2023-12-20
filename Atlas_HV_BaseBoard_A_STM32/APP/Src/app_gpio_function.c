@@ -12,7 +12,7 @@
  */
 void LedSwitch(int value)
 {
-	//HAL_GPIO_WritePin(LED_red_GPIO_Port, LED_red_Pin, value);
+	HAL_GPIO_WritePin(LED_0_GPIO_Port, LED_0_Pin, value);
 }
 
 /* @brief controll of channel enable pin

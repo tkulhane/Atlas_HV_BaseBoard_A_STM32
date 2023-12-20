@@ -23,9 +23,9 @@ void SendCommandToDAC(uint8_t adr, uint16_t value,  bool rw)
 	data[1] = value >> 8;
 	data[0] = (adr & 0x0F) | (rw << 7);
 
-	HAL_GPIO_WritePin(SPI3_CS_GPIO_Port, SPI3_CS_Pin, GPIO_PIN_RESET);
-	HAL_SPI_Transmit(&hspi3, data, sizeof(data),10);
-	HAL_GPIO_WritePin(SPI3_CS_GPIO_Port, SPI3_CS_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(SPI1_CS_GPIO_Port, SPI1_CS_Pin, GPIO_PIN_RESET);
+	HAL_SPI_Transmit(&hspi1, data, sizeof(data),10);
+	HAL_GPIO_WritePin(SPI1_CS_GPIO_Port, SPI1_CS_Pin, GPIO_PIN_SET);
 }
 
 

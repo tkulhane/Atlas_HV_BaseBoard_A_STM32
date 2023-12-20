@@ -235,6 +235,7 @@ void ETH_udp_Init()
     if(udp_socket != UDP_SOCKET)
     {
     	//error
+    	return;
     }
 
 }

@@ -33,6 +33,7 @@ void application_main()
 	  p_ERROR_data[4] = &ChannelsStatus[1].over_current;
 	  p_ERROR_data[5] = &ChannelsStatus[2].over_current;
 
+	  HAL_GPIO_WritePin(W55_RST_GPIO_Port, W55_RST_Pin, GPIO_PIN_SET);
 	  ETH_udp_Init();
 
 
@@ -44,11 +45,18 @@ void application_main()
 
 	  _EnableErrorExecute = false;
 
+	  uint32_t u32LedTimer;
+
 	  while(1)
 	  {
-		  //MX_LWIP_Process();
+
 		  ETH_udp_Receive();
 
+		  if((HAL_GetTick() - u32LedTimer) > 500)
+		  {
+			  u32LedTimer = HAL_GetTick();
+			  HAL_GPIO_TogglePin(LED_1_GPIO_Port, LED_1_Pin);
+		  }
 
 		  if(_Found_Error && _EnableErrorExecute)
 		  {
