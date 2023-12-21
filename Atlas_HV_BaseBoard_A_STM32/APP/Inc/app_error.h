@@ -20,6 +20,7 @@ extern bool *p_ERROR_data[6];
 extern bool _Found_Error;
 
 extern bool _EnableErrorExecute;
+extern bool _DisableSupplyInLostConnection;
 
 #define Error_Array_Size 20
 #define Error_Threshold 16
@@ -27,5 +28,7 @@ extern bool _EnableErrorExecute;
 void ErrorExecute(uint8_t channel);
 void ErrorProcess();
 void ErrorSignalsRead();
+
+void AppConnectedExecute(bool AppConnected);
 
 #endif /* INC_APP_ERROR_H_ */

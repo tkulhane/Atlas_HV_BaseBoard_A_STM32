@@ -19,6 +19,8 @@
 #include "app_udp.h"
 
 
+#define ConnectedTimer_Value 1000
+
 typedef enum
 {
 	cmd_NON,
@@ -123,6 +125,7 @@ typedef enum
 }eCommand_parse;
 
 extern int _command_id;
+extern bool _AppConnected;
 
 void ProcessCommand(int command_id);
 int get_string_length(const char* s);
@@ -134,5 +137,8 @@ bool ProcessCommunication_ETH();
 void SendCommunication(eCommand_Id command_id, int data);
 void SendCommunication_float(eCommand_Id command_id, float data);
 void SendCommunication_u32(eCommand_Id command_id, uint32_t data);
+
+void Comunication_ResetConnectedTimer();
+void Communication_ConnectedTimer();
 
 #endif /* INC_APP_COMMUNICATION_H_ */

@@ -267,10 +267,13 @@ void Channel_Enable(uint8_t channel, bool enable)
 	if(!(channel == 0 || channel == 1 || channel == 2)) return;
 	if(enable == ChannelsStatus[channel].enable) return;
 
-	Set_Voltage(channel, minimum_voltage);
+
+	ChannelsChange[channel].voltageBeforeEnable = ChannelsChange[channel].request_voltage;
+
 
 	if(enable)
 	{
+		Set_Voltage(channel, minimum_voltage);
 		ChannelsStatus[channel].enable = true;
 		ChannelsChange[channel].enable_request = true;
 		ChannelsChange[channel].enable_timer = HAL_GetTick();
@@ -349,6 +352,8 @@ void ChannelControl(uint8_t channel)
 		{
 			ChannelsChange[channel].enable_request = false;
 			Enable_GPIO(channel, true);
+			//nastavit napeti
+			Set_Voltage(channel, ChannelsChange[channel].voltageBeforeEnable );
 		}
 	}
 

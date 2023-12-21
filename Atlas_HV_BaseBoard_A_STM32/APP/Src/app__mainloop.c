@@ -44,8 +44,15 @@ void application_main()
 	  HAL_TIM_Base_Start_IT(&htim10); //start timer for ADC reading
 
 	  _EnableErrorExecute = false;
+	  _DisableSupplyInLostConnection = true;
+
 
 	  uint32_t u32LedTimer;
+
+
+	  Set_Voltage(0, minimum_voltage);
+	  Set_Voltage(1, minimum_voltage);
+	  Set_Voltage(2, minimum_voltage);
 
 	  while(1)
 	  {
@@ -80,8 +87,6 @@ void application_main()
 			  ProcessCommand(_command_id);
 			  //HAL_GPIO_WritePin(LED_green_GPIO_Port, LED_green_Pin, GPIO_PIN_RESET);
 
-
-			  //ETH_udp_Transmit(msg, sizeof(msg));
 		  }
 
 
@@ -94,6 +99,9 @@ void application_main()
 			  ProcessCommand(_command_id);
 			  //HAL_GPIO_WritePin(LED_blue_GPIO_Port, LED_blue_Pin, GPIO_PIN_RESET);
 		  }
+
+		  Communication_ConnectedTimer();
+		  AppConnectedExecute(_AppConnected);
 
 	  }
 }

@@ -6,6 +6,8 @@
  */
 #include "app_communication.h"
 
+uint32_t ConnectedTimer;
+bool _AppConnected;
 int _command_id;
 int _command_value;
 float _float_command_value;
@@ -195,6 +197,9 @@ void ProcessCommand(int command_id)
 
 			break;
 		case cmd_Connected:
+
+			if(_command_source == csource_ETH) ETH_udp_StoreEndpoint();
+			Comunication_ResetConnectedTimer();
 			SendCommunication(cmd_Connected,_command_value);
 			break;
 
@@ -731,4 +736,20 @@ void SendCommunication_u32(eCommand_Id command_id, uint32_t data)
 
 }
 
+
+void Comunication_ResetConnectedTimer()
+{
+	ConnectedTimer = HAL_GetTick();
+	_AppConnected = true;
+}
+
+void Communication_ConnectedTimer()
+{
+
+	  if((HAL_GetTick() - ConnectedTimer) > ConnectedTimer_Value)
+	  {
+		  _AppConnected = false;
+	  }
+
+}
 

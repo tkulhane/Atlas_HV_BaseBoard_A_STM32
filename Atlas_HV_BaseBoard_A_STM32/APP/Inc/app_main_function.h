@@ -56,6 +56,7 @@ typedef struct
 	uint32_t polarity_timer;
 
 	uint16_t request_voltage;
+	uint16_t voltageBeforeEnable;
 
 }ChannelChangeStruct;
 

@@ -15,6 +15,7 @@ bool *p_ERROR_data[6];
 bool _Found_Error;
 
 bool _EnableErrorExecute;
+bool _DisableSupplyInLostConnection;
 
 
 /* @brief reaction on error signal
@@ -104,6 +105,23 @@ void ErrorSignalsRead()
 	{
 		Error_Array_Counter = 0;
 		ErrorProcess();
+	}
+}
+
+
+void AppConnectedExecute(bool AppConnected)
+{
+	HAL_GPIO_WritePin(LED_0_GPIO_Port, LED_0_Pin, AppConnected);
+
+	if((AppConnected == false) &&_DisableSupplyInLostConnection)
+	{
+
+		for(int i = 0; i< 3; i++)
+		{
+			Channel_Enable(i, false);
+			Channel_Output(i, false);
+		}
+
 	}
 }
 
