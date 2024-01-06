@@ -46,10 +46,10 @@ void application_main()
 	  DAC_Init();
 	  HAL_TIM_Base_Start_IT(&htim10); //start timer for ADC reading
 
-	  _EnableErrorExecute = false;
-	  _DisableSupplyInLostConnection = true;
+	 // _EnableErrorExecute = false;
+	  //_DisableSupplyInLostConnection = true;
 
-	  _ControlOutputWithChannelEnable = true;
+	  //_ControlOutputWithChannelEnable = true;
 
 
 	  uint32_t u32LedTimer;
@@ -70,7 +70,7 @@ void application_main()
 			  HAL_GPIO_TogglePin(LED_1_GPIO_Port, LED_1_Pin);
 		  }
 
-		  if(_Found_Error && _EnableErrorExecute)
+		  if(_Found_Error && MainParams.sramOffset_EnableErrorExecute)
 		  {
 			  ErrorExecute(0);
 			  ErrorExecute(1);

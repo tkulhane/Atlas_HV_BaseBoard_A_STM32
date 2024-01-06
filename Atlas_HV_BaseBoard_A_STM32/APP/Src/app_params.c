@@ -8,6 +8,7 @@
 
 #include "app_params.h"
 #include "flash.h"
+#include "app_communication.h"
 
 #define Default_AdjCoef_k 511.8182426
 #define Default_AdjCoef_q 655.2648273
@@ -58,6 +59,10 @@ void ParamsDefaultValues()
 	DefaultParams.sramOffset_AdjCoef_q_ch1 =  MakeUint32FromFloat(Default_AdjCoef_q);
 	DefaultParams.sramOffset_AdjCoef_q_ch2  =  MakeUint32FromFloat(Default_AdjCoef_q);
 
+	DefaultParams.sramOffset_EnableErrorExecute = 0;
+	DefaultParams.sramOffset_DisableSupplyInLostConnection = 0;
+	DefaultParams.sramOffset_ControlOutputWithChannelEnable = 1;
+
 
 }
 
@@ -102,6 +107,25 @@ void RestoreParamsDefault()
 {
 	Flash_WriteParamStruct(DefaultParams);
 	ParamsLoad();
+}
+
+
+
+
+void SetConfigData(int cfg, int value)
+{
+	uint32_t *addr = &MainParams.sramOffset_EnableErrorExecute + cfg;
+
+	*addr = value;
+
+}
+
+
+void SendConfigData()
+{
+	SendCommunication(cmd_CfgGet_EnableErrorExecute, MainParams.sramOffset_EnableErrorExecute);
+	SendCommunication(cmd_CfgGet_DisableInConnLost, MainParams.sramOffset_DisableSupplyInLostConnection);
+	SendCommunication(cmd_CfgGet_CtrlOutWithChEnable, MainParams.sramOffset_ControlOutputWithChannelEnable);
 }
 
 

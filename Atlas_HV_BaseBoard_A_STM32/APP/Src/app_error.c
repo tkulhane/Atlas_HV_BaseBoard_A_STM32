@@ -7,6 +7,7 @@
 
 
 #include "app_error.h"
+#include "app_params.h"
 
 uint8_t Error_Array_Reg[Error_Array_Size];
 uint8_t Error_Array_Counter;
@@ -113,7 +114,7 @@ void AppConnectedExecute(bool AppConnected)
 {
 	HAL_GPIO_WritePin(LED_0_GPIO_Port, LED_0_Pin, AppConnected);
 
-	if((AppConnected == false) &&_DisableSupplyInLostConnection)
+	if((AppConnected == false) && MainParams.sramOffset_DisableSupplyInLostConnection)
 	{
 
 		for(int i = 0; i< 3; i++)

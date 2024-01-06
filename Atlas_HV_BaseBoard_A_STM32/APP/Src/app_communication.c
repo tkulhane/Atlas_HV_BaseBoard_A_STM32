@@ -18,7 +18,7 @@ eCommand_source _command_source;
 
 
 //table of command string - corresponds with eCommand_Id enumeration
-const char command_strings[][20]=
+const char command_strings[][STRING_TABLE_SIZE]=
 {
 	"NON",
 	"Connected",
@@ -98,13 +98,20 @@ const char command_strings[][20]=
 	"ch2_setoutreg",
 	"ch3_setoutreg",
 
-	"Cfg_EnableErrorExecute",
-	"Cfg_DisableInConnLost",
-	"Cfg_CtrlOutWithChEnable",
-	"Cfg_Get"
+	"CfgSet_EnableErrorExecute",
+	"CfgSet_DisableInConnLost",
+	"CfgSet_CtrlOutWithChEnable",
+
+	"CfgGet_EnableErrorExecute",
+	"CfgGet_DisableInConnLost",
+	"CfgGet_CtrlOutWithChEnable",
+
+	"Cfg_Get",
 
 	"params_store",
 	"params_default",
+
+	"ETH_ReInit"
 
 	"reset"
 
@@ -192,13 +199,20 @@ eCommand_parse Command_parse[] =
 		cparse_int,	//cmd_set_out_reg_CH3,
 
 
-		cparse_int,//cmd_Cfg_EnableErrorExecute,
-		cparse_int,//cmd_Cfg_DisableInConnLost,
-		cparse_int,//cmd_Cfg_CtrlOutWithChEnable,
+		cparse_int,//cmd_CfgSet_EnableErrorExecute,
+		cparse_int,//cmd_CfgSet_DisableInConnLost,
+		cparse_int,//cmd_CfgSet_CtrlOutWithChEnable,
+
+		cparse_non,//cmd_CfgGet_EnableErrorExecute
+		cparse_non,//cmd_CfgGet_DisableInConnLost
+		cparse_non,//cmd_CfgGet_CtrlOutWithChEnable
+
 		cparse_non,//cmd_Cfg_Get,
 
 		cparse_non,//cmd_params_store,
 		cparse_non,//cmd_params_default,
+
+		cparse_non,//cmd_Eth_ReInit
 
 		cparse_int//cmd_reset
 
@@ -418,8 +432,20 @@ void ProcessCommand(int command_id)
 			Set_OutReg_Voltage(2, _command_value);
 			break;
 
-		case cmd_reset:
-			System_Reset();
+		case cmd_CfgSet_EnableErrorExecute:
+			SetConfigData(0, _command_value);
+			break;
+
+		case cmd_CfgSet_DisableInConnLost:
+			SetConfigData(1, _command_value);
+			break;
+
+		case cmd_CfgSet_CtrlOutWithChEnable:
+			SetConfigData(2, _command_value);
+			break;
+
+		case cmd_Cfg_Get:
+			SendConfigData();
 			break;
 
 		case cmd_params_store:
@@ -429,6 +455,15 @@ void ProcessCommand(int command_id)
 		case cmd_params_default:
 			RestoreParamsDefault();
 			break;
+
+		case cmd_reset:
+			System_Reset();
+			break;
+
+		case cmd_Eth_ReInit:
+			ETH_udp_Init();
+			break;
+
 
 		default:
 			break;
@@ -546,7 +581,7 @@ bool ProcessLine(const uint8_t *Buffer, int legth)
 	else //command not start with "/"
 	{
 		//search equal string in command_string table
-		for(int i = 0;i<(sizeof(command_strings)/20); i++)
+		for(int i = 0;i<(sizeof(command_strings)/STRING_TABLE_SIZE); i++)
 		{
 			if(StringIsEqual(Buffer, 0, delim_position, (uint8_t *)command_strings[i], 0, get_string_length(command_strings[i])))
 			{
@@ -601,7 +636,7 @@ bool ProcessCommunication_UART()
 {
 	if(!Uart_BufferNotEmpty()) return false;
 
-	uint8_t line_buffer[64] = {0};
+	uint8_t line_buffer[128] = {0};
 	uint8_t line_counter = 0;
 
 	uint32_t timeout_timer = HAL_GetTick();
@@ -642,7 +677,7 @@ bool ProcessCommunication_ETH()
 {
 	if(!ETH_BufferNotEmpty()) return false;
 
-	uint8_t line_buffer[64] = {0};
+	uint8_t line_buffer[128] = {0};
 	uint8_t line_counter = 0;
 
 	uint32_t timeout_timer = HAL_GetTick();
@@ -681,7 +716,7 @@ bool ProcessCommunication_ETH()
  */
 void SendCommunication(eCommand_Id command_id, int data)
 {
-	char sprint_buffer[32];
+	char sprint_buffer[128];
 	uint8_t size = 0;
 
 	if(_command_form == cform_full)
@@ -712,7 +747,7 @@ void SendCommunication(eCommand_Id command_id, int data)
  */
 void SendCommunication_float(eCommand_Id command_id, float data)
 {
-	char sprint_buffer[32];
+	char sprint_buffer[100];
 	uint8_t size = 0;
 
 	if(_command_form == cform_full)
@@ -743,7 +778,7 @@ void SendCommunication_float(eCommand_Id command_id, float data)
  */
 void SendCommunication_u32(eCommand_Id command_id, uint32_t data)
 {
-	char sprint_buffer[32];
+	char sprint_buffer[100];
 	uint8_t size = 0;
 
 	if(_command_form == cform_full)

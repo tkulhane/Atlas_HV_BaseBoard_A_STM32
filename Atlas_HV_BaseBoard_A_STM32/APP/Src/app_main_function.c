@@ -22,7 +22,7 @@ float AdjCoef_q[3];
 ChannelStatusStruct ChannelsStatus[3];
 ChannelChangeStruct ChannelsChange[3];
 
-bool _ControlOutputWithChannelEnable;
+//bool MainParams.sramOffset_ControlOutputWithChannelEnable;
 
 
 float GetDacCoef_k(int channel)
@@ -326,7 +326,7 @@ void Channel_Enable(uint8_t channel, bool enable)
 	}
 
 
-	if(_ControlOutputWithChannelEnable) //je aktivni funkce ovladani vystupu s eneble
+	if(MainParams.sramOffset_ControlOutputWithChannelEnable) //je aktivni funkce ovladani vystupu s eneble
 	{
 		if(enable)
 		{
@@ -352,7 +352,7 @@ void Channel_Polarity(uint8_t channel, eOutputPolarity polarity)
 	if(!(channel == 0 || channel == 1 || channel == 2)) return;
 	if(polarity == ChannelsStatus[channel].polarity) return;
 
-	if(_ControlOutputWithChannelEnable && ChannelsStatus[channel].enable) return; // polarita nejde prepnout, kdyz je kanál zapnutý
+	if(MainParams.sramOffset_ControlOutputWithChannelEnable && ChannelsStatus[channel].enable) return; // polarita nejde prepnout, kdyz je kanál zapnutý
 
 
 	if(ChannelsChange[channel].polarity_request) return;
@@ -374,7 +374,7 @@ void Channel_Polarity(uint8_t channel, eOutputPolarity polarity)
 void Channel_Output(uint8_t channel, bool output)
 {
 
-	if(_ControlOutputWithChannelEnable && ChannelsStatus[channel].enable && !ChannelsChange[channel].enable_request && output) return; // vystup nejde zapnout, kdyz je kanál zapnutý
+	if(MainParams.sramOffset_ControlOutputWithChannelEnable && ChannelsStatus[channel].enable && !ChannelsChange[channel].enable_request && output) return; // vystup nejde zapnout, kdyz je kanál zapnutý
 
 	ChannelsStatus[channel].output = output;
 

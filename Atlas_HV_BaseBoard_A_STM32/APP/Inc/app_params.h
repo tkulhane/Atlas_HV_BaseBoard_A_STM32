@@ -42,6 +42,11 @@ typedef struct
 	uint32_t sramOffset_AdjCoef_q_ch0;
 	uint32_t sramOffset_AdjCoef_q_ch1;
 	uint32_t sramOffset_AdjCoef_q_ch2;
+
+	uint32_t sramOffset_EnableErrorExecute;
+	uint32_t sramOffset_DisableSupplyInLostConnection ;
+	uint32_t sramOffset_ControlOutputWithChannelEnable;
+
 }FlashSectorParams;
 
 
@@ -53,5 +58,8 @@ void ParamsDefaultValues();
 void ParamsLoad();
 void ParamsStore();
 void RestoreParamsDefault();
+
+void SetConfigData(int cfg, int value);
+void SendConfigData();
 
 #endif /* INC_APP_PARAMS_H_ */

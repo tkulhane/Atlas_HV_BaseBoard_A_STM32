@@ -18,6 +18,7 @@
 #include "app_eth_process.h"
 #include "app_udp.h"
 
+#define STRING_TABLE_SIZE 50
 
 #define ConnectedTimer_Value 1000
 
@@ -101,13 +102,20 @@ typedef enum
 	cmd_set_out_reg_CH2,
 	cmd_set_out_reg_CH3,
 
-	cmd_Cfg_EnableErrorExecute,
-	cmd_Cfg_DisableInConnLost,
-	cmd_Cfg_CtrlOutWithChEnable,
+	cmd_CfgSet_EnableErrorExecute,
+	cmd_CfgSet_DisableInConnLost,
+	cmd_CfgSet_CtrlOutWithChEnable,
+
+	cmd_CfgGet_EnableErrorExecute,
+	cmd_CfgGet_DisableInConnLost,
+	cmd_CfgGet_CtrlOutWithChEnable,
+
 	cmd_Cfg_Get,
 
 	cmd_params_store,
 	cmd_params_default,
+
+	cmd_Eth_ReInit,
 
 	cmd_reset
 
