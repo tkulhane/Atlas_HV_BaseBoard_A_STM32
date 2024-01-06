@@ -17,14 +17,14 @@
 #include "app_usart_process.h"
 #include "app_communication.h"
 
-#define minimum_voltage 25
+#define minimum_voltage 100
 #define maximum_voltage 550
 
 #define delay_polarity 200
-#define delay_enable 1000
+#define delay_enable 200
 
-#define ramp_v_step 10
-#define ramp_t_step 200
+#define ramp_v_step 5
+#define ramp_t_step 50
 
 typedef enum
 {

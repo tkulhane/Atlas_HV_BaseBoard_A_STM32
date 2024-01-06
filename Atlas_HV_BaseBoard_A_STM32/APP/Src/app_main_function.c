@@ -142,6 +142,7 @@ uint16_t Get_DACValue(int dac_channel, uint16_t value)
 {
 	uint16_t code;
 
+
 	if(dac_channel == 0 || dac_channel == 1 || dac_channel == 2)
 	{
 		code = (uint16_t)(((PreReg_Coef_q - (float)value) / PreReg_Coef_k) * (float)DAC_coef);

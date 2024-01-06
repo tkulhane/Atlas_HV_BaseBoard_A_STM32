@@ -14,7 +14,7 @@
 #include "app_backup_sram.h"
 #include "app_params.h"
 
-#define meas_size 5
+#define meas_size 100
 
 extern float *p_ADC_data[8];
 

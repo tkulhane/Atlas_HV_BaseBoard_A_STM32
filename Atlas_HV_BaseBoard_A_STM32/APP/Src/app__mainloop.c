@@ -37,6 +37,8 @@ void application_main()
 	  p_ERROR_data[4] = &ChannelsStatus[1].over_current;
 	  p_ERROR_data[5] = &ChannelsStatus[2].over_current;
 
+	  HAL_GPIO_WritePin(PWR_EN_GPIO_Port, PWR_EN_Pin, GPIO_PIN_SET);
+
 	  HAL_GPIO_WritePin(W55_RST_GPIO_Port, W55_RST_Pin, GPIO_PIN_SET);
 	  ETH_udp_Init();
 
