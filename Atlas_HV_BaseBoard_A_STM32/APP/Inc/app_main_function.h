@@ -21,9 +21,10 @@
 #define maximum_voltage 550
 
 #define delay_polarity 200
-#define delay_enable 100
-#define ramp_v_step 20
-#define ramp_t_step 10
+#define delay_enable 1000
+
+#define ramp_v_step 10
+#define ramp_t_step 200
 
 typedef enum
 {
@@ -63,6 +64,8 @@ typedef struct
 
 extern ChannelStatusStruct ChannelsStatus[3];
 extern ChannelChangeStruct ChannelsChange[3];
+
+extern bool _ControlOutputWithChannelEnable;
 
 void LoadDACConstant();
 void StoreDACConstant(uint8_t coef, float value);

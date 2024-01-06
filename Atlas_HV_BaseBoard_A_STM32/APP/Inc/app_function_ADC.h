@@ -12,6 +12,7 @@
 #include "spi.h"
 #include "app_main_function.h"
 #include "app_backup_sram.h"
+#include "app_params.h"
 
 #define meas_size 5
 

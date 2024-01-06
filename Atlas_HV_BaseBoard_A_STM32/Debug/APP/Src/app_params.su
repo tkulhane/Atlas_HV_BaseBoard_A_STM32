@@ -1,0 +1,3 @@
+../APP/Src/app_params.c:20:10:MakeUint32FromFloat	24	static
+../APP/Src/app_params.c:28:6:ParamsDefaultValues	8	static
+../APP/Src/app_params.c:64:6:ParamsLoad	112	static

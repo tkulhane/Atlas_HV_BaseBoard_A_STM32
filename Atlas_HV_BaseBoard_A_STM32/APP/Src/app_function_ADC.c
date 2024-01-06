@@ -64,6 +64,27 @@ uint8_t Adresses[16] =
 };
 
 
+float GetCoef_k(int channel)
+{
+	float f;
+	uint32_t val = DefaultParams.sramOffset_ReadCoef_k_0 + 4*channel;
+	memcpy(&f,&val,sizeof(f));
+
+	return  f;
+}
+
+
+float GetCoef_q(int channel)
+{
+	float f;
+	uint32_t val = DefaultParams.sramOffset_ReadCoef_q_0 + 4*channel;
+	memcpy(&f,&val,sizeof(f));
+
+	return  f;
+}
+
+
+
 /* @brief load coefficient from sram
  *
  */
@@ -143,7 +164,7 @@ void SendADCCoefficients()
 {
 	for(int i = 0;i<12;i++)
 	{
-		SendCommunication_float(cmd_adc_get_k0 + i, GetADCConstant(i));
+		SendCommunication_float(cmd_adc_get_k0 + i,GetCoef_k(i));
 	}
 }
 
@@ -178,7 +199,13 @@ uint16_t CalcAvg(uint16_t *array, uint16_t length)
 float CalcAdcValue(uint8_t channel,uint16_t value)
 {
 	float f = (float)value/ADC_coef;
-	f = (f - ReadCoef_q[channel])/ReadCoef_k[channel];
+
+	float Coef_k = GetCoef_k(channel);
+	float Coef_q = GetCoef_q(channel);
+
+
+	f = (f - Coef_q) / Coef_k;
+
 	return f;
 }
 

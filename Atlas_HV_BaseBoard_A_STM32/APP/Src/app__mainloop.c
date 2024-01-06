@@ -15,7 +15,11 @@
 void application_main()
 {
 
-	  BACKUP_SRAM_enable();
+	  //BACKUP_SRAM_enable();
+		ParamsDefaultValues();
+		ParamsLoad();
+
+
 
 	  //hand address for ADC data store
 	  p_ADC_data[0] = &ChannelsStatus[0].voltage_measurement;
@@ -45,6 +49,8 @@ void application_main()
 
 	  _EnableErrorExecute = false;
 	  _DisableSupplyInLostConnection = true;
+
+	  _ControlOutputWithChannelEnable = true;
 
 
 	  uint32_t u32LedTimer;

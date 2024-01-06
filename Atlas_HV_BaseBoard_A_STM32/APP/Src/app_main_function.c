@@ -22,6 +22,8 @@ float AdjCoef_q[3];
 ChannelStatusStruct ChannelsStatus[3];
 ChannelChangeStruct ChannelsChange[3];
 
+bool _ControlOutputWithChannelEnable;
+
 
 /* @brief load coefficient from sram
  *
@@ -178,9 +180,11 @@ void Set_Voltage(uint8_t channel, uint16_t voltage)
 	if(!(channel == 0 || channel == 1 || channel == 2)) return;
 	if((voltage < minimum_voltage) || (voltage > maximum_voltage)) return;
 
+	ChannelsChange[channel].request_voltage = voltage; //store request voltage
+
 	if(abs(voltage - ChannelsStatus[channel].set_voltage) > ramp_v_step) //voltage ramping if difference is bigger that voltage ramp step
 	{
-		ChannelsChange[channel].request_voltage = voltage; //store request voltage
+		//ChannelsChange[channel].request_voltage = voltage; //store request voltage
 
 		//calculate new voltage
 		if(ChannelsStatus[channel].set_voltage < ChannelsChange[channel].request_voltage)
@@ -202,11 +206,25 @@ void Set_Voltage(uint8_t channel, uint16_t voltage)
 	}
 	else //without voltage ramping if difference is smaller that voltage ramp step
 	{
+		//ChannelsChange[channel].request_voltage = voltage; //store request voltage
 		ChannelsStatus[channel].set_voltage = voltage;
 		Set_OutReg_Voltage(channel, voltage);
 		Set_PreReg_Voltage(channel, Get_PreRegulatorVoltage(voltage));
 	}
 
+}
+
+
+void Set_VoltageInEnable(uint8_t channel)
+{
+	if(!(channel == 0 || channel == 1 || channel == 2)) return;
+
+	uint16_t voltage = minimum_voltage;
+
+	Set_OutReg_Voltage(channel, voltage);
+	Set_PreReg_Voltage(channel, Get_PreRegulatorVoltage(voltage));
+
+	ChannelsStatus[channel].set_voltage = voltage;
 }
 
 /* @brief Setting voltage from ramping control
@@ -273,7 +291,9 @@ void Channel_Enable(uint8_t channel, bool enable)
 
 	if(enable)
 	{
-		Set_Voltage(channel, minimum_voltage);
+		//Set_Voltage(channel, minimum_voltage);
+		Set_VoltageInEnable(channel);
+		Enable_GPIO(channel, true);
 		ChannelsStatus[channel].enable = true;
 		ChannelsChange[channel].enable_request = true;
 		ChannelsChange[channel].enable_timer = HAL_GetTick();
@@ -284,6 +304,20 @@ void Channel_Enable(uint8_t channel, bool enable)
 		ChannelsStatus[channel].enable = false;
 		Enable_GPIO(channel, false);
 	}
+
+
+	if(_ControlOutputWithChannelEnable) //je aktivni funkce ovladani vystupu s eneble
+	{
+		if(enable)
+		{
+			Channel_Output(channel, true);
+		}
+		else
+		{
+			Channel_Output(channel, false);
+		}
+	}
+
 }
 
 /* @brief Channel polarity change
@@ -297,6 +331,9 @@ void Channel_Polarity(uint8_t channel, eOutputPolarity polarity)
 {
 	if(!(channel == 0 || channel == 1 || channel == 2)) return;
 	if(polarity == ChannelsStatus[channel].polarity) return;
+
+	if(_ControlOutputWithChannelEnable && ChannelsStatus[channel].enable) return; // polarita nejde prepnout, kdyz je kanál zapnutý
+
 
 	if(ChannelsChange[channel].polarity_request) return;
 
@@ -316,6 +353,9 @@ void Channel_Polarity(uint8_t channel, eOutputPolarity polarity)
  */
 void Channel_Output(uint8_t channel, bool output)
 {
+
+	if(_ControlOutputWithChannelEnable && ChannelsStatus[channel].enable && !ChannelsChange[channel].enable_request && output) return; // vystup nejde zapnout, kdyz je kanál zapnutý
+
 	ChannelsStatus[channel].output = output;
 
 	if(ChannelsStatus[channel].polarity == polarity_positive)
@@ -353,7 +393,7 @@ void ChannelControl(uint8_t channel)
 			ChannelsChange[channel].enable_request = false;
 			Enable_GPIO(channel, true);
 			//nastavit napeti
-			Set_Voltage(channel, ChannelsChange[channel].voltageBeforeEnable );
+			Set_Voltage(channel, ChannelsChange[channel].request_voltage );
 		}
 	}
 
@@ -441,10 +481,13 @@ void Get_AllMeasurement()
  */
 void Get_Setting()
 {
+	SendCommunication(cmd_set_voltage_CH1, ChannelsChange[0].request_voltage);
+	SendCommunication(cmd_set_voltage_CH2, ChannelsChange[1].request_voltage);
+	SendCommunication(cmd_set_voltage_CH3, ChannelsChange[2].request_voltage);
 
-	SendCommunication(cmd_set_voltage_CH1,ChannelsStatus[0].set_voltage);
-	SendCommunication(cmd_set_voltage_CH2,ChannelsStatus[1].set_voltage);
-	SendCommunication(cmd_set_voltage_CH3,ChannelsStatus[2].set_voltage);
+	//SendCommunication(cmd_set_voltage_CH1,ChannelsStatus[0].set_voltage);
+	//SendCommunication(cmd_set_voltage_CH2,ChannelsStatus[1].set_voltage);
+	//SendCommunication(cmd_set_voltage_CH3,ChannelsStatus[2].set_voltage);
 
 	SendCommunication(cmd_enable_CH1, ChannelsStatus[0].enable);
 	SendCommunication(cmd_enable_CH2, ChannelsStatus[1].enable);

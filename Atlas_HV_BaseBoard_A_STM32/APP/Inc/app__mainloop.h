@@ -16,6 +16,7 @@
 #include "gpio.h"
 //#include "lwip.h"
 
+#include "app_params.h"
 #include "app_communication.h"
 #include "app_gpio_function.h"
 #include "app_main_function.h"
@@ -24,6 +25,7 @@
 #include "app_error.h"
 #include "app_udp.h"
 # include "app_function_ADC.h"
+
 
 void application_main();
 

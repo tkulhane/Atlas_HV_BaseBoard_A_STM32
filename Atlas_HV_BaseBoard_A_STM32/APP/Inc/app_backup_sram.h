@@ -10,7 +10,7 @@
 
 #include "main.h"
 
-#define STORE_VALIDE_CODE 0xA4B7A4B7
+//#define STORE_VALIDE_CODE 0xA4B7A4B7
 
 typedef enum
 {
