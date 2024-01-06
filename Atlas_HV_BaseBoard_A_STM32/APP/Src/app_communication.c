@@ -5,6 +5,7 @@
  *      Author: tomas
  */
 #include "app_communication.h"
+#include "app_params.h"
 
 uint32_t ConnectedTimer;
 bool _AppConnected;
@@ -96,6 +97,15 @@ const char command_strings[][20]=
 	"ch1_setoutreg",
 	"ch2_setoutreg",
 	"ch3_setoutreg",
+
+	"Cfg_EnableErrorExecute",
+	"Cfg_DisableInConnLost",
+	"Cfg_CtrlOutWithChEnable",
+	"Cfg_Get"
+
+	"params_store",
+	"params_default",
+
 	"reset"
 
 };
@@ -180,7 +190,19 @@ eCommand_parse Command_parse[] =
 		cparse_int,	//cmd_set_out_reg_CH1,
 		cparse_int,	//cmd_set_out_reg_CH2,
 		cparse_int,	//cmd_set_out_reg_CH3,
-		cparse_int,	//cmd_reset
+
+
+		cparse_int,//cmd_Cfg_EnableErrorExecute,
+		cparse_int,//cmd_Cfg_DisableInConnLost,
+		cparse_int,//cmd_Cfg_CtrlOutWithChEnable,
+		cparse_non,//cmd_Cfg_Get,
+
+		cparse_non,//cmd_params_store,
+		cparse_non,//cmd_params_default,
+
+		cparse_int//cmd_reset
+
+
 };
 
 /* @brief execution of the processed command
@@ -398,6 +420,14 @@ void ProcessCommand(int command_id)
 
 		case cmd_reset:
 			System_Reset();
+			break;
+
+		case cmd_params_store:
+			ParamsStore();
+			break;
+
+		case cmd_params_default:
+			RestoreParamsDefault();
 			break;
 
 		default:

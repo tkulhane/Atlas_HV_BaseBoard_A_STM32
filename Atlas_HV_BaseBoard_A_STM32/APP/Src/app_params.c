@@ -9,8 +9,8 @@
 #include "app_params.h"
 #include "flash.h"
 
-#define Default_AdjCoef_k MakeUint32FromFloat(511.8182426)
-#define Default_AdjCoef_q MakeUint32FromFloat(655.2648273)
+#define Default_AdjCoef_k 511.8182426
+#define Default_AdjCoef_q 655.2648273
 
 
 FlashSectorParams MainParams;
@@ -24,6 +24,8 @@ uint32_t MakeUint32FromFloat(float value)
 
 	return x;
 }
+
+
 
 void ParamsDefaultValues()
 {
@@ -49,16 +51,15 @@ void ParamsDefaultValues()
 	DefaultParams.sramOffset_ReadCoef_q_4 = MakeUint32FromFloat(0.06370294);
 	DefaultParams.sramOffset_ReadCoef_q_5 = MakeUint32FromFloat(0.06370294);
 
-	DefaultParams.sramOffset_AdjCoef_k_ch0 = Default_AdjCoef_k;
-	DefaultParams.sramOffset_AdjCoef_k_ch1  = Default_AdjCoef_k;
-	DefaultParams.sramOffset_AdjCoef_k_ch2  = Default_AdjCoef_k;
-	DefaultParams.sramOffset_AdjCoef_q_ch0 = Default_AdjCoef_q;
-	DefaultParams.sramOffset_AdjCoef_q_ch1 = Default_AdjCoef_q;
-	DefaultParams.sramOffset_AdjCoef_q_ch2  = Default_AdjCoef_q;
+	DefaultParams.sramOffset_AdjCoef_k_ch0 =  MakeUint32FromFloat(Default_AdjCoef_k);
+	DefaultParams.sramOffset_AdjCoef_k_ch1  =  MakeUint32FromFloat(Default_AdjCoef_k);
+	DefaultParams.sramOffset_AdjCoef_k_ch2  =  MakeUint32FromFloat(Default_AdjCoef_k);
+	DefaultParams.sramOffset_AdjCoef_q_ch0 = MakeUint32FromFloat(Default_AdjCoef_q);
+	DefaultParams.sramOffset_AdjCoef_q_ch1 =  MakeUint32FromFloat(Default_AdjCoef_q);
+	DefaultParams.sramOffset_AdjCoef_q_ch2  =  MakeUint32FromFloat(Default_AdjCoef_q);
 
 
 }
-
 
 
 void ParamsLoad()
@@ -69,12 +70,13 @@ void ParamsLoad()
 	Flash_ReadParamStruct(&LoadParams);
 
 	uint32_t StoreControl_0 = LoadParams.sramOffset_StoreControl_0;
-	uint32_t StoreControl_1 = LoadParams.sramOffset_StoreControl_1;
+	//uint32_t StoreControl_1 = LoadParams.sramOffset_StoreControl_1;
 
 
 	for(int i = 2; i < NUMBER_OF_PARAMS;i++)
 	{
-		if((StoreControl_0 == STORE_VALIDE_CODE) &&  ((StoreControl_1 >> i) & 0x000001))
+		//if((StoreControl_0 == STORE_VALIDE_CODE) &&  ((StoreControl_1 >> i) & 0x000001))
+		if(StoreControl_0 == STORE_VALIDE_CODE)
 		{
 			*((uint32_t*)(&MainParams)+i) = *((uint32_t*)(&LoadParams)+i);
 
@@ -87,3 +89,19 @@ void ParamsLoad()
 	}
 
 }
+
+void ParamsStore()
+{
+	MainParams.sramOffset_StoreControl_0 = STORE_VALIDE_CODE;
+	MainParams.sramOffset_StoreControl_1 = 0xA1B2C3D4;
+
+	Flash_WriteParamStruct(MainParams);
+}
+
+void RestoreParamsDefault()
+{
+	Flash_WriteParamStruct(DefaultParams);
+	ParamsLoad();
+}
+
+

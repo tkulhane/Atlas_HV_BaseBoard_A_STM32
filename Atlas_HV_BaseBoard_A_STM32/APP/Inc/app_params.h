@@ -51,5 +51,7 @@ extern FlashSectorParams DefaultParams;
 
 void ParamsDefaultValues();
 void ParamsLoad();
+void ParamsStore();
+void RestoreParamsDefault();
 
 #endif /* INC_APP_PARAMS_H_ */

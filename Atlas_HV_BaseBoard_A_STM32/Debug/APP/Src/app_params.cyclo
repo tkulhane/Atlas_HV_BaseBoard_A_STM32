@@ -1,3 +1,5 @@
 app_params.c:20:10:MakeUint32FromFloat	1
-app_params.c:28:6:ParamsDefaultValues	1
-app_params.c:64:6:ParamsLoad	4
+app_params.c:30:6:ParamsDefaultValues	1
+app_params.c:65:6:ParamsLoad	3
+app_params.c:93:6:ParamsStore	1
+app_params.c:101:6:RestoreParamsDefault	1

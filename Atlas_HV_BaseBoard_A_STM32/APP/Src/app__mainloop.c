@@ -42,8 +42,7 @@ void application_main()
 
 
 	  __HAL_UART_ENABLE_IT(&huart2,UART_IT_RXNE);//enable uart3 interupt
-	  LoadADCConstant(); //load coefficients for ADC
-	  LoadDACConstant(); //load coefficients for DAC
+
 	  DAC_Init();
 	  HAL_TIM_Base_Start_IT(&htim10); //start timer for ADC reading
 

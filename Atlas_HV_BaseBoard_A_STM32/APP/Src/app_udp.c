@@ -7,6 +7,7 @@
 
 
 #include "app_udp.h"
+#include "app_params.h"
 
 uint8_t  last_message_ip[4];
 uint8_t  endpoint_ip[4];
@@ -35,8 +36,7 @@ wiz_NetInfo myNetInfo =
  */
 void ETH_StoreIP(uint32_t ip)
 {
-	BACKUP_SRAM_write(sramOffset_IP_ADDRESS, ip);
-	BACKUP_SRAM_write_StoreControl(sramOffset_IP_ADDRESS, true);
+	MainParams.sramOffset_IP_ADDRESS = ip;
 }
 
 /* @brief store device netmask address to sram
@@ -46,8 +46,7 @@ void ETH_StoreIP(uint32_t ip)
  */
 void ETH_StoreNETMASK(uint32_t netmask)
 {
-	BACKUP_SRAM_write(sramOffset_NETMASK_ADDRESS, netmask);
-	BACKUP_SRAM_write_StoreControl(sramOffset_NETMASK_ADDRESS, true);
+	MainParams.sramOffset_NETMASK_ADDRESS = netmask;
 }
 
 /* @brief store device gateway address to sram
@@ -57,8 +56,7 @@ void ETH_StoreNETMASK(uint32_t netmask)
  */
 void ETH_StoreGATEWAY(uint32_t gateway)
 {
-	BACKUP_SRAM_write(sramOffset_GATEWAY_ADDRESS, gateway);
-	BACKUP_SRAM_write_StoreControl(sramOffset_GATEWAY_ADDRESS, true);
+	MainParams.sramOffset_GATEWAY_ADDRESS = gateway;
 }
 
 /* @brief get ip address from sram
@@ -67,15 +65,8 @@ void ETH_StoreGATEWAY(uint32_t gateway)
  */
 uint32_t ETH_GetIP()
 {
-	if(BACKUP_SRAM_read_StoreControl(sramOffset_IP_ADDRESS))
-	{
-		return BACKUP_SRAM_read(sramOffset_IP_ADDRESS);
-	}
-	else
-	{
-		uint32_t temp = ip_MAKEU32(myNetInfo.ip[0], myNetInfo.ip[1], myNetInfo.ip[2], myNetInfo.ip[3]);
-		return temp;
-	}
+	uint32_t temp = ip_MAKEU32(myNetInfo.ip[0], myNetInfo.ip[1], myNetInfo.ip[2], myNetInfo.ip[3]);
+	return temp;
 }
 
 /* @brief get netmask from sram
@@ -84,15 +75,9 @@ uint32_t ETH_GetIP()
  */
 uint32_t ETH_GetNETMASK()
 {
-	if(BACKUP_SRAM_read_StoreControl(sramOffset_NETMASK_ADDRESS))
-	{
-		return BACKUP_SRAM_read(sramOffset_NETMASK_ADDRESS);
-	}
-	else
-	{
-		uint32_t temp = ip_MAKEU32(myNetInfo.sn[0], myNetInfo.sn[1], myNetInfo.sn[2], myNetInfo.sn[3]);
-		return temp;
-	}
+	uint32_t temp = ip_MAKEU32(myNetInfo.sn[0], myNetInfo.sn[1], myNetInfo.sn[2], myNetInfo.sn[3]);
+	return temp;
+
 }
 
 /* @brief get gateway address from sram
@@ -101,15 +86,8 @@ uint32_t ETH_GetNETMASK()
  */
 uint32_t ETH_GetGATEWAY()
 {
-	if(BACKUP_SRAM_read_StoreControl(sramOffset_GATEWAY_ADDRESS))
-	{
-		return BACKUP_SRAM_read(sramOffset_GATEWAY_ADDRESS);
-	}
-	else
-	{
-		uint32_t temp = ip_MAKEU32(myNetInfo.gw[0], myNetInfo.gw[1], myNetInfo.gw[2], myNetInfo.gw[3]);
-		return temp;
-	}
+	uint32_t temp = ip_MAKEU32(myNetInfo.gw[0], myNetInfo.gw[1], myNetInfo.gw[2], myNetInfo.gw[3]);
+	return temp;
 }
 
 
@@ -170,35 +148,24 @@ void ETH_load_ip()
 {
 	uint32_t x;
 
-	BACKUP_SRAM_enable();
-
-	if(BACKUP_SRAM_read_StoreControl(sramOffset_IP_ADDRESS))
-	{
-		x = BACKUP_SRAM_read(sramOffset_IP_ADDRESS);
+		x = MainParams.sramOffset_IP_ADDRESS;
 		myNetInfo.ip[0] = ip_GET8(x,0);
 		myNetInfo.ip[1] = ip_GET8(x,1);
 		myNetInfo.ip[2] = ip_GET8(x,2);
 		myNetInfo.ip[3] = ip_GET8(x,3);
 
-	}
-
-	if(BACKUP_SRAM_read_StoreControl(sramOffset_NETMASK_ADDRESS))
-	{
-		x = BACKUP_SRAM_read(sramOffset_NETMASK_ADDRESS);
+		x = MainParams.sramOffset_NETMASK_ADDRESS;
 		myNetInfo.sn[0] = ip_GET8(x,0);
 		myNetInfo.sn[1] = ip_GET8(x,1);
 		myNetInfo.sn[2] = ip_GET8(x,2);
 		myNetInfo.sn[3] = ip_GET8(x,3);
-	}
 
-	if(BACKUP_SRAM_read_StoreControl(sramOffset_GATEWAY_ADDRESS))
-	{
-		x = BACKUP_SRAM_read(sramOffset_GATEWAY_ADDRESS);
+		x = MainParams.sramOffset_GATEWAY_ADDRESS;
 		myNetInfo.gw[0] = ip_GET8(x,0);
 		myNetInfo.gw[1] = ip_GET8(x,1);
 		myNetInfo.gw[2] = ip_GET8(x,2);
 		myNetInfo.gw[3] = ip_GET8(x,3);
-	}
+
 }
 
 /* @brief UDP communication init
@@ -226,7 +193,7 @@ void ETH_udp_Init()
     wizchip_init(rx_tx_buff_sizes, rx_tx_buff_sizes);
 
 
-    //ETH_load_ip();
+    ETH_load_ip();
 
     wizchip_setnetinfo(&myNetInfo);
 

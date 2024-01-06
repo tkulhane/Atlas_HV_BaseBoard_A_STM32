@@ -66,21 +66,15 @@ uint8_t Adresses[16] =
 
 float GetCoef_k(int channel)
 {
-	float f;
-	uint32_t val = DefaultParams.sramOffset_ReadCoef_k_0 + 4*channel;
-	memcpy(&f,&val,sizeof(f));
-
-	return  f;
+	float *addr = ((float *)&MainParams.sramOffset_ReadCoef_k_0) + channel;//  + (4 * channel);
+	return *addr;
 }
 
 
 float GetCoef_q(int channel)
 {
-	float f;
-	uint32_t val = DefaultParams.sramOffset_ReadCoef_q_0 + 4*channel;
-	memcpy(&f,&val,sizeof(f));
-
-	return  f;
+	float *addr =((float *)&MainParams.sramOffset_ReadCoef_q_0) + channel;//  + (4 * channel);
+	return *addr;
 }
 
 
@@ -123,8 +117,8 @@ void LoadADCConstant()
  */
 void StoreADCConstant(uint8_t coef, float value)
 {
-	BACKUP_SRAM_write_float(sramOffset_ReadCoef_k_0 + coef, value);
-	BACKUP_SRAM_write_StoreControl(sramOffset_ReadCoef_k_0 + coef, true);
+	float *addr = ((float *)&MainParams.sramOffset_ReadCoef_k_0) + coef;//  + (4 * channel);
+	*addr = value;
 }
 
 /* @brief get coefficient from sram
@@ -132,6 +126,7 @@ void StoreADCConstant(uint8_t coef, float value)
  * @param coef  -> coefficient order, k: 0 to 5, q: 6 to 11
  *
  */
+/*
 float GetADCConstant(uint8_t coef)
 {
 	float f;
@@ -155,6 +150,7 @@ float GetADCConstant(uint8_t coef)
 
 	return f;
 }
+*/
 
 /* @brief send ADC coefficients to communication
  *

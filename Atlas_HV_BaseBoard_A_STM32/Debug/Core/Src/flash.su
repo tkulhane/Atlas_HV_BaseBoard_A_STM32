@@ -1,4 +1,4 @@
 ../Core/Src/flash.c:15:10:Flash_GetSector	24	static
 ../Core/Src/flash.c:62:10:Flash_WriteData	56	static
-../Core/Src/flash.c:122:6:Flash_ReadParamStruct	24	static
-../Core/Src/flash.c:135:10:Flash_WriteParamStruct	16	static
+../Core/Src/flash.c:124:6:Flash_ReadParamStruct	24	static
+../Core/Src/flash.c:137:10:Flash_WriteParamStruct	16	static

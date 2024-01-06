@@ -100,7 +100,17 @@ typedef enum
 	cmd_set_out_reg_CH1,
 	cmd_set_out_reg_CH2,
 	cmd_set_out_reg_CH3,
+
+	cmd_Cfg_EnableErrorExecute,
+	cmd_Cfg_DisableInConnLost,
+	cmd_Cfg_CtrlOutWithChEnable,
+	cmd_Cfg_Get,
+
+	cmd_params_store,
+	cmd_params_default,
+
 	cmd_reset
+
 
 }eCommand_Id;
 

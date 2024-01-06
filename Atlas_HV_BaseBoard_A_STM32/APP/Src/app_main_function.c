@@ -25,9 +25,24 @@ ChannelChangeStruct ChannelsChange[3];
 bool _ControlOutputWithChannelEnable;
 
 
+float GetDacCoef_k(int channel)
+{
+	float *addr = ((float *)&MainParams.sramOffset_AdjCoef_k_ch0) + channel;
+	return *addr;
+}
+
+
+float GetDacCoef_q(int channel)
+{
+	float *addr = ((float *)&MainParams.sramOffset_AdjCoef_q_ch0) + channel;
+	return *addr;
+}
+
+
 /* @brief load coefficient from sram
  *
  */
+/*
 void LoadDACConstant()
 {
 	for(int i = 0; i<3; i++)
@@ -53,7 +68,7 @@ void LoadDACConstant()
 
 	}
 }
-
+*/
 
 /* @brief store coefficient to sram
  *
@@ -64,8 +79,8 @@ void LoadDACConstant()
  */
 void StoreDACConstant(uint8_t coef, float value)
 {
-	BACKUP_SRAM_write_float(sramOffset_AdjCoef_k_ch0 + coef, value);
-	BACKUP_SRAM_write_StoreControl(sramOffset_AdjCoef_k_ch0 + coef, true);
+	float *addr = ((float *)&MainParams.sramOffset_AdjCoef_k_ch0) + coef;//  + (4 * channel);
+	*addr = value;
 }
 
 /* @brief get coefficient from sram
@@ -73,6 +88,7 @@ void StoreDACConstant(uint8_t coef, float value)
  * @param coef  -> coefficient order, k: 0 to 2, q: 3 to 5
  *
  */
+/*
 float GetDACConstant(uint8_t coef)
 {
 	float f;
@@ -95,6 +111,7 @@ float GetDACConstant(uint8_t coef)
 
 	return f;
 }
+*/
 
 /* @brief send DAC coefficients to communication
  *
@@ -104,7 +121,7 @@ void SendDACCoefficients()
 {
 	for(int i = 0;i<6;i++)
 	{
-		SendCommunication_float(cmd_dac_get_k0 + i, GetDACConstant(i));
+		SendCommunication_float(cmd_dac_get_k0 + i, GetDacCoef_k(i));
 	}
 
 }
@@ -131,7 +148,10 @@ uint16_t Get_DACValue(int dac_channel, uint16_t value)
 	}
 	else
 	{
-		code = (uint16_t)(((AdjCoef_q[dac_channel - 3] - (float)value) / AdjCoef_k[dac_channel - 3]) * (float)DAC_coef);
+		float coef_k = GetDacCoef_k(dac_channel - 3);
+		float coef_q = GetDacCoef_q(dac_channel - 3);
+
+		code = (uint16_t)(((coef_q - (float)value) / coef_k) * (float)DAC_coef);
 	}
 
 

@@ -91,11 +91,13 @@ uint32_t Flash_WriteData (uint32_t StartSectorAddress, uint32_t *Data, uint16_t 
 
   for (uint16_t i = 0;  i < NumOfWords; i++) 
   {
-    if (HAL_FLASH_Program(FLASH_TYPEPROGRAM_WORD, StartSectorAddress, Data[i]) == HAL_OK)
+
+
+	if (HAL_FLASH_Program(FLASH_TYPEPROGRAM_WORD, StartSectorAddress, Data[i]) == HAL_OK)
     {
         //Shift address by 4 (Word Size)
     	StartSectorAddress += 4;  // StartPageAddress += 2 for half word and 8 for double word
-    	i++;
+    	//i++;
     }
     else
     {
