@@ -7,7 +7,7 @@
 
 
 #include "app__mainloop.h"
-
+#include "app_leds.h"
 
 
 
@@ -15,7 +15,7 @@
 void application_main()
 {
 
-	  //BACKUP_SRAM_enable();
+
 		ParamsDefaultValues();
 		ParamsLoad();
 
@@ -42,7 +42,7 @@ void application_main()
 	  HAL_GPIO_WritePin(W55_RST_GPIO_Port, W55_RST_Pin, GPIO_PIN_SET);
 	  ETH_udp_Init();
 
-
+	  __HAL_UART_ENABLE_IT(&huart2, UART_IT_ERR);
 	  __HAL_UART_ENABLE_IT(&huart2,UART_IT_RXNE);//enable uart3 interupt
 
 	  DAC_Init();
@@ -53,8 +53,7 @@ void application_main()
 
 	  //_ControlOutputWithChannelEnable = true;
 
-
-	  uint32_t u32LedTimer;
+	  app_leds_init();
 
 
 	  Set_Voltage(0, minimum_voltage);
@@ -64,14 +63,16 @@ void application_main()
 	  while(1)
 	  {
 
+
+		  //leds
+		  ledsUpadateLEDState(&LEDs_GREEN_LED1, HAL_GetTick());
+		  ledsUpadateLEDState(&LEDs_GREEN_LED2, HAL_GetTick());
+		  ledsUpadateLEDState(&LEDs_RED_LED, HAL_GetTick());
+
+		  //ethernet
 		  ETH_udp_Receive();
 
-		  if((HAL_GetTick() - u32LedTimer) > 500)
-		  {
-			  u32LedTimer = HAL_GetTick();
-			  HAL_GPIO_TogglePin(LED_1_GPIO_Port, LED_1_Pin);
-		  }
-
+		  //errors
 		  if(_Found_Error && MainParams.sramOffset_EnableErrorExecute)
 		  {
 			  ErrorExecute(0);
@@ -107,8 +108,22 @@ void application_main()
 			  //HAL_GPIO_WritePin(LED_blue_GPIO_Port, LED_blue_Pin, GPIO_PIN_RESET);
 		  }
 
+
+		  //connection control
 		  Communication_ConnectedTimer();
 		  AppConnectedExecute(_AppConnected);
+
+		  //channels enable led
+		  if(ChannelsStatus[0].enable || ChannelsStatus[1].enable || ChannelsStatus[1].enable)
+		  {
+			  LEDs_GREEN_LED2.mode = LEDS_ON;
+			  LEDs_RED_LED.mode = LEDS_FAST_BLINK;
+		  }
+		  else
+		  {
+			  LEDs_GREEN_LED2.mode = LEDS_OFF;
+			  LEDs_RED_LED.mode = LEDS_OFF;
+		  }
 
 	  }
 }

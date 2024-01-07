@@ -246,7 +246,7 @@ void ETH_udp_Transmit(uint8_t *pData, uint16_t Size)
 	//int result = sendto(UDP_SOCKET, pData, Size, address, UDP_PORT);
 
 	int  ret;
-	uint16_t sentsize;
+	//uint16_t sentsize;
 
     //while(!(sentsize >= Size))
     //{
@@ -288,7 +288,6 @@ void ETH_udp_Receive()
 
     	ret = recvfrom(UDP_SOCKET, buf, size, last_message_ip, (uint16_t*)&destport);
 
-    	//ETH_udp_Transmit(buf, size);
 
     	if(ret <= 0)
     	{
@@ -300,7 +299,6 @@ void ETH_udp_Receive()
 
     	ETH_WriteBuffer(buf, size);
 
-    	//ETH_udp_Transmit(buf, size);
     }
 
 

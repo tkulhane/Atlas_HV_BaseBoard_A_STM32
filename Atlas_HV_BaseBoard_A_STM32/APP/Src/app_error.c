@@ -8,6 +8,7 @@
 
 #include "app_error.h"
 #include "app_params.h"
+#include "app_leds.h"
 
 uint8_t Error_Array_Reg[Error_Array_Size];
 uint8_t Error_Array_Counter;
@@ -112,7 +113,16 @@ void ErrorSignalsRead()
 
 void AppConnectedExecute(bool AppConnected)
 {
-	HAL_GPIO_WritePin(LED_0_GPIO_Port, LED_0_Pin, AppConnected);
+	//HAL_GPIO_WritePin(LED_0_GPIO_Port, LED_0_Pin, AppConnected);
+
+	if(AppConnected)
+	{
+		 LEDs_GREEN_LED1.mode = LEDS_FAST_FLASH;
+	}
+	else
+	{
+		 LEDs_GREEN_LED1.mode = LEDS_SLOW_BLINK;
+	}
 
 	if((AppConnected == false) && MainParams.sramOffset_DisableSupplyInLostConnection)
 	{

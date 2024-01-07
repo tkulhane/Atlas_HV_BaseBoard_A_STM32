@@ -8,7 +8,7 @@
 #include "app_eth_process.h"
 
 
-#define eth_buffer_size 1024
+#define eth_buffer_size 4096
 uint8_t eth_buffer[eth_buffer_size];
 uint16_t eth_wpointer = 0;
 uint16_t eth_rpointer = 0;

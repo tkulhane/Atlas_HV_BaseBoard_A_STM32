@@ -16,59 +16,33 @@
 #define Default_AdjCoef_k 511.8182426
 #define Default_AdjCoef_q 655.2648273
 
-float AdjCoef_k[3];
-float AdjCoef_q[3];
+//float AdjCoef_k[3];
+//float AdjCoef_q[3];
 
 ChannelStatusStruct ChannelsStatus[3];
 ChannelChangeStruct ChannelsChange[3];
 
 //bool MainParams.sramOffset_ControlOutputWithChannelEnable;
 
-
+/* @brief get K coeficient for DAC
+ *
+ *	@channel -> adc channel
+ */
 float GetDacCoef_k(int channel)
 {
 	float *addr = ((float *)&MainParams.sramOffset_AdjCoef_k_ch0) + channel;
 	return *addr;
 }
 
-
+/* @brief get Q coeficient for DAC
+ *
+ *	@channel -> adc channel
+ */
 float GetDacCoef_q(int channel)
 {
 	float *addr = ((float *)&MainParams.sramOffset_AdjCoef_q_ch0) + channel;
 	return *addr;
 }
-
-
-/* @brief load coefficient from sram
- *
- */
-/*
-void LoadDACConstant()
-{
-	for(int i = 0; i<3; i++)
-	{
-
-		if(BACKUP_SRAM_read_StoreControl(sramOffset_AdjCoef_k_ch0 + i))
-		{
-			AdjCoef_k[i] = BACKUP_SRAM_read_float(sramOffset_AdjCoef_k_ch0 + i);
-		}
-		else
-		{
-			AdjCoef_k[i] = Default_AdjCoef_k;
-		}
-
-		if(BACKUP_SRAM_read_StoreControl(sramOffset_AdjCoef_q_ch0 + i))
-		{
-			AdjCoef_q[i] = BACKUP_SRAM_read_float(sramOffset_AdjCoef_q_ch0 + i);
-		}
-		else
-		{
-			AdjCoef_q[i] = Default_AdjCoef_q;
-		}
-
-	}
-}
-*/
 
 /* @brief store coefficient to sram
  *
@@ -82,36 +56,6 @@ void StoreDACConstant(uint8_t coef, float value)
 	float *addr = ((float *)&MainParams.sramOffset_AdjCoef_k_ch0) + coef;//  + (4 * channel);
 	*addr = value;
 }
-
-/* @brief get coefficient from sram
- *
- * @param coef  -> coefficient order, k: 0 to 2, q: 3 to 5
- *
- */
-/*
-float GetDACConstant(uint8_t coef)
-{
-	float f;
-
-	if(BACKUP_SRAM_read_StoreControl(sramOffset_AdjCoef_k_ch0 + coef))
-	{
-		f = BACKUP_SRAM_read_float(sramOffset_AdjCoef_k_ch0 + coef);
-	}
-	else
-	{
-		if(coef == 0 || coef == 1 || coef == 2)
-		{
-			f = Default_AdjCoef_k;
-		}
-		else if(coef == 3 || coef == 4 || coef == 5)
-		{
-			f = Default_AdjCoef_q;
-		}
-	}
-
-	return f;
-}
-*/
 
 /* @brief send DAC coefficients to communication
  *

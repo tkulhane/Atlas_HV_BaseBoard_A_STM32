@@ -8,7 +8,7 @@
 #include "app_usart_process.h"
 
 
-#define uart_buffer_size 1024
+#define uart_buffer_size 4096
 uint8_t uart_buffer[uart_buffer_size];
 uint16_t uart_wpointer = 0;
 uint16_t uart_rpointer = 0;

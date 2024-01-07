@@ -16,31 +16,6 @@ uint8_t Read_Data[16]; //read data from ADC
 float *p_ADC_data[8];
 
 
-float ReadCoef_k[6];
-float ReadCoef_q[6];
-
-//k coefficients for ADC channels
-const float Default_ReadCoef_k[6] =
-{
-		0.00540804,
-		0.00540804,
-		0.00540804,
-		0.06175469,
-		0.06175469,
-		0.06175469
-};
-
-//q coefficients for ADC channels
-const float Default_ReadCoef_q[6] =
-{
-		0.09030197,
-		0.09030197,
-		0.09030197,
-		0.06370294,
-		0.06370294,
-		0.06370294
-};
-
 //ADC address array
 uint8_t Adresses[16] =
 {
@@ -63,49 +38,24 @@ uint8_t Adresses[16] =
 
 };
 
-
+/* @brief get K coeficient for ADC
+ *
+ *	@channel -> adc channel
+ */
 float GetCoef_k(int channel)
 {
 	float *addr = ((float *)&MainParams.sramOffset_ReadCoef_k_0) + channel;//  + (4 * channel);
 	return *addr;
 }
 
-
+/* @brief get Q coeficient for ADC
+ *
+ *	@channel -> adc channel
+ */
 float GetCoef_q(int channel)
 {
 	float *addr =((float *)&MainParams.sramOffset_ReadCoef_q_0) + channel;//  + (4 * channel);
 	return *addr;
-}
-
-
-
-/* @brief load coefficient from sram
- *
- */
-void LoadADCConstant()
-{
-	for(int i = 0; i<6; i++)
-	{
-
-		if(BACKUP_SRAM_read_StoreControl(sramOffset_ReadCoef_k_0 + i))
-		{
-			ReadCoef_k[i] = BACKUP_SRAM_read_float(sramOffset_ReadCoef_k_0 + i);
-		}
-		else
-		{
-			ReadCoef_k[i] = Default_ReadCoef_k[i];
-		}
-
-		if(BACKUP_SRAM_read_StoreControl(sramOffset_ReadCoef_q_0 + i))
-		{
-			ReadCoef_q[i] = BACKUP_SRAM_read_float(sramOffset_ReadCoef_q_0 + i);
-		}
-		else
-		{
-			ReadCoef_q[i] = Default_ReadCoef_q[i];
-		}
-
-	}
 }
 
 /* @brief store coefficient to sram
@@ -120,37 +70,6 @@ void StoreADCConstant(uint8_t coef, float value)
 	float *addr = ((float *)&MainParams.sramOffset_ReadCoef_k_0) + coef;//  + (4 * channel);
 	*addr = value;
 }
-
-/* @brief get coefficient from sram
- *
- * @param coef  -> coefficient order, k: 0 to 5, q: 6 to 11
- *
- */
-/*
-float GetADCConstant(uint8_t coef)
-{
-	float f;
-
-	if(BACKUP_SRAM_read_StoreControl(sramOffset_ReadCoef_k_0 + coef))
-	{
-		f = BACKUP_SRAM_read_float(sramOffset_ReadCoef_k_0 + coef);
-	}
-	else
-	{
-		if((coef >= 0) && (coef <= 5))
-		{
-			f = Default_ReadCoef_k[coef];
-		}
-		else if((coef >= 6) && (coef <= 11))
-		{
-			f = Default_ReadCoef_q[coef - 6];
-		}
-
-	}
-
-	return f;
-}
-*/
 
 /* @brief send ADC coefficients to communication
  *

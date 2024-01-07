@@ -1,9 +1,8 @@
-app_function_ADC.c:67:7:GetCoef_k	1
-app_function_ADC.c:74:7:GetCoef_q	1
-app_function_ADC.c:85:6:LoadADCConstant	4
-app_function_ADC.c:118:6:StoreADCConstant	1
-app_function_ADC.c:159:6:SendADCCoefficients	2
-app_function_ADC.c:176:10:CalcAvg	2
-app_function_ADC.c:195:7:CalcAdcValue	1
-app_function_ADC.c:213:6:ReadADCChannels	1
-app_function_ADC.c:225:6:ADCStore	5
+app_function_ADC.c:45:7:GetCoef_k	1
+app_function_ADC.c:55:7:GetCoef_q	1
+app_function_ADC.c:68:6:StoreADCConstant	1
+app_function_ADC.c:78:6:SendADCCoefficients	2
+app_function_ADC.c:95:10:CalcAvg	2
+app_function_ADC.c:114:7:CalcAdcValue	1
+app_function_ADC.c:132:6:ReadADCChannels	1
+app_function_ADC.c:144:6:ADCStore	5

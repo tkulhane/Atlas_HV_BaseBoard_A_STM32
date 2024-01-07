@@ -1,7 +1,0 @@
-../APP/Src/app_backup_sram.c:28:6:BACKUP_SRAM_enable	4	static
-../APP/Src/app_backup_sram.c:50:6:BACKUP_SRAM_read_StoreControl	16	static
-../APP/Src/app_backup_sram.c:71:6:BACKUP_SRAM_write_StoreControl	16	static
-../APP/Src/app_backup_sram.c:104:10:BACKUP_SRAM_read	16	static
-../APP/Src/app_backup_sram.c:120:6:BACKUP_SRAM_write	16	static
-../APP/Src/app_backup_sram.c:135:7:BACKUP_SRAM_read_float	16	static
-../APP/Src/app_backup_sram.c:151:6:BACKUP_SRAM_write_float	16	static
