@@ -106,12 +106,16 @@ typedef enum
 	cmd_ch2_get_err_state,
 	cmd_ch3_get_err_state,
 	cmd_errState_Get,
+
 	cmd_CfgSet_EnableErrorExecute,
 	cmd_CfgSet_DisableInConnLost,
 	cmd_CfgSet_CtrlOutWithChEnable,
+	cmd_CfgSet_ErrorExecuteAutoRestart,
+
 	cmd_CfgGet_EnableErrorExecute,
 	cmd_CfgGet_DisableInConnLost,
 	cmd_CfgGet_CtrlOutWithChEnable,
+	cmd_CfgGet_ErrorExecuteAutoRestart,
 	cmd_Cfg_Get,
 
 	cmd_params_store,

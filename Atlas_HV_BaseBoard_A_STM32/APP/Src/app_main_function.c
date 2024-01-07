@@ -294,12 +294,33 @@ void Channel_Restart(uint8_t channel)
 {
 	if(!(channel == 0 || channel == 1 || channel == 2)) return;
 
+	if(ChannelsStatus[channel].enable == false)
+	{
+		ChannelsChange[channel].restart_request = false;
+		return;
+	}
 
-	ChannelsChange[channel].restart_request = true;
-	ChannelsChange[channel].restart_timer = HAL_GetTick();
+	//ChannelsChange[channel].restarts_counter++;
+
 	ErrorTimerReset(channel);
-	Enable_GPIO(channel, false);
-	Channel_Output(channel, false);
+
+	if(ChannelsChange[channel].restarts_counter >= max_restart_count)
+	{
+		Channel_Enable(channel, false);
+		ChannelsStatus[channel].disableInError = true;
+		ChannelsChange[channel].restart_request = false;
+	}
+	else
+	{
+		ChannelsChange[channel].restart_request = true;
+		ChannelsChange[channel].restart_timer = HAL_GetTick();
+
+		Enable_GPIO(channel, false);
+		Channel_Output(channel, false);
+
+	}
+
+
 }
 
 void Channel_Enable_fromRestart(uint8_t channel)
@@ -426,17 +447,9 @@ void ChannelControl(uint8_t channel)
 		if((HAL_GetTick()-ChannelsChange[channel].restart_timer) >= delay_restart)
 		{
 			//ChannelsChange[channel].restart_request = false;
+			//ChannelsChange[channel].restarts_counter++;
 			ChannelsChange[channel].restarts_counter++;
-
-			if(ChannelsChange[channel].restarts_counter >= max_restart_count)
-			{
-				Channel_Enable(channel, false);
-				ChannelsStatus[channel].disableInError = true;
-			}
-			else
-			{
-				Channel_Enable_fromRestart(channel);
-			}
+			Channel_Enable_fromRestart(channel);
 
 		}
 	}

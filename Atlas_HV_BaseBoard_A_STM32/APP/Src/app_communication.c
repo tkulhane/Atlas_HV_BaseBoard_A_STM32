@@ -18,7 +18,7 @@ eCommand_source _command_source;
 
 
 //table of command string - corresponds with eCommand_Id enumeration
-const char command_strings[][STRING_TABLE_SIZE]=
+const char command_strings[][STRING_TABLE_SIZE] =
 {
 	"NON",
 	"Connected",
@@ -101,22 +101,24 @@ const char command_strings[][STRING_TABLE_SIZE]=
 	"ch1_get_err_state",
 	"ch2_get_err_state",
 	"ch3_get_err_state",
-	"errState_Get"
+	"errState_Get",
 
 	"CfgSet_EnableErrorExecute",
 	"CfgSet_DisableInConnLost",
 	"CfgSet_CtrlOutWithChEnable",
+	"CfgSet_ErrorExecuteAutoRestart",
 
 	"CfgGet_EnableErrorExecute",
 	"CfgGet_DisableInConnLost",
 	"CfgGet_CtrlOutWithChEnable",
+	"CfgGet_ErrorExecuteAutoRestart",
 
 	"Cfg_Get",
 
 	"params_store",
 	"params_default",
 
-	"ETH_ReInit"
+	"ETH_ReInit",
 
 	"reset"
 
@@ -212,10 +214,12 @@ eCommand_parse Command_parse[] =
 		cparse_int,//cmd_CfgSet_EnableErrorExecute,
 		cparse_int,//cmd_CfgSet_DisableInConnLost,
 		cparse_int,//cmd_CfgSet_CtrlOutWithChEnable,
+		cparse_int,//cmd_CfgSet_ErrorExecuteAutoRestart
 
 		cparse_non,//cmd_CfgGet_EnableErrorExecute
 		cparse_non,//cmd_CfgGet_DisableInConnLost
 		cparse_non,//cmd_CfgGet_CtrlOutWithChEnable
+		cparse_non,//cmd_CfgGet_ErrorExecuteAutoRestart,
 
 		cparse_non,//cmd_Cfg_Get,
 
@@ -456,6 +460,10 @@ void ProcessCommand(int command_id)
 
 		case cmd_CfgSet_CtrlOutWithChEnable:
 			SetConfigData(2, _command_value);
+			break;
+
+		case cmd_CfgSet_ErrorExecuteAutoRestart:
+			SetConfigData(3, _command_value);
 			break;
 
 		case cmd_Cfg_Get:

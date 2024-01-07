@@ -136,6 +136,7 @@ void SendConfigData()
 	SendCommunication(cmd_CfgGet_EnableErrorExecute, MainParams.sramOffset_EnableErrorExecute);
 	SendCommunication(cmd_CfgGet_DisableInConnLost, MainParams.sramOffset_DisableSupplyInLostConnection);
 	SendCommunication(cmd_CfgGet_CtrlOutWithChEnable, MainParams.sramOffset_ControlOutputWithChannelEnable);
+	SendCommunication(cmd_CfgGet_ErrorExecuteAutoRestart, MainParams.sramOffset_ErrorExecuteAutoRestore);
 }
 
 

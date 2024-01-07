@@ -108,7 +108,6 @@ void application_main()
 			  //HAL_GPIO_WritePin(LED_green_GPIO_Port, LED_green_Pin, GPIO_PIN_SET);
 			  ProcessCommand(_command_id);
 			  //HAL_GPIO_WritePin(LED_green_GPIO_Port, LED_green_Pin, GPIO_PIN_RESET);
-
 		  }
 
 
