@@ -10,11 +10,16 @@
 #include "app_params.h"
 #include "app_leds.h"
 
+
 uint8_t Error_Array_Reg[Error_Array_Size];
 uint8_t Error_Array_Counter;
 
+uint32_t ErrorTimer[6];
+
 bool *p_ERROR_data[6];
 bool _Found_Error;
+bool _FoundError_OR;
+bool _FoundErrorforEach[6];
 
 bool _EnableErrorExecute;
 bool _DisableSupplyInLostConnection;
@@ -27,19 +32,80 @@ void ErrorExecute(uint8_t channel)
 {
 	if(!(channel == 0 || channel == 1 || channel == 2)) return;
 
-	_Found_Error = false;
+	//_Found_Error = false;
 
 	//power good execution -> channel disable
-	if(*p_ERROR_data[channel])
+	if(_FoundErrorforEach[channel])
 	{
-		Channel_Enable(channel, false);
+		//Channel_Enable(channel, false);
+
+		if(MainParams.sramOffset_ErrorExecuteAutoRestore)
+		{
+			Channel_Restart(channel);
+		}
+		else
+		{
+			ChannelsStatus[channel].disableInError = true;
+			Channel_Enable(channel, false);
+		}
+
+
 	}
 
 	//over current execution -> output disable
-	if(*p_ERROR_data[channel + 3])
+	if(_FoundErrorforEach[channel + 3])
 	{
-		Channel_Output(channel, false);
+		//Channel_Output(channel, false);
+		/*
+		if(_restart)
+			Channel_Restart(channel);
+		else
+			Channel_Enable(channel, false);
+			*/
 	}
+
+}
+
+
+void ErrorSignalTime()
+{
+
+	_FoundError_OR = false;
+
+	for(int i = 0; i < 6; i++)
+	{
+		if(*p_ERROR_data[i]) //error je 1
+		{
+			if((HAL_GetTick() - ErrorTimer[i]) > Error_Time)
+			{
+				_Found_Error = true;
+				_FoundErrorforEach[i] = true;
+			}
+		}
+		else
+		{
+			ErrorTimer[i] = HAL_GetTick();
+			_FoundErrorforEach[i] = false;
+		}
+
+
+		if(_FoundErrorforEach[i])
+		{
+			_Found_Error = true;
+		}
+
+		_FoundError_OR = _FoundError_OR | _FoundErrorforEach[i];
+
+	}
+
+	//_FoundError_OR = _FoundErrorforEach[0] || _FoundErrorforEach[1] || _FoundErrorforEach[2];
+
+}
+
+void ErrorTimerReset(int channel)
+{
+	ErrorTimer[channel] = HAL_GetTick();
+	ErrorTimer[channel+3 ] = HAL_GetTick();
 }
 
 /* @brief Process of error signals - count true bit (error signalization) in Error Array Register
@@ -61,12 +127,13 @@ void ErrorProcess()
 		if(ee >= Error_Threshold)
 		{
 			*p_ERROR_data[errbit] = true;
-			_Found_Error = true;
+			//_Found_Error = true;
 		}
 		else
 		{
 			*p_ERROR_data[errbit] = false;
 		}
+
 	}
 }
 
@@ -81,19 +148,19 @@ void ErrorSignalsRead()
 
 	uint8_t temp_error_reg = 0;
 	
-	if(ChannelsStatus[0].enable)
+	if(ChannelsStatus[0].enable && !ChannelsChange[0].restart_request)
 	{
 		temp_error_reg |= (!((bool)HAL_GPIO_ReadPin(PG_1_GPIO_Port, PG_1_Pin)))  << 0;
 		temp_error_reg |= ((bool)HAL_GPIO_ReadPin(OC_1_GPIO_Port, OC_1_Pin))  << 3;
 	}
 
-	if(ChannelsStatus[1].enable)
+	if(ChannelsStatus[1].enable && !ChannelsChange[1].restart_request)
 	{
 		temp_error_reg |= (!((bool)HAL_GPIO_ReadPin(PG_2_GPIO_Port, PG_2_Pin)))  << 1;
 		temp_error_reg |= ((bool)HAL_GPIO_ReadPin(OC_3_GPIO_Port, OC_2_Pin))  << 4;
 	}
 
-	if(ChannelsStatus[2].enable)
+	if(ChannelsStatus[2].enable && !ChannelsChange[2].restart_request)
 	{
 		temp_error_reg |= (!((bool)HAL_GPIO_ReadPin(PG_3_GPIO_Port, PG_3_Pin)))  << 2;
 		temp_error_reg |= ((bool)HAL_GPIO_ReadPin(OC_3_GPIO_Port, OC_3_Pin))  << 5;

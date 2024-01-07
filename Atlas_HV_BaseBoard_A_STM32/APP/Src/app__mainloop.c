@@ -72,18 +72,32 @@ void application_main()
 		  //ethernet
 		  ETH_udp_Receive();
 
+		  ErrorSignalTime();
+
 		  //errors
-		  if(_Found_Error && MainParams.sramOffset_EnableErrorExecute)
+		  //if(_Found_Error && MainParams.sramOffset_EnableErrorExecute)
+		  if(_Found_Error)
 		  {
 			  ErrorExecute(0);
 			  ErrorExecute(1);
 			  ErrorExecute(2);
+
+			  _Found_Error = false;
 		  }
 
 		  ChannelControl(0);
 		  ChannelControl(1);
 		  ChannelControl(2);
 
+
+		  if(_FoundError_OR)
+		  {
+			  LEDs_RED_LED.mode = LEDS_ON;
+		  }
+		  else
+		  {
+			  LEDs_RED_LED.mode = LEDS_OFF;
+		  }
 
 
 		  bool NewCommand_uart = ProcessCommunication_UART(); //load command from uart buffer
@@ -117,12 +131,12 @@ void application_main()
 		  if(ChannelsStatus[0].enable || ChannelsStatus[1].enable || ChannelsStatus[1].enable)
 		  {
 			  LEDs_GREEN_LED2.mode = LEDS_ON;
-			  LEDs_RED_LED.mode = LEDS_FAST_BLINK;
+			  //LEDs_RED_LED.mode = LEDS_FAST_BLINK;
 		  }
 		  else
 		  {
 			  LEDs_GREEN_LED2.mode = LEDS_OFF;
-			  LEDs_RED_LED.mode = LEDS_OFF;
+			  //LEDs_RED_LED.mode = LEDS_OFF;
 		  }
 
 	  }

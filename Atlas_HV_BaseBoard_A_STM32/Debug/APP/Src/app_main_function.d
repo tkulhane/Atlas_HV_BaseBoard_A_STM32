@@ -50,7 +50,8 @@ APP/Src/app_main_function.o: ../APP/Src/app_main_function.c \
  /Users/tomas/Documents/_temp_STM32/Atlas_HV_BaseBoard_A_STM32/Atlas_HV_BaseBoard_A_STM32/APP/Inc/app_spi_function_DAC.h \
  /Users/tomas/Documents/_temp_STM32/Atlas_HV_BaseBoard_A_STM32/Atlas_HV_BaseBoard_A_STM32/APP/Inc/app_gpio_function.h \
  /Users/tomas/Documents/_temp_STM32/Atlas_HV_BaseBoard_A_STM32/Atlas_HV_BaseBoard_A_STM32/APP/Inc/app_usart_process.h \
- /Users/tomas/Documents/_temp_STM32/Atlas_HV_BaseBoard_A_STM32/Atlas_HV_BaseBoard_A_STM32/APP/Inc/app_communication.h
+ /Users/tomas/Documents/_temp_STM32/Atlas_HV_BaseBoard_A_STM32/Atlas_HV_BaseBoard_A_STM32/APP/Inc/app_communication.h \
+ /Users/tomas/Documents/_temp_STM32/Atlas_HV_BaseBoard_A_STM32/Atlas_HV_BaseBoard_A_STM32/APP/Inc/app_error.h
 /Users/tomas/Documents/_temp_STM32/Atlas_HV_BaseBoard_A_STM32/Atlas_HV_BaseBoard_A_STM32/APP/Inc/app_main_function.h:
 /Users/tomas/Documents/_temp_STM32/Atlas_HV_BaseBoard_A_STM32/Atlas_HV_BaseBoard_A_STM32/APP/Inc/app_function_ADC.h:
 ../Core/Inc/main.h:
@@ -107,3 +108,4 @@ APP/Src/app_main_function.o: ../APP/Src/app_main_function.c \
 /Users/tomas/Documents/_temp_STM32/Atlas_HV_BaseBoard_A_STM32/Atlas_HV_BaseBoard_A_STM32/APP/Inc/app_gpio_function.h:
 /Users/tomas/Documents/_temp_STM32/Atlas_HV_BaseBoard_A_STM32/Atlas_HV_BaseBoard_A_STM32/APP/Inc/app_usart_process.h:
 /Users/tomas/Documents/_temp_STM32/Atlas_HV_BaseBoard_A_STM32/Atlas_HV_BaseBoard_A_STM32/APP/Inc/app_communication.h:
+/Users/tomas/Documents/_temp_STM32/Atlas_HV_BaseBoard_A_STM32/Atlas_HV_BaseBoard_A_STM32/APP/Inc/app_error.h:

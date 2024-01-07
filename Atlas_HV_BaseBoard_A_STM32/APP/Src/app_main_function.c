@@ -7,6 +7,7 @@
  */
 
 #include "app_main_function.h"
+#include "app_error.h"
 
 #define DAC_coef 3276.8
 
@@ -253,6 +254,8 @@ void Channel_Enable(uint8_t channel, bool enable)
 
 	ChannelsChange[channel].voltageBeforeEnable = ChannelsChange[channel].request_voltage;
 
+	ChannelsChange[channel].restarts_counter = 0;
+	ChannelsStatus[channel].disableInError = false;
 
 	if(enable)
 	{
@@ -260,6 +263,7 @@ void Channel_Enable(uint8_t channel, bool enable)
 		Set_VoltageInEnable(channel);
 		Enable_GPIO(channel, true);
 		ChannelsStatus[channel].enable = true;
+		ChannelsChange[channel].restart_request = false;
 		ChannelsChange[channel].enable_request = true;
 		ChannelsChange[channel].enable_timer = HAL_GetTick();
 	}
@@ -267,6 +271,7 @@ void Channel_Enable(uint8_t channel, bool enable)
 	{
 		ChannelsChange[channel].enable_request = false;
 		ChannelsStatus[channel].enable = false;
+		ChannelsChange[channel].restart_request = false;
 		Enable_GPIO(channel, false);
 	}
 
@@ -282,6 +287,39 @@ void Channel_Enable(uint8_t channel, bool enable)
 			Channel_Output(channel, false);
 		}
 	}
+
+}
+
+void Channel_Restart(uint8_t channel)
+{
+	if(!(channel == 0 || channel == 1 || channel == 2)) return;
+
+
+	ChannelsChange[channel].restart_request = true;
+	ChannelsChange[channel].restart_timer = HAL_GetTick();
+	ErrorTimerReset(channel);
+	Enable_GPIO(channel, false);
+	Channel_Output(channel, false);
+}
+
+void Channel_Enable_fromRestart(uint8_t channel)
+{
+	ChannelsChange[channel].voltageBeforeEnable = ChannelsChange[channel].request_voltage;
+
+	Set_VoltageInEnable(channel);
+	Enable_GPIO(channel, true);
+	ChannelsStatus[channel].enable = true;
+	ChannelsChange[channel].restart_request = false;
+	ChannelsChange[channel].enable_request = true;
+	ChannelsChange[channel].enable_timer = HAL_GetTick();
+
+	Channel_Output(channel, true);
+
+	if(MainParams.sramOffset_ControlOutputWithChannelEnable) //je aktivni funkce ovladani vystupu s eneble
+	{
+		Channel_Output(channel, true);
+	}
+
 
 }
 
@@ -381,6 +419,28 @@ void ChannelControl(uint8_t channel)
 
 		}
 	}
+
+	//restart channel
+	if(ChannelsChange[channel].restart_request)
+	{
+		if((HAL_GetTick()-ChannelsChange[channel].restart_timer) >= delay_restart)
+		{
+			//ChannelsChange[channel].restart_request = false;
+			ChannelsChange[channel].restarts_counter++;
+
+			if(ChannelsChange[channel].restarts_counter >= max_restart_count)
+			{
+				Channel_Enable(channel, false);
+				ChannelsStatus[channel].disableInError = true;
+			}
+			else
+			{
+				Channel_Enable_fromRestart(channel);
+			}
+
+		}
+	}
+
 }
 
 /* @brief Send by communication measured channel voltage from Channel status struct
@@ -467,6 +527,27 @@ void Get_Setting()
 	SendCommunication(cmd_output_CH3, ChannelsStatus[2].output);
 
 	SendCommunication(cmd_thats_all, 1);
+}
+
+void Get_State_err()
+{
+
+	for(int i = 0; i <3; i++)
+	{
+		uint8_t err_state = 0;
+
+		if(ChannelsStatus[i].disableInError)//kanal byl vypnut z erroru
+		{
+			err_state = 1;
+		}
+		else if(ChannelsChange[i].restart_request) //kanal se restartuje
+		{
+			err_state = 2;
+		}
+
+		SendCommunication(cmd_ch1_get_err_state + i, err_state);
+	}
+
 }
 
 /* @brief reset MCU

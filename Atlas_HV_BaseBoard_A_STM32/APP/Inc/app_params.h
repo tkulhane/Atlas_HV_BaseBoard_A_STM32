@@ -46,6 +46,7 @@ typedef struct
 	uint32_t sramOffset_EnableErrorExecute;
 	uint32_t sramOffset_DisableSupplyInLostConnection ;
 	uint32_t sramOffset_ControlOutputWithChannelEnable;
+	uint32_t sramOffset_ErrorExecuteAutoRestore;
 
 }FlashSectorParams;
 

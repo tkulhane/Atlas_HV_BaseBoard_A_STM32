@@ -68,9 +68,10 @@ void ParamsDefaultValues()
 	DefaultParams.sramOffset_AdjCoef_q_ch1 =  MakeUint32FromFloat(Default_AdjCoef_q);
 	DefaultParams.sramOffset_AdjCoef_q_ch2  =  MakeUint32FromFloat(Default_AdjCoef_q);
 
-	DefaultParams.sramOffset_EnableErrorExecute = 0;
+	DefaultParams.sramOffset_EnableErrorExecute = 1;
 	DefaultParams.sramOffset_DisableSupplyInLostConnection = 0;
 	DefaultParams.sramOffset_ControlOutputWithChannelEnable = 1;
+	DefaultParams.sramOffset_ErrorExecuteAutoRestore = 1;
 
 
 }

@@ -22,10 +22,17 @@ extern bool _Found_Error;
 extern bool _EnableErrorExecute;
 extern bool _DisableSupplyInLostConnection;
 
+extern bool _FoundError_OR;
+extern bool _FoundErrorforEach[6];
+
 #define Error_Array_Size 20
 #define Error_Threshold 16
 
+#define Error_Time 5000
+
 void ErrorExecute(uint8_t channel);
+void ErrorSignalTime();
+void ErrorTimerReset(int channel);
 void ErrorProcess();
 void ErrorSignalsRead();
 

@@ -98,6 +98,11 @@ const char command_strings[][STRING_TABLE_SIZE]=
 	"ch2_setoutreg",
 	"ch3_setoutreg",
 
+	"ch1_get_err_state",
+	"ch2_get_err_state",
+	"ch3_get_err_state",
+	"errState_Get"
+
 	"CfgSet_EnableErrorExecute",
 	"CfgSet_DisableInConnLost",
 	"CfgSet_CtrlOutWithChEnable",
@@ -197,6 +202,11 @@ eCommand_parse Command_parse[] =
 		cparse_int,	//cmd_set_out_reg_CH1,
 		cparse_int,	//cmd_set_out_reg_CH2,
 		cparse_int,	//cmd_set_out_reg_CH3,
+
+		cparse_non,//"ch1_get_err_state",
+		cparse_non,//"ch2_get_err_state",
+		cparse_non,//"ch3_get_err_state",
+		cparse_non,//"errState_Get"
 
 
 		cparse_int,//cmd_CfgSet_EnableErrorExecute,
@@ -430,6 +440,10 @@ void ProcessCommand(int command_id)
 
 		case cmd_set_out_reg_CH3: //debug
 			Set_OutReg_Voltage(2, _command_value);
+			break;
+
+		case cmd_errState_Get:
+			Get_State_err();
 			break;
 
 		case cmd_CfgSet_EnableErrorExecute:

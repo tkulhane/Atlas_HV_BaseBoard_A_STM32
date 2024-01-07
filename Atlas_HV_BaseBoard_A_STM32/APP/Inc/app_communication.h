@@ -102,14 +102,16 @@ typedef enum
 	cmd_set_out_reg_CH2,
 	cmd_set_out_reg_CH3,
 
+	cmd_ch1_get_err_state,
+	cmd_ch2_get_err_state,
+	cmd_ch3_get_err_state,
+	cmd_errState_Get,
 	cmd_CfgSet_EnableErrorExecute,
 	cmd_CfgSet_DisableInConnLost,
 	cmd_CfgSet_CtrlOutWithChEnable,
-
 	cmd_CfgGet_EnableErrorExecute,
 	cmd_CfgGet_DisableInConnLost,
 	cmd_CfgGet_CtrlOutWithChEnable,
-
 	cmd_Cfg_Get,
 
 	cmd_params_store,

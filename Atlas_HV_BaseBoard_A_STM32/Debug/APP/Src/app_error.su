@@ -1,4 +1,6 @@
-../APP/Src/app_error.c:26:6:ErrorExecute	16	static
-../APP/Src/app_error.c:50:6:ErrorProcess	24	static
-../APP/Src/app_error.c:79:6:ErrorSignalsRead	16	static
-../APP/Src/app_error.c:114:6:AppConnectedExecute	24	static
+../APP/Src/app_error.c:31:6:ErrorExecute	16	static
+../APP/Src/app_error.c:70:6:ErrorSignalTime	16	static
+../APP/Src/app_error.c:105:6:ErrorTimerReset	24	static
+../APP/Src/app_error.c:116:6:ErrorProcess	24	static
+../APP/Src/app_error.c:146:6:ErrorSignalsRead	16	static
+../APP/Src/app_error.c:181:6:AppConnectedExecute	24	static
