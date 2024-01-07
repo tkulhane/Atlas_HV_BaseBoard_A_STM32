@@ -182,14 +182,6 @@ void AppConnectedExecute(bool AppConnected)
 {
 	//HAL_GPIO_WritePin(LED_0_GPIO_Port, LED_0_Pin, AppConnected);
 
-	if(AppConnected)
-	{
-		 LEDs_GREEN_LED1.mode = LEDS_FAST_FLASH;
-	}
-	else
-	{
-		 LEDs_GREEN_LED1.mode = LEDS_SLOW_BLINK;
-	}
 
 	if((AppConnected == false) && MainParams.sramOffset_DisableSupplyInLostConnection)
 	{

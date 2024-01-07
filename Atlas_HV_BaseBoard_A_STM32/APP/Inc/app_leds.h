@@ -16,5 +16,6 @@ typedef LED_struct LEDs_struct;
 extern LEDs_struct LEDs_GREEN_LED1, LEDs_GREEN_LED2, LEDs_RED_LED;
 
 void app_leds_init(void);
+void app_leds_drive();
 
 #endif /* INC_APP_LEDS_H_ */

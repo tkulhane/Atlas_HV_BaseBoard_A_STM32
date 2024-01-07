@@ -1,1 +1,2 @@
-../APP/Src/app_leds.c:14:6:app_leds_init	4	static
+../APP/Src/app_leds.c:17:6:app_leds_init	8	static
+../APP/Src/app_leds.c:47:6:app_leds_drive	8	static

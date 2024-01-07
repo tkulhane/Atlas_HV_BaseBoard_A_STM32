@@ -15,6 +15,7 @@
 void application_main()
 {
 
+		app_leds_init();
 
 		ParamsDefaultValues();
 		ParamsLoad();
@@ -53,8 +54,6 @@ void application_main()
 
 	  //_ControlOutputWithChannelEnable = true;
 
-	  app_leds_init();
-
 
 	  Set_Voltage(0, minimum_voltage);
 	  Set_Voltage(1, minimum_voltage);
@@ -63,11 +62,7 @@ void application_main()
 	  while(1)
 	  {
 
-
-		  //leds
-		  ledsUpadateLEDState(&LEDs_GREEN_LED1, HAL_GetTick());
-		  ledsUpadateLEDState(&LEDs_GREEN_LED2, HAL_GetTick());
-		  ledsUpadateLEDState(&LEDs_RED_LED, HAL_GetTick());
+		  app_leds_drive();
 
 		  //ethernet
 		  ETH_udp_Receive();
@@ -75,8 +70,8 @@ void application_main()
 		  ErrorSignalTime();
 
 		  //errors
-		  //if(_Found_Error && MainParams.sramOffset_EnableErrorExecute)
-		  if(_Found_Error)
+		  if(_Found_Error && MainParams.sramOffset_EnableErrorExecute)
+		  //if(_Found_Error)
 		  {
 			  ErrorExecute(0);
 			  ErrorExecute(1);
@@ -89,15 +84,6 @@ void application_main()
 		  ChannelControl(1);
 		  ChannelControl(2);
 
-
-		  if(_FoundError_OR)
-		  {
-			  LEDs_RED_LED.mode = LEDS_ON;
-		  }
-		  else
-		  {
-			  LEDs_RED_LED.mode = LEDS_OFF;
-		  }
 
 
 		  bool NewCommand_uart = ProcessCommunication_UART(); //load command from uart buffer
@@ -126,17 +112,7 @@ void application_main()
 		  Communication_ConnectedTimer();
 		  AppConnectedExecute(_AppConnected);
 
-		  //channels enable led
-		  if(ChannelsStatus[0].enable || ChannelsStatus[1].enable || ChannelsStatus[1].enable)
-		  {
-			  LEDs_GREEN_LED2.mode = LEDS_ON;
-			  //LEDs_RED_LED.mode = LEDS_FAST_BLINK;
-		  }
-		  else
-		  {
-			  LEDs_GREEN_LED2.mode = LEDS_OFF;
-			  //LEDs_RED_LED.mode = LEDS_OFF;
-		  }
+
 
 	  }
 }
