@@ -37,11 +37,11 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  16 .debug_macro  0001fb15  00000000  00000000  00046938  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_line   00029309  00000000  00000000  0006644d  2**0
+ 17 .debug_line   0002930b  00000000  00000000  0006644d  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    000a60b9  00000000  00000000  0008f756  2**0
+ 18 .debug_str    000a60b6  00000000  00000000  0008f758  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000050  00000000  00000000  0013580f  2**0
+ 19 .comment      00000050  00000000  00000000  0013580e  2**0
                   CONTENTS, READONLY
  20 .debug_frame  00008174  00000000  00000000  00135860  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
@@ -1431,21 +1431,21 @@ void application_main()
 	  HAL_TIM_Base_Start_IT(&htim10); //start timer for ADC reading
  80010a0:	4838      	ldr	r0, [pc, #224]	; (8001184 <application_main+0x17c>)
  80010a2:	f006 fd2b 	bl	8007afc <HAL_TIM_Base_Start_IT>
-	  //_DisableSupplyInLostConnection = true;
 
 	  //_ControlOutputWithChannelEnable = true;
 
 
+
 	  Set_Voltage(0, minimum_voltage);
- 80010a6:	2164      	movs	r1, #100	; 0x64
+ 80010a6:	211e      	movs	r1, #30
  80010a8:	2000      	movs	r0, #0
  80010aa:	f001 fd53 	bl	8002b54 <Set_Voltage>
 	  Set_Voltage(1, minimum_voltage);
- 80010ae:	2164      	movs	r1, #100	; 0x64
+ 80010ae:	211e      	movs	r1, #30
  80010b0:	2001      	movs	r0, #1
  80010b2:	f001 fd4f 	bl	8002b54 <Set_Voltage>
 	  Set_Voltage(2, minimum_voltage);
- 80010b6:	2164      	movs	r1, #100	; 0x64
+ 80010b6:	211e      	movs	r1, #30
  80010b8:	2002      	movs	r0, #2
  80010ba:	f001 fd4b 	bl	8002b54 <Set_Voltage>
 
@@ -5419,7 +5419,7 @@ void Set_PreReg_Voltage(uint8_t channel, uint16_t voltage)
  8002ab4:	d116      	bne.n	8002ae4 <Set_PreReg_Voltage+0x50>
 	if((voltage < minimum_voltage) && (voltage > maximum_voltage)) return;
  8002ab6:	88bb      	ldrh	r3, [r7, #4]
- 8002ab8:	2b63      	cmp	r3, #99	; 0x63
+ 8002ab8:	2b1d      	cmp	r3, #29
  8002aba:	d804      	bhi.n	8002ac6 <Set_PreReg_Voltage+0x32>
  8002abc:	88bb      	ldrh	r3, [r7, #4]
  8002abe:	f240 2226 	movw	r2, #550	; 0x226
@@ -5478,7 +5478,7 @@ void Set_OutReg_Voltage(uint8_t channel, uint16_t voltage)
  8002b10:	d119      	bne.n	8002b46 <Set_OutReg_Voltage+0x56>
 	if((voltage < minimum_voltage) && (voltage > maximum_voltage)) return;
  8002b12:	88bb      	ldrh	r3, [r7, #4]
- 8002b14:	2b63      	cmp	r3, #99	; 0x63
+ 8002b14:	2b1d      	cmp	r3, #29
  8002b16:	d804      	bhi.n	8002b22 <Set_OutReg_Voltage+0x32>
  8002b18:	88bb      	ldrh	r3, [r7, #4]
  8002b1a:	f240 2226 	movw	r2, #550	; 0x226
@@ -5541,7 +5541,7 @@ void Set_Voltage(uint8_t channel, uint16_t voltage)
  8002b74:	f040 80b6 	bne.w	8002ce4 <Set_Voltage+0x190>
 	if((voltage < minimum_voltage) || (voltage > maximum_voltage)) return;
  8002b78:	88bb      	ldrh	r3, [r7, #4]
- 8002b7a:	2b63      	cmp	r3, #99	; 0x63
+ 8002b7a:	2b1d      	cmp	r3, #29
  8002b7c:	f240 80b4 	bls.w	8002ce8 <Set_Voltage+0x194>
  8002b80:	88bb      	ldrh	r3, [r7, #4]
  8002b82:	f240 2226 	movw	r2, #550	; 0x226
@@ -5779,7 +5779,7 @@ void Set_VoltageInEnable(uint8_t channel)
  8002d12:	d11d      	bne.n	8002d50 <Set_VoltageInEnable+0x58>
 
 	uint16_t voltage = minimum_voltage;
- 8002d14:	2364      	movs	r3, #100	; 0x64
+ 8002d14:	231e      	movs	r3, #30
  8002d16:	81fb      	strh	r3, [r7, #14]
 
 	Set_OutReg_Voltage(channel, voltage);
@@ -7714,12 +7714,12 @@ void ParamsDefaultValues()
  80039c0:	20001ad4 	.word	0x20001ad4
  80039c4:	c0a80016 	.word	0xc0a80016
  80039c8:	c0a80001 	.word	0xc0a80001
- 80039cc:	3bb0a345 	.word	0x3bb0a345
+ 80039cc:	3bb1a468 	.word	0x3bb1a468
  80039d0:	3dc710cb 	.word	0x3dc710cb
- 80039d4:	3d824867 	.word	0x3d824867
+ 80039d4:	3d6cb0db 	.word	0x3d6cb0db
  80039d8:	3d7d8adb 	.word	0x3d7d8adb
- 80039dc:	43edaf19 	.word	0x43edaf19
- 80039e0:	44291abb 	.word	0x44291abb
+ 80039dc:	4408f759 	.word	0x4408f759
+ 80039e0:	4420b02d 	.word	0x4420b02d
 
 080039e4 <ParamsLoad>:
 
@@ -10779,9 +10779,9 @@ void MX_SPI3_Init(void)
  8004b6a:	4b0e      	ldr	r3, [pc, #56]	; (8004ba4 <MX_SPI3_Init+0x64>)
  8004b6c:	f44f 7200 	mov.w	r2, #512	; 0x200
  8004b70:	619a      	str	r2, [r3, #24]
-  hspi3.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_32;
+  hspi3.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_16;
  8004b72:	4b0c      	ldr	r3, [pc, #48]	; (8004ba4 <MX_SPI3_Init+0x64>)
- 8004b74:	2220      	movs	r2, #32
+ 8004b74:	2218      	movs	r2, #24
  8004b76:	61da      	str	r2, [r3, #28]
   hspi3.Init.FirstBit = SPI_FIRSTBIT_MSB;
  8004b78:	4b0a      	ldr	r3, [pc, #40]	; (8004ba4 <MX_SPI3_Init+0x64>)

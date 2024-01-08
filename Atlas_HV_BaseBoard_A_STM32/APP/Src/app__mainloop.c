@@ -55,6 +55,7 @@ void application_main()
 	  //_ControlOutputWithChannelEnable = true;
 
 
+
 	  Set_Voltage(0, minimum_voltage);
 	  Set_Voltage(1, minimum_voltage);
 	  Set_Voltage(2, minimum_voltage);

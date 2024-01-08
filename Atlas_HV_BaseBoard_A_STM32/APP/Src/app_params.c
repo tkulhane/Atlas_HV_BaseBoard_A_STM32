@@ -11,11 +11,11 @@
 #include "app_communication.h"
 
 
-#define Default_AdjCoef_k 475.3679441
-#define Default_AdjCoef_q 676.4176934
+#define Default_AdjCoef_k 547.8647847
+#define Default_AdjCoef_q 642.7527532
 
-#define Default_Meas_U_Coef_k 0.005390557
-#define Default_Meas_U_Coef_q 0.063614657
+#define Default_Meas_U_Coef_k 0.00542121
+#define Default_Meas_U_Coef_q 0.05778585
 
 #define Default_Meas_I_Coef_k 0.0972
 #define Default_Meas_I_Coef_q 0.0619

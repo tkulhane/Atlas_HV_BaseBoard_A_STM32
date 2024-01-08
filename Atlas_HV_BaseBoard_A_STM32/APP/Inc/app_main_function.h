@@ -17,7 +17,7 @@
 #include "app_usart_process.h"
 #include "app_communication.h"
 
-#define minimum_voltage 100
+#define minimum_voltage 30
 #define maximum_voltage 550
 
 #define delay_polarity 200
