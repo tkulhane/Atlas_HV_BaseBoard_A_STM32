@@ -10,9 +10,9 @@
 ../APP/Src/app_udp.c:115:6:W5500_WriteBuff	16	static
 ../APP/Src/app_udp.c:120:9:W5500_ReadByte	16	static
 ../APP/Src/app_udp.c:127:6:W5500_WriteByte	16	static
-../APP/Src/app_udp.c:137:6:ETH_SendSetting	8	static
-../APP/Src/app_udp.c:147:6:ETH_load_ip	16	static
-../APP/Src/app_udp.c:175:6:ETH_udp_Init	24	static
-../APP/Src/app_udp.c:215:6:ETH_udp_StoreEndpoint	4	static
-../APP/Src/app_udp.c:236:6:ETH_udp_Transmit	32	static
-../APP/Src/app_udp.c:274:6:ETH_udp_Receive	4128	static
+../APP/Src/app_udp.c:137:6:ETH_SendSetting	16	static
+../APP/Src/app_udp.c:158:6:ETH_load_ip	16	static
+../APP/Src/app_udp.c:186:6:ETH_udp_Init	24	static
+../APP/Src/app_udp.c:226:6:ETH_udp_StoreEndpoint	4	static
+../APP/Src/app_udp.c:247:6:ETH_udp_Transmit	32	static
+../APP/Src/app_udp.c:285:6:ETH_udp_Receive	4128	static

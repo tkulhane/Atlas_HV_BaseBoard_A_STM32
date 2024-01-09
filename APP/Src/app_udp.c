@@ -14,7 +14,7 @@ uint8_t  endpoint_ip[4];
 
 wiz_NetInfo myNetInfo =
 {
-    .mac  = { 0xEA, 0x11, 0x22, 0x33, 0x44, 0xEA },
+    .mac  = { 0xEA, 0x11, 0x22, 0x33, 0x44, 0xEB },
 	.ip = {192, 168, 0, 22},
 	.sn = {255, 255, 255, 0},
 	.gw = {192, 168, 0, 1},
@@ -136,9 +136,20 @@ void W5500_WriteByte(uint8_t byte)
  */
 void ETH_SendSetting()
 {
-	SendCommunication_u32(cmd_ip_get_myip, ETH_GetIP());
-	SendCommunication_u32(cmd_ip_get_mymask, ETH_GetNETMASK());
-	SendCommunication_u32(cmd_ip_get_mygatew, ETH_GetGATEWAY());
+	uint32_t x;
+
+	x = MainParams.sramOffset_IP_ADDRESS;
+	SendCommunication_u32(cmd_ip_get_myip, x);
+
+	x = MainParams.sramOffset_NETMASK_ADDRESS;
+	SendCommunication_u32(cmd_ip_get_mymask, x);
+
+	x = MainParams.sramOffset_GATEWAY_ADDRESS;
+	SendCommunication_u32(cmd_ip_get_mygatew, x);
+
+	//SendCommunication_u32(cmd_ip_get_myip, ETH_GetIP());
+	//SendCommunication_u32(cmd_ip_get_mymask, ETH_GetNETMASK());
+	//SendCommunication_u32(cmd_ip_get_mygatew, ETH_GetGATEWAY());
 }
 
 

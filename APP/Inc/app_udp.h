@@ -34,7 +34,7 @@
 
 #define UDP_SOCKET 3
 
-#define UDP_PORT 5005
+#define UDP_PORT 5006
 
 
 

@@ -43,7 +43,7 @@ void ParamsDefaultValues()
 	DefaultParams.sramOffset_StoreControl_0 = 0;
 	DefaultParams.sramOffset_StoreControl_1 = 0;
 
-	DefaultParams.sramOffset_IP_ADDRESS = ip_MAKEU32(192,168,0,22);
+	DefaultParams.sramOffset_IP_ADDRESS = ip_MAKEU32(192,168,0,23);
 	DefaultParams.sramOffset_NETMASK_ADDRESS = ip_MAKEU32(255,255,255,0);
 	DefaultParams.sramOffset_GATEWAY_ADDRESS = ip_MAKEU32(192,168,0,1);
 
