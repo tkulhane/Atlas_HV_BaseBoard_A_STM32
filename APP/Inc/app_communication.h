@@ -49,13 +49,21 @@ typedef enum
 	cmd_getsetting,
 	cmd_thats_all,
 	cmd_LED,
+
 	cmd_ip_store_endpoint,
+
+	cmd_ip_store_mac,
 	cmd_ip_store_myip,
 	cmd_ip_store_mymask,
 	cmd_ip_store_mygatew,
+	cmd_ip_store_UdpRecvPort,
+
+	cmd_ip_get_mac,
 	cmd_ip_get_myip,
 	cmd_ip_get_mymask,
 	cmd_ip_get_mygatew,
+	cmd_ip_get_UdpRecvPort,
+
 	cmd_ip_getsetting,
 	cmd_adc_set_k0,
 	cmd_adc_set_k1,

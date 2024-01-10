@@ -45,13 +45,21 @@ const char command_strings[][STRING_TABLE_SIZE] =
 	"getsetting",
 	"thatsall",
 	"LED",
+
 	"ip_store_endpoint",
+
+	"ip_store_mac",
 	"ip_store_myip",
 	"ip_store_mymask",
 	"ip_store_mygatew",
+	"cmd_ip_store_UdpRecvPort",
+
+	"ip_get_mac",
 	"ip_get_myip",
 	"ip_get_mymask",
 	"ip_get_mygatew",
+	"cmd_ip_get_UdpRecvPort",
+
 	"ip_getsetting",
 	"adc_set_k0",
 	"adc_set_k1",
@@ -152,13 +160,21 @@ eCommand_parse Command_parse[] =
 		cparse_non,	//cmd_getsetting,
 		cparse_int,	//cmd_thats_all,
 		cparse_int,	//cmd_LED,
+
 		cparse_u32t, //cmd_ip_store_endpoint,
+
+		cparse_u32t, //cmd_ip_store_mac
 		cparse_u32t, //cmd_ip_store_myip,
 		cparse_u32t, //cmd_ip_store_mymask,
 		cparse_u32t, //cmd_ip_store_mygatew,
+		cparse_u32t, //cmd_ip_store_UdpRecvPort
+
+		cparse_non, //cmd_ip_get_mac
 		cparse_non, //cmd_ip_get_myip,
 		cparse_non, //cmd_ip_get_mymask,
 		cparse_non, //cmd_ip_get_mygatew,
+		cparse_non, //cmd_ip_get_UdpRecvPort
+
 		cparse_non, //cmd_ip_getsetting,
 		cparse_float, //cmd_adc_set_k0,
 		cparse_float, //cmd_adc_set_k1,
@@ -248,7 +264,7 @@ void ProcessCommand(int command_id)
 			break;
 		case cmd_Connected:
 
-			if(_command_source == csource_ETH) ETH_udp_StoreEndpoint();
+			//if(_command_source == csource_ETH) ETH_udp_StoreEndpoint();
 			Comunication_ResetConnectedTimer();
 			SendCommunication(cmd_Connected,_command_value);
 			break;
@@ -322,7 +338,11 @@ void ProcessCommand(int command_id)
 			break;
 
 		case cmd_ip_store_endpoint:
-			ETH_udp_StoreEndpoint();
+			ETH_udp_StoreEndpoint(_u32_command_value);
+			break;
+
+		case cmd_ip_store_mac:
+			ETH_StoreMac(_u32_command_value);
 			break;
 
 		case cmd_ip_store_myip:
@@ -335,6 +355,10 @@ void ProcessCommand(int command_id)
 
 		case cmd_ip_store_mygatew:
 			ETH_StoreGATEWAY(_u32_command_value);
+			break;
+
+		case cmd_ip_store_UdpRecvPort:
+			ETH_Store_UdpRecPort(_u32_command_value);
 			break;
 
 		case cmd_ip_getsetting:

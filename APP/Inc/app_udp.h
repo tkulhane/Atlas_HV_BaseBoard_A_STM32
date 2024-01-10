@@ -34,7 +34,7 @@
 
 #define UDP_SOCKET 3
 
-#define UDP_PORT 5006
+#define UDP_PORT 5005
 
 
 
@@ -46,10 +46,11 @@
                                 (uint32_t)((d) & 0xff))
 
 
-
+void ETH_StoreMac(uint32_t mac);
 void ETH_StoreIP(uint32_t ip);
 void ETH_StoreNETMASK(uint32_t netmask);
 void ETH_StoreGATEWAY(uint32_t gateway);
+void ETH_Store_UdpRecPort(uint32_t port);
 uint32_t ETH_GetIP();
 uint32_t ETH_GetNETMASK();
 uint32_t ETH_GetGATEWAY();

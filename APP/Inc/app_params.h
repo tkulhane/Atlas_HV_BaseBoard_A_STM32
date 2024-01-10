@@ -19,9 +19,12 @@ typedef struct
 	uint32_t sramOffset_StoreControl_0;
 	uint32_t sramOffset_StoreControl_1;
 
+	uint32_t sramOffset_MAC_aadress;
 	uint32_t sramOffset_IP_ADDRESS;
 	uint32_t sramOffset_NETMASK_ADDRESS;
 	uint32_t sramOffset_GATEWAY_ADDRESS;
+	uint32_t sramOffset_UdpRecvPort;
+
 
 	uint32_t sramOffset_ReadCoef_k_0;
 	uint32_t sramOffset_ReadCoef_k_1;

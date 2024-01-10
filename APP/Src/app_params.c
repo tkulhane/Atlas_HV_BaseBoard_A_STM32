@@ -43,9 +43,11 @@ void ParamsDefaultValues()
 	DefaultParams.sramOffset_StoreControl_0 = 0;
 	DefaultParams.sramOffset_StoreControl_1 = 0;
 
+	DefaultParams.sramOffset_MAC_aadress = 0xE7;
 	DefaultParams.sramOffset_IP_ADDRESS = ip_MAKEU32(192,168,0,23);
 	DefaultParams.sramOffset_NETMASK_ADDRESS = ip_MAKEU32(255,255,255,0);
 	DefaultParams.sramOffset_GATEWAY_ADDRESS = ip_MAKEU32(192,168,0,1);
+	DefaultParams.sramOffset_UdpRecvPort = 5005;
 
 	DefaultParams.sramOffset_ReadCoef_k_0 = MakeUint32FromFloat(Default_Meas_U_Coef_k);
 	DefaultParams.sramOffset_ReadCoef_k_1 = MakeUint32FromFloat(Default_Meas_U_Coef_k);
@@ -133,10 +135,12 @@ void SetConfigData(int cfg, int value)
 
 void SendConfigData()
 {
+
 	SendCommunication(cmd_CfgGet_EnableErrorExecute, MainParams.sramOffset_EnableErrorExecute);
 	SendCommunication(cmd_CfgGet_DisableInConnLost, MainParams.sramOffset_DisableSupplyInLostConnection);
 	SendCommunication(cmd_CfgGet_CtrlOutWithChEnable, MainParams.sramOffset_ControlOutputWithChannelEnable);
 	SendCommunication(cmd_CfgGet_ErrorExecuteAutoRestart, MainParams.sramOffset_ErrorExecuteAutoRestore);
+
 }
 
 

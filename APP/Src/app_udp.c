@@ -11,6 +11,7 @@
 
 uint8_t  last_message_ip[4];
 uint8_t  endpoint_ip[4];
+uint32_t	endpoint_port;
 
 wiz_NetInfo myNetInfo =
 {
@@ -28,6 +29,10 @@ wiz_NetInfo myNetInfo =
 //struct udp_pcb * udp_pcb;
 
 
+void ETH_StoreMac(uint32_t mac)
+{
+	MainParams.sramOffset_MAC_aadress = mac;
+}
 
 /* @brief store device ip address to sram
  *
@@ -57,6 +62,11 @@ void ETH_StoreNETMASK(uint32_t netmask)
 void ETH_StoreGATEWAY(uint32_t gateway)
 {
 	MainParams.sramOffset_GATEWAY_ADDRESS = gateway;
+}
+
+void ETH_Store_UdpRecPort(uint32_t port)
+{
+	MainParams.sramOffset_UdpRecvPort = port;
 }
 
 /* @brief get ip address from sram
@@ -138,6 +148,8 @@ void ETH_SendSetting()
 {
 	uint32_t x;
 
+	SendCommunication(cmd_ip_get_mac, MainParams.sramOffset_MAC_aadress);
+
 	x = MainParams.sramOffset_IP_ADDRESS;
 	SendCommunication_u32(cmd_ip_get_myip, x);
 
@@ -146,6 +158,8 @@ void ETH_SendSetting()
 
 	x = MainParams.sramOffset_GATEWAY_ADDRESS;
 	SendCommunication_u32(cmd_ip_get_mygatew, x);
+
+	SendCommunication(cmd_ip_get_UdpRecvPort, MainParams.sramOffset_UdpRecvPort);
 
 	//SendCommunication_u32(cmd_ip_get_myip, ETH_GetIP());
 	//SendCommunication_u32(cmd_ip_get_mymask, ETH_GetNETMASK());
@@ -158,6 +172,8 @@ void ETH_SendSetting()
 void ETH_load_ip()
 {
 	uint32_t x;
+
+		myNetInfo.mac[5] = MainParams.sramOffset_MAC_aadress;
 
 		x = MainParams.sramOffset_IP_ADDRESS;
 		myNetInfo.ip[0] = ip_GET8(x,0);
@@ -223,7 +239,7 @@ void ETH_udp_Init()
  *
  *
  */
-void ETH_udp_StoreEndpoint()
+void ETH_udp_StoreEndpoint(uint32_t port)
 {
 	//---------endpoint_ip = last_message_ip;
 	//---------udp_connect(udp_pcb, &endpoint_ip, UDP_PORT);
@@ -234,6 +250,8 @@ void ETH_udp_StoreEndpoint()
 	endpoint_ip[1] = last_message_ip[1];
 	endpoint_ip[2] = last_message_ip[2];
 	endpoint_ip[3] = last_message_ip[3];
+
+	endpoint_port = port;
 
 }
 
@@ -262,7 +280,7 @@ void ETH_udp_Transmit(uint8_t *pData, uint16_t Size)
     //while(!(sentsize >= Size))
     //{
 
-    	ret = sendto(UDP_SOCKET, pData, Size, endpoint_ip, UDP_PORT);
+    	ret = sendto(UDP_SOCKET, pData, Size, endpoint_ip, endpoint_port);
     	//ret = sendto(UDP_SOCKET, pData+sentsize, Size-sentsize, endpoint_ip, UDP_PORT);
 
     	//char buff[256];
