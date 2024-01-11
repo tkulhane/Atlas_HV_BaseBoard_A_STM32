@@ -260,8 +260,9 @@ void ProcessCommand(int command_id)
 	switch(command_id)
 	{
 		case cmd_NON:
-
+			GetDiff();
 			break;
+
 		case cmd_Connected:
 
 			//if(_command_source == csource_ETH) ETH_udp_StoreEndpoint();
@@ -793,7 +794,7 @@ void SendCommunication(eCommand_Id command_id, int data)
  */
 void SendCommunication_float(eCommand_Id command_id, float data)
 {
-	char sprint_buffer[100];
+	char sprint_buffer[1024];
 	uint8_t size = 0;
 
 	if(_command_form == cform_full)

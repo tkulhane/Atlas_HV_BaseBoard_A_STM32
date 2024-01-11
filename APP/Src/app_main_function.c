@@ -23,6 +23,10 @@
 ChannelStatusStruct ChannelsStatus[3];
 ChannelChangeStruct ChannelsChange[3];
 
+float diff[3];
+float addSetVoltage[3];
+bool adaptiveVoltRequest[3];
+
 //bool MainParams.sramOffset_ControlOutputWithChannelEnable;
 
 /* @brief get K coeficient for DAC
@@ -104,6 +108,27 @@ uint16_t Get_DACValue(int dac_channel, uint16_t value)
 	return code;
 }
 
+uint16_t Get_DACValue_F(int dac_channel, float value)
+{
+	uint16_t code;
+
+
+	if(dac_channel == 0 || dac_channel == 1 || dac_channel == 2)
+	{
+		code = (uint16_t)(((PreReg_Coef_q - (float)value) / PreReg_Coef_k) * (float)DAC_coef);
+	}
+	else
+	{
+		float coef_k = GetDacCoef_k(dac_channel - 3);
+		float coef_q = GetDacCoef_q(dac_channel - 3);
+
+		code = (uint16_t)((((float)coef_q - (float)value) / coef_k) * (float)DAC_coef);
+	}
+
+
+	return code;
+}
+
 /* @brief Setting pre regulator output voltage
  *
  * @param channel -> Channel of power supply (0,1,2)
@@ -134,6 +159,15 @@ void Set_OutReg_Voltage(uint8_t channel, uint16_t voltage)
 	SendValueToDAC(channel + 3, value);
 }
 
+void Set_OutReg_Voltage_F(uint8_t channel, float voltage)
+{
+	if(!(channel == 0 || channel == 1 || channel == 2)) return;
+	if((voltage < minimum_voltage) && (voltage > maximum_voltage)) return;
+
+	uint16_t value = Get_DACValue_F(channel + 3, voltage);
+	SendValueToDAC(channel + 3, value);
+}
+
 /* @brief Setting voltage on pre and output regulator, call Set_PreReg_Voltage and Set_OutReg_Voltage function
  *        and voltage ramping at large difference
  *
@@ -147,6 +181,8 @@ void Set_Voltage(uint8_t channel, uint16_t voltage)
 	if((voltage < minimum_voltage) || (voltage > maximum_voltage)) return;
 
 	ChannelsChange[channel].request_voltage = voltage; //store request voltage
+
+	adaptiveVoltRequest[channel] = true;
 
 	if(abs(voltage - ChannelsStatus[channel].set_voltage) > ramp_v_step) //voltage ramping if difference is bigger that voltage ramp step
 	{
@@ -573,4 +609,62 @@ void System_Reset()
 	SCB->AIRCR  = ((0x5FAUL << SCB_AIRCR_VECTKEY_Pos) | (SCB_AIRCR_SYSRESETREQ_Msk));
 	__DSB();
 	while(1);
+}
+
+
+
+void AdaptiveVoltageTune(int channel)
+{
+	if(ChannelsChange[channel].voltage_ramp == true || ChannelsStatus[channel].enable == false)
+	{
+		addSetVoltage[channel] = 0;
+		return;
+	}
+
+
+	float measVoltage = ChannelsStatus[channel].voltage_measurement;
+	uint16_t setVoltage = ChannelsStatus[channel].set_voltage;
+
+	diff[channel] = measVoltage - (float)setVoltage;
+
+	if(abs(diff[channel] > 2))
+	{
+		adaptiveVoltRequest[channel] = true;
+	}
+
+	if(adaptiveVoltRequest[channel] == false) return;
+
+	if(diff[channel] > 0.50)
+	{
+		addSetVoltage[channel] -= 0.2;
+
+		uint16_t voltage = setVoltage + addSetVoltage[channel];
+
+		Set_OutReg_Voltage(channel, voltage);
+		Set_PreReg_Voltage(channel, Get_PreRegulatorVoltage(voltage));
+	}
+	if(diff[channel] < -0.50)
+	{
+		addSetVoltage[channel] += 0.2;
+
+		float voltage = setVoltage + addSetVoltage[channel];
+
+		Set_OutReg_Voltage_F(channel, voltage);
+		Set_PreReg_Voltage(channel, Get_PreRegulatorVoltage(voltage));
+	}
+	else
+	{
+		adaptiveVoltRequest[channel] = false;
+	}
+
+
+}
+
+void GetDiff()
+{
+	SendCommunication_float(cmd_NON, diff[0]);
+	SendCommunication_float(cmd_NON, addSetVoltage[0]);
+
+	float voltage = ChannelsStatus[0].set_voltage + addSetVoltage[0];
+	SendCommunication_float(cmd_NON, voltage);
 }

@@ -54,6 +54,7 @@ void application_main()
 
 	  //_ControlOutputWithChannelEnable = true;
 
+	  uint32_t timer;
 
 
 	  Set_Voltage(0, minimum_voltage);
@@ -112,6 +113,15 @@ void application_main()
 		  //connection control
 		  Communication_ConnectedTimer();
 		  AppConnectedExecute(_AppConnected);
+
+
+		  if((HAL_GetTick() - timer) > 200)
+		  {
+			  timer = HAL_GetTick();
+			  AdaptiveVoltageTune(0);
+			  AdaptiveVoltageTune(1);
+			  AdaptiveVoltageTune(2);
+		  }
 
 
 
