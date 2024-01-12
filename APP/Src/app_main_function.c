@@ -27,6 +27,9 @@ float diff[3];
 float addSetVoltage[3];
 bool adaptiveVoltRequest[3];
 
+float RegIntegrated[3];
+float RegVoltage[3];
+
 //bool MainParams.sramOffset_ControlOutputWithChannelEnable;
 
 /* @brief get K coeficient for DAC
@@ -182,7 +185,7 @@ void Set_Voltage(uint8_t channel, uint16_t voltage)
 
 	ChannelsChange[channel].request_voltage = voltage; //store request voltage
 
-	adaptiveVoltRequest[channel] = true;
+	adaptiveVoltRequest[channel] = false;
 
 	if(abs(voltage - ChannelsStatus[channel].set_voltage) > ramp_v_step) //voltage ramping if difference is bigger that voltage ramp step
 	{
@@ -212,7 +215,11 @@ void Set_Voltage(uint8_t channel, uint16_t voltage)
 		ChannelsStatus[channel].set_voltage = voltage;
 		Set_OutReg_Voltage(channel, voltage);
 		Set_PreReg_Voltage(channel, Get_PreRegulatorVoltage(voltage));
+
+		ChannelsChange[channel].regStart_timer = HAL_GetTick();
+		ChannelsChange[channel].regStart_req = true;
 	}
+
 
 }
 
@@ -269,6 +276,9 @@ void Set_Voltage_From_Ramping(uint8_t channel)
 
 		Set_OutReg_Voltage(channel, ChannelsStatus[channel].set_voltage);
 		Set_PreReg_Voltage(channel, Get_PreRegulatorVoltage(ChannelsStatus[channel].set_voltage));
+
+		ChannelsChange[channel].regStart_timer = HAL_GetTick();
+		ChannelsChange[channel].regStart_req = true;
 	}
 
 }
@@ -309,6 +319,7 @@ void Channel_Enable(uint8_t channel, bool enable)
 		ChannelsStatus[channel].enable = false;
 		ChannelsChange[channel].restart_request = false;
 		Enable_GPIO(channel, false);
+		adaptiveVoltRequest[channel] = false;
 	}
 
 
@@ -490,6 +501,15 @@ void ChannelControl(uint8_t channel)
 		}
 	}
 
+	if(ChannelsChange[channel].regStart_req)
+	{
+		if((HAL_GetTick()-ChannelsChange[channel].regStart_timer) >= regStart_Time)
+		{
+			ChannelsChange[channel].regStart_req = false;
+			voltageRegulatorStart(channel);
+		}
+	}
+
 }
 
 /* @brief Send by communication measured channel voltage from Channel status struct
@@ -613,11 +633,19 @@ void System_Reset()
 
 
 
+void voltageRegulatorStart(int channel)
+{
+	addSetVoltage[channel] = 0;
+
+	RegVoltage[channel] = ChannelsChange[channel].request_voltage;
+	RegIntegrated[channel] = 0;
+	adaptiveVoltRequest[channel] = true;
+}
+
 void AdaptiveVoltageTune(int channel)
 {
 	if(ChannelsChange[channel].voltage_ramp == true || ChannelsStatus[channel].enable == false)
 	{
-		addSetVoltage[channel] = 0;
 		return;
 	}
 
@@ -636,7 +664,7 @@ void AdaptiveVoltageTune(int channel)
 
 	if(diff[channel] > 0.50)
 	{
-		addSetVoltage[channel] -= 0.2;
+		addSetVoltage[channel] -= 0.25;
 
 		uint16_t voltage = setVoltage + addSetVoltage[channel];
 
@@ -645,7 +673,7 @@ void AdaptiveVoltageTune(int channel)
 	}
 	if(diff[channel] < -0.50)
 	{
-		addSetVoltage[channel] += 0.2;
+		addSetVoltage[channel] += 0.25;
 
 		float voltage = setVoltage + addSetVoltage[channel];
 
@@ -660,11 +688,51 @@ void AdaptiveVoltageTune(int channel)
 
 }
 
+
+
+
+
+
+void voltageRegulator(int channel)
+{
+	if(ChannelsChange[channel].voltage_ramp == true || ChannelsStatus[channel].enable == false)
+	{
+		return;
+	}
+
+
+	float measVoltage = ChannelsStatus[channel].voltage_measurement;
+	uint16_t setVoltage = ChannelsChange[channel].request_voltage;
+
+	float error =  (float)setVoltage - measVoltage;
+
+	if(abs(error) < 0.5)
+	{
+		adaptiveVoltRequest[channel] = false;
+	}
+	else if(abs(error) > 3)
+	{
+		adaptiveVoltRequest[channel] = true;
+	}
+
+
+	if(adaptiveVoltRequest[channel] == false) return;
+
+	RegIntegrated[channel] += error;
+
+	RegVoltage[channel] = RegVoltage[channel] + 0.02*error + 0.0001*RegIntegrated[channel];
+
+	Set_OutReg_Voltage_F(channel, RegVoltage[channel]);
+	Set_PreReg_Voltage(channel, Get_PreRegulatorVoltage(RegVoltage[channel]));
+
+}
+
 void GetDiff()
 {
-	SendCommunication_float(cmd_NON, diff[0]);
-	SendCommunication_float(cmd_NON, addSetVoltage[0]);
+	SendCommunication_float(cmd_NON, RegVoltage[0]);
+	SendCommunication(cmd_NON, adaptiveVoltRequest[0]);
+	//SendCommunication_float(cmd_NON, addSetVoltage[0]);
 
-	float voltage = ChannelsStatus[0].set_voltage + addSetVoltage[0];
-	SendCommunication_float(cmd_NON, voltage);
+	//float voltage = ChannelsStatus[0].set_voltage + addSetVoltage[0];
+	//SendCommunication_float(cmd_NON, voltage);
 }

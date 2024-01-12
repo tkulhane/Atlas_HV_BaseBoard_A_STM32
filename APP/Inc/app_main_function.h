@@ -29,6 +29,8 @@
 #define ramp_v_step 5
 #define ramp_t_step 50
 
+#define regStart_Time 500
+
 
 
 typedef enum
@@ -58,12 +60,14 @@ typedef struct
 	bool enable_request;
 	bool polarity_request;
 	bool restart_request;
+	bool regStart_req;
 
 	uint32_t voltage_ramp_timer;
 	uint32_t enable_timer;
 	uint32_t polarity_timer;
 	uint32_t restart_timer;
 	uint8_t restarts_counter;
+	uint32_t regStart_timer;
 
 	uint16_t request_voltage;
 	uint16_t voltageBeforeEnable;
@@ -101,5 +105,7 @@ void Set_OutReg_Voltage(uint8_t channel, uint16_t voltage);
 void System_Reset();
 
 void AdaptiveVoltageTune(int channel);
+void voltageRegulatorStart(int channel);
+void voltageRegulator(int channel);
 
 #endif /* INC_APP_MAIN_FUNCTION_H_ */

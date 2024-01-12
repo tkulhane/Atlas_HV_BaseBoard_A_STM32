@@ -115,12 +115,14 @@ void application_main()
 		  AppConnectedExecute(_AppConnected);
 
 
-		  if((HAL_GetTick() - timer) > 200)
+		  if((HAL_GetTick() - timer) > 50)
 		  {
 			  timer = HAL_GetTick();
-			  AdaptiveVoltageTune(0);
-			  AdaptiveVoltageTune(1);
-			  AdaptiveVoltageTune(2);
+			  //AdaptiveVoltageTune(0);
+			  //AdaptiveVoltageTune(1);
+			  //AdaptiveVoltageTune(2);
+
+			  //voltageRegulator(0);
 		  }
 
 

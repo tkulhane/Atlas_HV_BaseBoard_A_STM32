@@ -167,6 +167,9 @@ void ADCStore()
 			*p_ADC_data[i] = CalcAdcValue(i,avg[i]); //calculate value(voltage or current and saved on selected addresses)
 		}
 
+		//voltageRegulator(0);
+		//AdaptiveVoltageTune(0);
+
 	}
 }
 
