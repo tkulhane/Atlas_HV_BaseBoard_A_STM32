@@ -118,11 +118,14 @@ void application_main()
 		  if((HAL_GetTick() - timer) > 50)
 		  {
 			  timer = HAL_GetTick();
-			  AdaptiveVoltageTune(0);
-			  //AdaptiveVoltageTune(1);
-			  //AdaptiveVoltageTune(2);
 
-			  //voltageRegulator(0);
+			  if(MainParams.EnableAdaptiveVoltageTune)
+			  {
+				  AdaptiveVoltageTune(0);
+				  AdaptiveVoltageTune(1);
+				  AdaptiveVoltageTune(2);
+			  }
+
 		  }
 
 

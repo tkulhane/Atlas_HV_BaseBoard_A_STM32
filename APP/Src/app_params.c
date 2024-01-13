@@ -76,6 +76,10 @@ void ParamsDefaultValues()
 	DefaultParams.DisableSupplyInLostConnection = 0;
 	DefaultParams.ControlOutputWithChannelEnable = 1;
 	DefaultParams.ErrorExecuteAutoRestore = 1;
+	DefaultParams.EnableAdaptiveVoltageTune = 0;
+
+	DefaultParams.VoltageRamp_VoltStep = 5;
+	DefaultParams.VoltageRamp_TimeStep = 100;
 
 
 }
@@ -137,12 +141,11 @@ void SetConfigData(int cfg, int value)
 
 void SendConfigData()
 {
-
 	SendCommunication(cmd_CfgGet_EnableErrorExecute, MainParams.EnableErrorExecute);
 	SendCommunication(cmd_CfgGet_DisableInConnLost, MainParams.DisableSupplyInLostConnection);
 	SendCommunication(cmd_CfgGet_CtrlOutWithChEnable, MainParams.ControlOutputWithChannelEnable);
 	SendCommunication(cmd_CfgGet_ErrorExecuteAutoRestart, MainParams.ErrorExecuteAutoRestore);
-
+	SendCommunication(cmd_CfgGet_EnableAdaptiveVoltTune, MainParams.EnableAdaptiveVoltageTune);
 }
 
 

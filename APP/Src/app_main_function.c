@@ -633,6 +633,12 @@ void System_Reset()
 
 void AdaptiveVoltageTune_Start(int channel)
 {
+	if(MainParams.EnableAdaptiveVoltageTune == false)
+	{
+		adaptiveVoltRequest[channel] = false;
+		return;
+	}
+
 	addSetVoltage[channel] = 0;
 	adaptiveVoltRequest[channel] = true;
 }
@@ -685,13 +691,3 @@ void AdaptiveVoltageTune(int channel)
 
 
 
-
-void GetDiff()
-{
-	//SendCommunication_float(cmd_NON, RegVoltage[0]);
-	SendCommunication(cmd_NON, adaptiveVoltRequest[0]);
-	SendCommunication_float(cmd_NON, addSetVoltage[0]);
-
-	//float voltage = ChannelsStatus[0].set_voltage + addSetVoltage[0];
-	//SendCommunication_float(cmd_NON, voltage);
-}

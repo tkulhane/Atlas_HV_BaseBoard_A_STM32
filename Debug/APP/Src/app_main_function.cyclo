@@ -24,6 +24,5 @@ app_main_function.c:558:6:Get_AllMeasurement	1
 app_main_function.c:574:6:Get_Setting	1
 app_main_function.c:599:6:Get_State_err	4
 app_main_function.c:624:6:System_Reset	1
-app_main_function.c:634:6:AdaptiveVoltageTune_Start	1
-app_main_function.c:640:6:AdaptiveVoltageTune	7
-app_main_function.c:689:6:GetDiff	1
+app_main_function.c:634:6:AdaptiveVoltageTune_Start	2
+app_main_function.c:646:6:AdaptiveVoltageTune	7

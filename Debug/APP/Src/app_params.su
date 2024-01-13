@@ -1,7 +1,7 @@
 ../APP/Src/app_params.c:30:10:MakeUint32FromFloat	24	static
 ../APP/Src/app_params.c:40:6:ParamsDefaultValues	8	static
-../APP/Src/app_params.c:84:6:ParamsLoad	184	static
-../APP/Src/app_params.c:112:6:ParamsStore	168	static
-../APP/Src/app_params.c:120:6:RestoreParamsDefault	168	static
-../APP/Src/app_params.c:129:6:SetConfigData	24	static
-../APP/Src/app_params.c:138:6:SendConfigData	8	static
+../APP/Src/app_params.c:88:6:ParamsLoad	184	static
+../APP/Src/app_params.c:116:6:ParamsStore	168	static
+../APP/Src/app_params.c:124:6:RestoreParamsDefault	168	static
+../APP/Src/app_params.c:133:6:SetConfigData	24	static
+../APP/Src/app_params.c:142:6:SendConfigData	8	static

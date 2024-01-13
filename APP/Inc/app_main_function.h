@@ -105,7 +105,6 @@ void Set_OutReg_Voltage(uint8_t channel, uint16_t voltage);
 void System_Reset();
 
 void AdaptiveVoltageTune_Start(int channel);
-void AdaptiveVoltageTune(int channel);
 
 
 #endif /* INC_APP_MAIN_FUNCTION_H_ */

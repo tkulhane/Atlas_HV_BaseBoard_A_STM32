@@ -117,13 +117,21 @@ const char command_strings[][STRING_TABLE_SIZE] =
 	"CfgSet_DisableInConnLost",
 	"CfgSet_CtrlOutWithChEnable",
 	"CfgSet_ErrorExecuteAutoRestart",
+	"CfgSet_EnableAdaptiveVoltTune",
 
 	"CfgGet_EnableErrorExecute",
 	"CfgGet_DisableInConnLost",
 	"CfgGet_CtrlOutWithChEnable",
 	"CfgGet_ErrorExecuteAutoRestart",
+	"CfgGet_EnableAdaptiveVoltTune",
 
 	"Cfg_Get",
+
+	"voltRamp_set_volt",
+	"voltRamp_set_time",
+	"voltRamp_get_volt",
+	"voltRamp_get_time",
+	"voltRamp_get_setting",
 
 	"params_store",
 	"params_default",
@@ -235,11 +243,13 @@ eCommand_parse Command_parse[] =
 		cparse_int,//cmd_CfgSet_DisableInConnLost,
 		cparse_int,//cmd_CfgSet_CtrlOutWithChEnable,
 		cparse_int,//cmd_CfgSet_ErrorExecuteAutoRestart
+		cparse_int,//cmd_CfgSet_EnableAdaptiveVoltTune
 
 		cparse_non,//cmd_CfgGet_EnableErrorExecute
 		cparse_non,//cmd_CfgGet_DisableInConnLost
 		cparse_non,//cmd_CfgGet_CtrlOutWithChEnable
 		cparse_non,//cmd_CfgGet_ErrorExecuteAutoRestart,
+		cparse_non,//cmdCfgGet_EnableAdaptiveVoltTune,
 
 		cparse_non,//cmd_Cfg_Get,
 
@@ -496,6 +506,10 @@ void ProcessCommand(int command_id)
 
 		case cmd_CfgSet_ErrorExecuteAutoRestart:
 			SetConfigData(3, _command_value);
+			break;
+
+		case cmd_CfgSet_EnableAdaptiveVoltTune:
+			SetConfigData(4, _command_value);
 			break;
 
 		case cmd_Cfg_Get:

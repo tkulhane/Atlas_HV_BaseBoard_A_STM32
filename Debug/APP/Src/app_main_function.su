@@ -25,5 +25,4 @@
 ../APP/Src/app_main_function.c:599:6:Get_State_err	16	static
 ../APP/Src/app_main_function.c:624:6:System_Reset	4	static,ignoring_inline_asm
 ../APP/Src/app_main_function.c:634:6:AdaptiveVoltageTune_Start	16	static
-../APP/Src/app_main_function.c:640:6:AdaptiveVoltageTune	40	static
-../APP/Src/app_main_function.c:689:6:GetDiff	8	static
+../APP/Src/app_main_function.c:646:6:AdaptiveVoltageTune	40	static

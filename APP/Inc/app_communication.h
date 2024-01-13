@@ -121,12 +121,21 @@ typedef enum
 	cmd_CfgSet_DisableInConnLost,
 	cmd_CfgSet_CtrlOutWithChEnable,
 	cmd_CfgSet_ErrorExecuteAutoRestart,
+	cmd_CfgSet_EnableAdaptiveVoltTune,
 
 	cmd_CfgGet_EnableErrorExecute,
 	cmd_CfgGet_DisableInConnLost,
 	cmd_CfgGet_CtrlOutWithChEnable,
 	cmd_CfgGet_ErrorExecuteAutoRestart,
+	cmd_CfgGet_EnableAdaptiveVoltTune,
+
 	cmd_Cfg_Get,
+
+	cmd_voltRamp_set_volt,
+	cmd_voltRamp_set_time,
+	cmd_voltRamp_get_volt,
+	cmd_voltRamp_get_time,
+	cmd_voltRamp_get_setting,
 
 	cmd_params_store,
 	cmd_params_default,
