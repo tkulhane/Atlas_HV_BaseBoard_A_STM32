@@ -46,7 +46,16 @@
                                 (uint32_t)((d) & 0xff))
 
 
-void ETH_StoreMac(uint32_t mac);
+
+#define mac_GET8(mac,byte_position) ((uint8_t)((mac >> ((2-byte_position) * 8)) & 0xff))
+#define mac_MAKEU32(a,b,c) (((uint32_t)(0x00) << 24) | \
+                               ((uint32_t)((a) & 0xff) << 16) | \
+                               ((uint32_t)((b) & 0xff) << 8)  | \
+                                (uint32_t)((c) & 0xff))
+
+
+void ETH_StoreMac_1(uint32_t mac);
+void ETH_StoreMac_2(uint32_t mac);
 void ETH_StoreIP(uint32_t ip);
 void ETH_StoreNETMASK(uint32_t netmask);
 void ETH_StoreGATEWAY(uint32_t gateway);

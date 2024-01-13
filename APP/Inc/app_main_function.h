@@ -27,7 +27,7 @@
 #define max_restart_count 3
 
 #define ramp_v_step 5
-#define ramp_t_step 50
+#define ramp_t_step 100
 
 #define regStart_Time 500
 
@@ -104,8 +104,8 @@ void Set_OutReg_Voltage(uint8_t channel, uint16_t voltage);
 
 void System_Reset();
 
+void AdaptiveVoltageTune_Start(int channel);
 void AdaptiveVoltageTune(int channel);
-void voltageRegulatorStart(int channel);
-void voltageRegulator(int channel);
+
 
 #endif /* INC_APP_MAIN_FUNCTION_H_ */

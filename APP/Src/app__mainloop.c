@@ -72,7 +72,7 @@ void application_main()
 		  ErrorSignalTime();
 
 		  //errors
-		  if(_Found_Error && MainParams.sramOffset_EnableErrorExecute)
+		  if(_Found_Error && MainParams.EnableErrorExecute)
 		  //if(_Found_Error)
 		  {
 			  ErrorExecute(0);
@@ -118,7 +118,7 @@ void application_main()
 		  if((HAL_GetTick() - timer) > 50)
 		  {
 			  timer = HAL_GetTick();
-			  //AdaptiveVoltageTune(0);
+			  AdaptiveVoltageTune(0);
 			  //AdaptiveVoltageTune(1);
 			  //AdaptiveVoltageTune(2);
 

@@ -23,14 +23,12 @@
 ChannelStatusStruct ChannelsStatus[3];
 ChannelChangeStruct ChannelsChange[3];
 
-float diff[3];
+float AdaptiveDiff[3];
 float addSetVoltage[3];
 bool adaptiveVoltRequest[3];
 
-float RegIntegrated[3];
-float RegVoltage[3];
 
-//bool MainParams.sramOffset_ControlOutputWithChannelEnable;
+//bool MainParams.ControlOutputWithChannelEnable;
 
 /* @brief get K coeficient for DAC
  *
@@ -38,7 +36,7 @@ float RegVoltage[3];
  */
 float GetDacCoef_k(int channel)
 {
-	float *addr = ((float *)&MainParams.sramOffset_AdjCoef_k_ch0) + channel;
+	float *addr = ((float *)&MainParams.AdjCoef_k_ch0) + channel;
 	return *addr;
 }
 
@@ -48,7 +46,7 @@ float GetDacCoef_k(int channel)
  */
 float GetDacCoef_q(int channel)
 {
-	float *addr = ((float *)&MainParams.sramOffset_AdjCoef_q_ch0) + channel;
+	float *addr = ((float *)&MainParams.AdjCoef_q_ch0) + channel;
 	return *addr;
 }
 
@@ -61,7 +59,7 @@ float GetDacCoef_q(int channel)
  */
 void StoreDACConstant(uint8_t coef, float value)
 {
-	float *addr = ((float *)&MainParams.sramOffset_AdjCoef_k_ch0) + coef;//  + (4 * channel);
+	float *addr = ((float *)&MainParams.AdjCoef_k_ch0) + coef;//  + (4 * channel);
 	*addr = value;
 }
 
@@ -323,7 +321,7 @@ void Channel_Enable(uint8_t channel, bool enable)
 	}
 
 
-	if(MainParams.sramOffset_ControlOutputWithChannelEnable) //je aktivni funkce ovladani vystupu s eneble
+	if(MainParams.ControlOutputWithChannelEnable) //je aktivni funkce ovladani vystupu s eneble
 	{
 		if(enable)
 		{
@@ -383,7 +381,7 @@ void Channel_Enable_fromRestart(uint8_t channel)
 
 	Channel_Output(channel, true);
 
-	if(MainParams.sramOffset_ControlOutputWithChannelEnable) //je aktivni funkce ovladani vystupu s eneble
+	if(MainParams.ControlOutputWithChannelEnable) //je aktivni funkce ovladani vystupu s eneble
 	{
 		Channel_Output(channel, true);
 	}
@@ -403,7 +401,7 @@ void Channel_Polarity(uint8_t channel, eOutputPolarity polarity)
 	if(!(channel == 0 || channel == 1 || channel == 2)) return;
 	if(polarity == ChannelsStatus[channel].polarity) return;
 
-	if(MainParams.sramOffset_ControlOutputWithChannelEnable && ChannelsStatus[channel].enable) return; // polarita nejde prepnout, kdyz je kanál zapnutý
+	if(MainParams.ControlOutputWithChannelEnable && ChannelsStatus[channel].enable) return; // polarita nejde prepnout, kdyz je kanál zapnutý
 
 
 	if(ChannelsChange[channel].polarity_request) return;
@@ -425,7 +423,7 @@ void Channel_Polarity(uint8_t channel, eOutputPolarity polarity)
 void Channel_Output(uint8_t channel, bool output)
 {
 
-	if(MainParams.sramOffset_ControlOutputWithChannelEnable && ChannelsStatus[channel].enable && !ChannelsChange[channel].enable_request && output) return; // vystup nejde zapnout, kdyz je kanál zapnutý
+	if(MainParams.ControlOutputWithChannelEnable && ChannelsStatus[channel].enable && !ChannelsChange[channel].enable_request && output) return; // vystup nejde zapnout, kdyz je kanál zapnutý
 
 	ChannelsStatus[channel].output = output;
 
@@ -506,7 +504,7 @@ void ChannelControl(uint8_t channel)
 		if((HAL_GetTick()-ChannelsChange[channel].regStart_timer) >= regStart_Time)
 		{
 			ChannelsChange[channel].regStart_req = false;
-			voltageRegulatorStart(channel);
+			AdaptiveVoltageTune_Start(channel);
 		}
 	}
 
@@ -633,12 +631,9 @@ void System_Reset()
 
 
 
-void voltageRegulatorStart(int channel)
+void AdaptiveVoltageTune_Start(int channel)
 {
 	addSetVoltage[channel] = 0;
-
-	RegVoltage[channel] = ChannelsChange[channel].request_voltage;
-	RegIntegrated[channel] = 0;
 	adaptiveVoltRequest[channel] = true;
 }
 
@@ -653,16 +648,16 @@ void AdaptiveVoltageTune(int channel)
 	float measVoltage = ChannelsStatus[channel].voltage_measurement;
 	uint16_t setVoltage = ChannelsStatus[channel].set_voltage;
 
-	diff[channel] = measVoltage - (float)setVoltage;
+	AdaptiveDiff[channel] = measVoltage - (float)setVoltage;
 
-	if(abs(diff[channel] > 2))
+	if(abs(AdaptiveDiff[channel] > 2))
 	{
 		adaptiveVoltRequest[channel] = true;
 	}
 
 	if(adaptiveVoltRequest[channel] == false) return;
 
-	if(diff[channel] > 0.50)
+	if(AdaptiveDiff[channel] > 0.50)
 	{
 		addSetVoltage[channel] -= 0.25;
 
@@ -671,7 +666,7 @@ void AdaptiveVoltageTune(int channel)
 		Set_OutReg_Voltage(channel, voltage);
 		Set_PreReg_Voltage(channel, Get_PreRegulatorVoltage(voltage));
 	}
-	if(diff[channel] < -0.50)
+	if(AdaptiveDiff[channel] < -0.50)
 	{
 		addSetVoltage[channel] += 0.25;
 
@@ -691,47 +686,11 @@ void AdaptiveVoltageTune(int channel)
 
 
 
-
-
-void voltageRegulator(int channel)
-{
-	if(ChannelsChange[channel].voltage_ramp == true || ChannelsStatus[channel].enable == false)
-	{
-		return;
-	}
-
-
-	float measVoltage = ChannelsStatus[channel].voltage_measurement;
-	uint16_t setVoltage = ChannelsChange[channel].request_voltage;
-
-	float error =  (float)setVoltage - measVoltage;
-
-	if(abs(error) < 0.5)
-	{
-		adaptiveVoltRequest[channel] = false;
-	}
-	else if(abs(error) > 3)
-	{
-		adaptiveVoltRequest[channel] = true;
-	}
-
-
-	if(adaptiveVoltRequest[channel] == false) return;
-
-	RegIntegrated[channel] += error;
-
-	RegVoltage[channel] = RegVoltage[channel] + 0.02*error + 0.0001*RegIntegrated[channel];
-
-	Set_OutReg_Voltage_F(channel, RegVoltage[channel]);
-	Set_PreReg_Voltage(channel, Get_PreRegulatorVoltage(RegVoltage[channel]));
-
-}
-
 void GetDiff()
 {
-	SendCommunication_float(cmd_NON, RegVoltage[0]);
+	//SendCommunication_float(cmd_NON, RegVoltage[0]);
 	SendCommunication(cmd_NON, adaptiveVoltRequest[0]);
-	//SendCommunication_float(cmd_NON, addSetVoltage[0]);
+	SendCommunication_float(cmd_NON, addSetVoltage[0]);
 
 	//float voltage = ChannelsStatus[0].set_voltage + addSetVoltage[0];
 	//SendCommunication_float(cmd_NON, voltage);

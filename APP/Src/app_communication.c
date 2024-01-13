@@ -48,13 +48,15 @@ const char command_strings[][STRING_TABLE_SIZE] =
 
 	"ip_store_endpoint",
 
-	"ip_store_mac",
+	"ip_store_mac_1",
+	"ip_store_mac_2",
 	"ip_store_myip",
 	"ip_store_mymask",
 	"ip_store_mygatew",
 	"cmd_ip_store_UdpRecvPort",
 
-	"ip_get_mac",
+	"ip_get_mac_1",
+	"ip_get_mac_2",
 	"ip_get_myip",
 	"ip_get_mymask",
 	"ip_get_mygatew",
@@ -163,13 +165,15 @@ eCommand_parse Command_parse[] =
 
 		cparse_u32t, //cmd_ip_store_endpoint,
 
-		cparse_u32t, //cmd_ip_store_mac
+		cparse_u32t, //cmd_ip_store_mac_1
+		cparse_u32t, //cmd_ip_store_mac_2
 		cparse_u32t, //cmd_ip_store_myip,
 		cparse_u32t, //cmd_ip_store_mymask,
 		cparse_u32t, //cmd_ip_store_mygatew,
 		cparse_u32t, //cmd_ip_store_UdpRecvPort
 
-		cparse_non, //cmd_ip_get_mac
+		cparse_non, //cmd_ip_get_mac_1
+		cparse_non, //cmd_ip_get_mac_2
 		cparse_non, //cmd_ip_get_myip,
 		cparse_non, //cmd_ip_get_mymask,
 		cparse_non, //cmd_ip_get_mygatew,
@@ -260,7 +264,6 @@ void ProcessCommand(int command_id)
 	switch(command_id)
 	{
 		case cmd_NON:
-			GetDiff();
 			break;
 
 		case cmd_Connected:
@@ -342,8 +345,12 @@ void ProcessCommand(int command_id)
 			ETH_udp_StoreEndpoint(_u32_command_value);
 			break;
 
-		case cmd_ip_store_mac:
-			ETH_StoreMac(_u32_command_value);
+		case cmd_ip_store_mac_1:
+			ETH_StoreMac_1(_u32_command_value);
+			break;
+
+		case cmd_ip_store_mac_2:
+			ETH_StoreMac_2(_u32_command_value);
 			break;
 
 		case cmd_ip_store_myip:

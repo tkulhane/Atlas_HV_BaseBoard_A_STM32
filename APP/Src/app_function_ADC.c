@@ -44,7 +44,7 @@ uint8_t Adresses[16] =
  */
 float GetCoef_k(int channel)
 {
-	float *addr = ((float *)&MainParams.sramOffset_ReadCoef_k_0) + channel;//  + (4 * channel);
+	float *addr = ((float *)&MainParams.ReadCoef_k_0) + channel;//  + (4 * channel);
 	return *addr;
 }
 
@@ -54,7 +54,7 @@ float GetCoef_k(int channel)
  */
 float GetCoef_q(int channel)
 {
-	float *addr =((float *)&MainParams.sramOffset_ReadCoef_q_0) + channel;//  + (4 * channel);
+	float *addr =((float *)&MainParams.ReadCoef_q_0) + channel;//  + (4 * channel);
 	return *addr;
 }
 
@@ -67,7 +67,7 @@ float GetCoef_q(int channel)
  */
 void StoreADCConstant(uint8_t coef, float value)
 {
-	float *addr = ((float *)&MainParams.sramOffset_ReadCoef_k_0) + coef;//  + (4 * channel);
+	float *addr = ((float *)&MainParams.ReadCoef_k_0) + coef;//  + (4 * channel);
 	*addr = value;
 }
 

@@ -29,9 +29,14 @@ wiz_NetInfo myNetInfo =
 //struct udp_pcb * udp_pcb;
 
 
-void ETH_StoreMac(uint32_t mac)
+void ETH_StoreMac_1(uint32_t mac)
 {
-	MainParams.sramOffset_MAC_aadress = mac;
+	MainParams.MAC_aadress_1_3MSB = mac;
+}
+
+void ETH_StoreMac_2(uint32_t mac)
+{
+	MainParams.MAC_aadress_2_3LSB = mac;
 }
 
 /* @brief store device ip address to sram
@@ -41,7 +46,7 @@ void ETH_StoreMac(uint32_t mac)
  */
 void ETH_StoreIP(uint32_t ip)
 {
-	MainParams.sramOffset_IP_ADDRESS = ip;
+	MainParams.IP_ADDRESS = ip;
 }
 
 /* @brief store device netmask address to sram
@@ -51,7 +56,7 @@ void ETH_StoreIP(uint32_t ip)
  */
 void ETH_StoreNETMASK(uint32_t netmask)
 {
-	MainParams.sramOffset_NETMASK_ADDRESS = netmask;
+	MainParams.NETMASK_ADDRESS = netmask;
 }
 
 /* @brief store device gateway address to sram
@@ -61,12 +66,12 @@ void ETH_StoreNETMASK(uint32_t netmask)
  */
 void ETH_StoreGATEWAY(uint32_t gateway)
 {
-	MainParams.sramOffset_GATEWAY_ADDRESS = gateway;
+	MainParams.GATEWAY_ADDRESS = gateway;
 }
 
 void ETH_Store_UdpRecPort(uint32_t port)
 {
-	MainParams.sramOffset_UdpRecvPort = port;
+	MainParams.UdpRecvPort = port;
 }
 
 /* @brief get ip address from sram
@@ -146,20 +151,15 @@ void W5500_WriteByte(uint8_t byte)
  */
 void ETH_SendSetting()
 {
-	uint32_t x;
 
-	SendCommunication(cmd_ip_get_mac, MainParams.sramOffset_MAC_aadress);
+	SendCommunication_u32(cmd_ip_get_mac_1, MainParams.MAC_aadress_1_3MSB);
+	SendCommunication_u32(cmd_ip_get_mac_2, MainParams.MAC_aadress_2_3LSB);
 
-	x = MainParams.sramOffset_IP_ADDRESS;
-	SendCommunication_u32(cmd_ip_get_myip, x);
+	SendCommunication_u32(cmd_ip_get_myip, MainParams.IP_ADDRESS);
+	SendCommunication_u32(cmd_ip_get_mymask, MainParams.NETMASK_ADDRESS);
+	SendCommunication_u32(cmd_ip_get_mygatew, MainParams.GATEWAY_ADDRESS);
 
-	x = MainParams.sramOffset_NETMASK_ADDRESS;
-	SendCommunication_u32(cmd_ip_get_mymask, x);
-
-	x = MainParams.sramOffset_GATEWAY_ADDRESS;
-	SendCommunication_u32(cmd_ip_get_mygatew, x);
-
-	SendCommunication(cmd_ip_get_UdpRecvPort, MainParams.sramOffset_UdpRecvPort);
+	SendCommunication(cmd_ip_get_UdpRecvPort, MainParams.UdpRecvPort);
 
 	//SendCommunication_u32(cmd_ip_get_myip, ETH_GetIP());
 	//SendCommunication_u32(cmd_ip_get_mymask, ETH_GetNETMASK());
@@ -173,25 +173,35 @@ void ETH_load_ip()
 {
 	uint32_t x;
 
-		myNetInfo.mac[5] = MainParams.sramOffset_MAC_aadress;
 
-		x = MainParams.sramOffset_IP_ADDRESS;
-		myNetInfo.ip[0] = ip_GET8(x,0);
-		myNetInfo.ip[1] = ip_GET8(x,1);
-		myNetInfo.ip[2] = ip_GET8(x,2);
-		myNetInfo.ip[3] = ip_GET8(x,3);
+	x = MainParams.MAC_aadress_1_3MSB;
+	myNetInfo.mac[0] = mac_GET8(x,0);
+	myNetInfo.mac[1] = mac_GET8(x,1);
+	myNetInfo.mac[2] = mac_GET8(x,2);
 
-		x = MainParams.sramOffset_NETMASK_ADDRESS;
-		myNetInfo.sn[0] = ip_GET8(x,0);
-		myNetInfo.sn[1] = ip_GET8(x,1);
-		myNetInfo.sn[2] = ip_GET8(x,2);
-		myNetInfo.sn[3] = ip_GET8(x,3);
+	x = MainParams.MAC_aadress_2_3LSB;
+	myNetInfo.mac[3] = mac_GET8(x,0);
+	myNetInfo.mac[4] = mac_GET8(x,1);
+	myNetInfo.mac[5] = mac_GET8(x,2);
 
-		x = MainParams.sramOffset_GATEWAY_ADDRESS;
-		myNetInfo.gw[0] = ip_GET8(x,0);
-		myNetInfo.gw[1] = ip_GET8(x,1);
-		myNetInfo.gw[2] = ip_GET8(x,2);
-		myNetInfo.gw[3] = ip_GET8(x,3);
+
+	x = MainParams.IP_ADDRESS;
+	myNetInfo.ip[0] = ip_GET8(x,0);
+	myNetInfo.ip[1] = ip_GET8(x,1);
+	myNetInfo.ip[2] = ip_GET8(x,2);
+	myNetInfo.ip[3] = ip_GET8(x,3);
+
+	x = MainParams.NETMASK_ADDRESS;
+	myNetInfo.sn[0] = ip_GET8(x,0);
+	myNetInfo.sn[1] = ip_GET8(x,1);
+	myNetInfo.sn[2] = ip_GET8(x,2);
+	myNetInfo.sn[3] = ip_GET8(x,3);
+
+	x = MainParams.GATEWAY_ADDRESS;
+	myNetInfo.gw[0] = ip_GET8(x,0);
+	myNetInfo.gw[1] = ip_GET8(x,1);
+	myNetInfo.gw[2] = ip_GET8(x,2);
+	myNetInfo.gw[3] = ip_GET8(x,3);
 
 }
 

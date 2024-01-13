@@ -39,7 +39,7 @@ void ErrorExecute(uint8_t channel)
 	{
 		//Channel_Enable(channel, false);
 
-		if(MainParams.sramOffset_ErrorExecuteAutoRestore)
+		if(MainParams.ErrorExecuteAutoRestore)
 		{
 			Channel_Restart(channel);
 		}
@@ -183,7 +183,7 @@ void AppConnectedExecute(bool AppConnected)
 	//HAL_GPIO_WritePin(LED_0_GPIO_Port, LED_0_Pin, AppConnected);
 
 
-	if((AppConnected == false) && MainParams.sramOffset_DisableSupplyInLostConnection)
+	if((AppConnected == false) && MainParams.DisableSupplyInLostConnection)
 	{
 
 		for(int i = 0; i< 3; i++)

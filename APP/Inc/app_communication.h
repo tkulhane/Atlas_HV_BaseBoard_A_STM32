@@ -52,13 +52,15 @@ typedef enum
 
 	cmd_ip_store_endpoint,
 
-	cmd_ip_store_mac,
+	cmd_ip_store_mac_1,
+	cmd_ip_store_mac_2,
 	cmd_ip_store_myip,
 	cmd_ip_store_mymask,
 	cmd_ip_store_mygatew,
 	cmd_ip_store_UdpRecvPort,
 
-	cmd_ip_get_mac,
+	cmd_ip_get_mac_1,
+	cmd_ip_get_mac_2,
 	cmd_ip_get_myip,
 	cmd_ip_get_mymask,
 	cmd_ip_get_mygatew,
