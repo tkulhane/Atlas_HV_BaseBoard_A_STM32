@@ -185,18 +185,18 @@ void Set_Voltage(uint8_t channel, uint16_t voltage)
 
 	adaptiveVoltRequest[channel] = false;
 
-	if(abs(voltage - ChannelsStatus[channel].set_voltage) > ramp_v_step) //voltage ramping if difference is bigger that voltage ramp step
+	if(abs(voltage - ChannelsStatus[channel].set_voltage) > MainParams.VoltageRamp_VoltStep) //voltage ramping if difference is bigger that voltage ramp step
 	{
 		//ChannelsChange[channel].request_voltage = voltage; //store request voltage
 
 		//calculate new voltage
 		if(ChannelsStatus[channel].set_voltage < ChannelsChange[channel].request_voltage)
 		{
-			ChannelsStatus[channel].set_voltage += ramp_v_step;
+			ChannelsStatus[channel].set_voltage += MainParams.VoltageRamp_VoltStep;
 		}
 		else
 		{
-			ChannelsStatus[channel].set_voltage -= ramp_v_step;
+			ChannelsStatus[channel].set_voltage -= MainParams.VoltageRamp_VoltStep;
 		}
 
 		//Set voltage
@@ -244,17 +244,17 @@ void Set_Voltage_From_Ramping(uint8_t channel)
 {
 	if(!(channel == 0 || channel == 1 || channel == 2)) return;
 
-	if(abs(ChannelsStatus[channel].set_voltage - ChannelsChange[channel].request_voltage) > ramp_v_step) //keep ramping
+	if(abs(ChannelsStatus[channel].set_voltage - ChannelsChange[channel].request_voltage) > MainParams.VoltageRamp_VoltStep) //keep ramping
 	{
 
 		//calculate new voltage
 		if(ChannelsStatus[channel].set_voltage < ChannelsChange[channel].request_voltage)
 		{
-			ChannelsStatus[channel].set_voltage += ramp_v_step;
+			ChannelsStatus[channel].set_voltage += MainParams.VoltageRamp_VoltStep;
 		}
 		else
 		{
-			ChannelsStatus[channel].set_voltage -= ramp_v_step;
+			ChannelsStatus[channel].set_voltage -= MainParams.VoltageRamp_VoltStep;
 		}
 
 		//Set out voltage
@@ -448,7 +448,7 @@ void ChannelControl(uint8_t channel)
 	//voltage ramping
 	if(ChannelsChange[channel].voltage_ramp)
 	{
-		if((HAL_GetTick()-ChannelsChange[channel].voltage_ramp_timer) >= ramp_t_step)
+		if((HAL_GetTick()-ChannelsChange[channel].voltage_ramp_timer) >= MainParams.VoltageRamp_TimeStep)
 		{
 			Set_Voltage_From_Ramping(channel);
 		}
@@ -627,6 +627,27 @@ void System_Reset()
 	SCB->AIRCR  = ((0x5FAUL << SCB_AIRCR_VECTKEY_Pos) | (SCB_AIRCR_SYSRESETREQ_Msk));
 	__DSB();
 	while(1);
+}
+
+
+void VoltageRamp_SetVoltageStep(int voltage)
+{
+	if((voltage < 1) || (voltage > 100)) return;
+
+	MainParams.VoltageRamp_VoltStep = voltage;
+}
+
+void VoltageRamp_SetTimeStep(int time)
+{
+	if((time < 1) || (time > 10000)) return;
+
+	MainParams.VoltageRamp_TimeStep = time;
+}
+
+void VoltageRamp_SendSetting()
+{
+	SendCommunication(cmd_voltRamp_get_volt, MainParams.VoltageRamp_VoltStep);
+	SendCommunication(cmd_voltRamp_get_time, MainParams.VoltageRamp_TimeStep);
 }
 
 

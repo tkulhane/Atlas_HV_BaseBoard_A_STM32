@@ -253,6 +253,12 @@ eCommand_parse Command_parse[] =
 
 		cparse_non,//cmd_Cfg_Get,
 
+		cparse_int,//cmd_voltRamp_set_volt,
+		cparse_int,//cmd_voltRamp_set_time,
+		cparse_non,//cmd_voltRamp_get_volt,
+		cparse_non,//cmd_voltRamp_get_time,
+		cparse_non,//cmd_voltRamp_get_setting,
+
 		cparse_non,//cmd_params_store,
 		cparse_non,//cmd_params_default,
 
@@ -514,6 +520,18 @@ void ProcessCommand(int command_id)
 
 		case cmd_Cfg_Get:
 			SendConfigData();
+			break;
+
+		case cmd_voltRamp_set_volt:
+			VoltageRamp_SetVoltageStep(_command_value);
+			break;
+
+		case cmd_voltRamp_set_time:
+			VoltageRamp_SetTimeStep(_command_value);
+			break;
+
+		case cmd_voltRamp_get_setting:
+			VoltageRamp_SendSetting();
 			break;
 
 		case cmd_params_store:

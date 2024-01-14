@@ -24,5 +24,8 @@
 ../APP/Src/app_main_function.c:574:6:Get_Setting	8	static
 ../APP/Src/app_main_function.c:599:6:Get_State_err	16	static
 ../APP/Src/app_main_function.c:624:6:System_Reset	4	static,ignoring_inline_asm
-../APP/Src/app_main_function.c:634:6:AdaptiveVoltageTune_Start	16	static
-../APP/Src/app_main_function.c:646:6:AdaptiveVoltageTune	40	static
+../APP/Src/app_main_function.c:633:6:VoltageRamp_SetVoltageStep	16	static
+../APP/Src/app_main_function.c:640:6:VoltageRamp_SetTimeStep	16	static
+../APP/Src/app_main_function.c:647:6:VoltageRamp_SendSetting	8	static
+../APP/Src/app_main_function.c:655:6:AdaptiveVoltageTune_Start	16	static
+../APP/Src/app_main_function.c:667:6:AdaptiveVoltageTune	40	static
