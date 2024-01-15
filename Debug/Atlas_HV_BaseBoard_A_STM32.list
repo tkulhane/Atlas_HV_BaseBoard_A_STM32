@@ -8361,7 +8361,7 @@ void ParamsDefaultValues()
  8003e9e:	4b54      	ldr	r3, [pc, #336]	; (8003ff0 <ParamsDefaultValues+0x168>)
  8003ea0:	4a55      	ldr	r2, [pc, #340]	; (8003ff8 <ParamsDefaultValues+0x170>)
  8003ea2:	60da      	str	r2, [r3, #12]
-	DefaultParams.IP_ADDRESS = ip_MAKEU32(192,168,0,23);
+	DefaultParams.IP_ADDRESS = ip_MAKEU32(192,168,0,101);
  8003ea4:	4b52      	ldr	r3, [pc, #328]	; (8003ff0 <ParamsDefaultValues+0x168>)
  8003ea6:	4a55      	ldr	r2, [pc, #340]	; (8003ffc <ParamsDefaultValues+0x174>)
  8003ea8:	611a      	str	r2, [r3, #16]
@@ -8527,7 +8527,7 @@ void ParamsDefaultValues()
  8003ff0:	20001b4c 	.word	0x20001b4c
  8003ff4:	00adcfe8 	.word	0x00adcfe8
  8003ff8:	00a5dfff 	.word	0x00a5dfff
- 8003ffc:	c0a80017 	.word	0xc0a80017
+ 8003ffc:	c0a80065 	.word	0xc0a80065
  8004000:	c0a80001 	.word	0xc0a80001
  8004004:	3bb1a468 	.word	0x3bb1a468
  8004008:	3dc710cb 	.word	0x3dc710cb

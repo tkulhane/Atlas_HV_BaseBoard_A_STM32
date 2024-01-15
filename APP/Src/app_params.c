@@ -46,7 +46,7 @@ void ParamsDefaultValues()
 
 	DefaultParams.MAC_aadress_1_3MSB = mac_MAKEU32(0xAD,0xCF,0xE8);
 	DefaultParams.MAC_aadress_2_3LSB = mac_MAKEU32(0xA5,0xDF,0xFF);
-	DefaultParams.IP_ADDRESS = ip_MAKEU32(192,168,0,23);
+	DefaultParams.IP_ADDRESS = ip_MAKEU32(192,168,0,101);
 	DefaultParams.NETMASK_ADDRESS = ip_MAKEU32(255,255,255,0);
 	DefaultParams.GATEWAY_ADDRESS = ip_MAKEU32(192,168,0,1);
 	DefaultParams.UdpRecvPort = 5005;
