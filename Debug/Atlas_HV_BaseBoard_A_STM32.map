@@ -11128,21 +11128,21 @@ LOAD /Applications/STM32CubeIDE.app/Contents/Eclipse/plugins/com.st.stm32cube.id
                 0x00000000080027b4       0xb0 ./APP/Src/app_leds.o
                 0x00000000080027b4                app_leds_init
  .text.app_leds_drive
-                0x0000000008002864      0x108 ./APP/Src/app_leds.o
+                0x0000000008002864      0x10c ./APP/Src/app_leds.o
                 0x0000000008002864                app_leds_drive
  .text.GetDacCoef_k
-                0x000000000800296c       0x2c ./APP/Src/app_main_function.o
-                0x000000000800296c                GetDacCoef_k
+                0x0000000008002970       0x2c ./APP/Src/app_main_function.o
+                0x0000000008002970                GetDacCoef_k
  .text.GetDacCoef_q
-                0x0000000008002998       0x2c ./APP/Src/app_main_function.o
-                0x0000000008002998                GetDacCoef_q
+                0x000000000800299c       0x2c ./APP/Src/app_main_function.o
+                0x000000000800299c                GetDacCoef_q
  .text.StoreDACConstant
-                0x00000000080029c4       0x30 ./APP/Src/app_main_function.o
-                0x00000000080029c4                StoreDACConstant
+                0x00000000080029c8       0x30 ./APP/Src/app_main_function.o
+                0x00000000080029c8                StoreDACConstant
  .text.SendDACCoefficients
-                0x00000000080029f4       0x3e ./APP/Src/app_main_function.o
-                0x00000000080029f4                SendDACCoefficients
- *fill*         0x0000000008002a32        0x6 
+                0x00000000080029f8       0x3e ./APP/Src/app_main_function.o
+                0x00000000080029f8                SendDACCoefficients
+ *fill*         0x0000000008002a36        0x2 
  .text.Get_PreRegulatorVoltage
                 0x0000000008002a38       0x60 ./APP/Src/app_main_function.o
                 0x0000000008002a38                Get_PreRegulatorVoltage

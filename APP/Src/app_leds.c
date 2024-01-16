@@ -61,7 +61,7 @@ void app_leds_drive()
 
 
 	 //channels enable led
-	 if(ChannelsStatus[0].enable || ChannelsStatus[1].enable || ChannelsStatus[1].enable)
+	 if(ChannelsStatus[0].enable || ChannelsStatus[1].enable || ChannelsStatus[2].enable)
 	 {
 		 LEDs_GREEN_LED2.mode = LEDS_ON;
 		  //LEDs_RED_LED.mode = LEDS_FAST_BLINK;
@@ -78,15 +78,15 @@ void app_leds_drive()
 	{
 		LEDs_RED_LED.mode = LEDS_ON;
 	}
-	else if(ChannelsStatus[0].disableInError || ChannelsStatus[1].disableInError || ChannelsStatus[1].disableInError)
+	else if(ChannelsStatus[0].disableInError || ChannelsStatus[1].disableInError || ChannelsStatus[2].disableInError)
 	{
 		LEDs_RED_LED.mode = LEDS_ON;
 	}
-	else if(ChannelsChange[0].restart_request || ChannelsChange[1].restart_request || ChannelsChange[1].restart_request)
+	else if(ChannelsChange[0].restart_request || ChannelsChange[1].restart_request || ChannelsChange[2].restart_request)
 	{
 		LEDs_RED_LED.mode = LEDS_ON;
 	}
-	else if(ChannelsStatus[0].enable || ChannelsStatus[1].enable || ChannelsStatus[1].enable)
+	else if(ChannelsStatus[0].enable || ChannelsStatus[1].enable || ChannelsStatus[2].enable)
 	{
 		LEDs_RED_LED.mode = LEDS_SLOW_BLINK;
 	}

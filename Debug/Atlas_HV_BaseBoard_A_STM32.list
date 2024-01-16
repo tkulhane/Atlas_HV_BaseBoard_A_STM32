@@ -2194,7 +2194,7 @@ void ProcessCommand(int command_id)
  800164a:	edd3 7a00 	vldr	s15, [r3]
  800164e:	eeb0 0a67 	vmov.f32	s0, s15
  8001652:	2000      	movs	r0, #0
- 8001654:	f001 f9b6 	bl	80029c4 <StoreDACConstant>
+ 8001654:	f001 f9b8 	bl	80029c8 <StoreDACConstant>
 			break;
  8001658:	e0b3      	b.n	80017c2 <ProcessCommand+0x5d2>
 
@@ -2204,7 +2204,7 @@ void ProcessCommand(int command_id)
  800165c:	edd3 7a00 	vldr	s15, [r3]
  8001660:	eeb0 0a67 	vmov.f32	s0, s15
  8001664:	2001      	movs	r0, #1
- 8001666:	f001 f9ad 	bl	80029c4 <StoreDACConstant>
+ 8001666:	f001 f9af 	bl	80029c8 <StoreDACConstant>
 			break;
  800166a:	e0aa      	b.n	80017c2 <ProcessCommand+0x5d2>
 
@@ -2214,7 +2214,7 @@ void ProcessCommand(int command_id)
  800166e:	edd3 7a00 	vldr	s15, [r3]
  8001672:	eeb0 0a67 	vmov.f32	s0, s15
  8001676:	2002      	movs	r0, #2
- 8001678:	f001 f9a4 	bl	80029c4 <StoreDACConstant>
+ 8001678:	f001 f9a6 	bl	80029c8 <StoreDACConstant>
 			break;
  800167c:	e0a1      	b.n	80017c2 <ProcessCommand+0x5d2>
 
@@ -2224,7 +2224,7 @@ void ProcessCommand(int command_id)
  8001680:	edd3 7a00 	vldr	s15, [r3]
  8001684:	eeb0 0a67 	vmov.f32	s0, s15
  8001688:	2003      	movs	r0, #3
- 800168a:	f001 f99b 	bl	80029c4 <StoreDACConstant>
+ 800168a:	f001 f99d 	bl	80029c8 <StoreDACConstant>
 			break;
  800168e:	e098      	b.n	80017c2 <ProcessCommand+0x5d2>
  8001690:	200002c8 	.word	0x200002c8
@@ -2237,7 +2237,7 @@ void ProcessCommand(int command_id)
  800169e:	edd3 7a00 	vldr	s15, [r3]
  80016a2:	eeb0 0a67 	vmov.f32	s0, s15
  80016a6:	2004      	movs	r0, #4
- 80016a8:	f001 f98c 	bl	80029c4 <StoreDACConstant>
+ 80016a8:	f001 f98e 	bl	80029c8 <StoreDACConstant>
 			break;
  80016ac:	e089      	b.n	80017c2 <ProcessCommand+0x5d2>
 
@@ -2247,7 +2247,7 @@ void ProcessCommand(int command_id)
  80016b0:	edd3 7a00 	vldr	s15, [r3]
  80016b4:	eeb0 0a67 	vmov.f32	s0, s15
  80016b8:	2005      	movs	r0, #5
- 80016ba:	f001 f983 	bl	80029c4 <StoreDACConstant>
+ 80016ba:	f001 f985 	bl	80029c8 <StoreDACConstant>
 			break;
  80016be:	e080      	b.n	80017c2 <ProcessCommand+0x5d2>
 
@@ -2259,7 +2259,7 @@ void ProcessCommand(int command_id)
 
 		case cmd_dac_getallcoef:
 			SendDACCoefficients();
- 80016c6:	f001 f995 	bl	80029f4 <SendDACCoefficients>
+ 80016c6:	f001 f997 	bl	80029f8 <SendDACCoefficients>
 			break;
  80016ca:	e07a      	b.n	80017c2 <ProcessCommand+0x5d2>
 
@@ -5055,13 +5055,13 @@ void app_leds_drive()
 
 	//connect led
 	if(_AppConnected)
- 8002868:	4b39      	ldr	r3, [pc, #228]	; (8002950 <app_leds_drive+0xec>)
+ 8002868:	4b3a      	ldr	r3, [pc, #232]	; (8002954 <app_leds_drive+0xf0>)
  800286a:	781b      	ldrb	r3, [r3, #0]
  800286c:	2b00      	cmp	r3, #0
  800286e:	d003      	beq.n	8002878 <app_leds_drive+0x14>
 	{
 		 LEDs_GREEN_LED1.mode = LEDS_FAST_FLASH;
- 8002870:	4b38      	ldr	r3, [pc, #224]	; (8002954 <app_leds_drive+0xf0>)
+ 8002870:	4b39      	ldr	r3, [pc, #228]	; (8002958 <app_leds_drive+0xf4>)
  8002872:	2203      	movs	r2, #3
  8002874:	725a      	strb	r2, [r3, #9]
  8002876:	e002      	b.n	800287e <app_leds_drive+0x1a>
@@ -5069,7 +5069,7 @@ void app_leds_drive()
 	else
 	{
 		 LEDs_GREEN_LED1.mode = LEDS_SLOW_BLINK;
- 8002878:	4b36      	ldr	r3, [pc, #216]	; (8002954 <app_leds_drive+0xf0>)
+ 8002878:	4b37      	ldr	r3, [pc, #220]	; (8002958 <app_leds_drive+0xf4>)
  800287a:	2206      	movs	r2, #6
  800287c:	725a      	strb	r2, [r3, #9]
 
@@ -5077,284 +5077,282 @@ void app_leds_drive()
 
 
 	 //channels enable led
-	 if(ChannelsStatus[0].enable || ChannelsStatus[1].enable || ChannelsStatus[1].enable)
- 800287e:	4b36      	ldr	r3, [pc, #216]	; (8002958 <app_leds_drive+0xf4>)
+	 if(ChannelsStatus[0].enable || ChannelsStatus[1].enable || ChannelsStatus[2].enable)
+ 800287e:	4b37      	ldr	r3, [pc, #220]	; (800295c <app_leds_drive+0xf8>)
  8002880:	781b      	ldrb	r3, [r3, #0]
  8002882:	2b00      	cmp	r3, #0
- 8002884:	d107      	bne.n	8002896 <app_leds_drive+0x32>
- 8002886:	4b34      	ldr	r3, [pc, #208]	; (8002958 <app_leds_drive+0xf4>)
+ 8002884:	d108      	bne.n	8002898 <app_leds_drive+0x34>
+ 8002886:	4b35      	ldr	r3, [pc, #212]	; (800295c <app_leds_drive+0xf8>)
  8002888:	7d1b      	ldrb	r3, [r3, #20]
  800288a:	2b00      	cmp	r3, #0
- 800288c:	d103      	bne.n	8002896 <app_leds_drive+0x32>
- 800288e:	4b32      	ldr	r3, [pc, #200]	; (8002958 <app_leds_drive+0xf4>)
- 8002890:	7d1b      	ldrb	r3, [r3, #20]
- 8002892:	2b00      	cmp	r3, #0
- 8002894:	d003      	beq.n	800289e <app_leds_drive+0x3a>
+ 800288c:	d104      	bne.n	8002898 <app_leds_drive+0x34>
+ 800288e:	4b33      	ldr	r3, [pc, #204]	; (800295c <app_leds_drive+0xf8>)
+ 8002890:	f893 3028 	ldrb.w	r3, [r3, #40]	; 0x28
+ 8002894:	2b00      	cmp	r3, #0
+ 8002896:	d003      	beq.n	80028a0 <app_leds_drive+0x3c>
 	 {
 		 LEDs_GREEN_LED2.mode = LEDS_ON;
- 8002896:	4b31      	ldr	r3, [pc, #196]	; (800295c <app_leds_drive+0xf8>)
- 8002898:	2201      	movs	r2, #1
- 800289a:	725a      	strb	r2, [r3, #9]
- 800289c:	e002      	b.n	80028a4 <app_leds_drive+0x40>
+ 8002898:	4b31      	ldr	r3, [pc, #196]	; (8002960 <app_leds_drive+0xfc>)
+ 800289a:	2201      	movs	r2, #1
+ 800289c:	725a      	strb	r2, [r3, #9]
+ 800289e:	e002      	b.n	80028a6 <app_leds_drive+0x42>
 		  //LEDs_RED_LED.mode = LEDS_FAST_BLINK;
 	 }
 	 else
 	 {
 		 LEDs_GREEN_LED2.mode = LEDS_OFF;
- 800289e:	4b2f      	ldr	r3, [pc, #188]	; (800295c <app_leds_drive+0xf8>)
- 80028a0:	2200      	movs	r2, #0
- 80028a2:	725a      	strb	r2, [r3, #9]
+ 80028a0:	4b2f      	ldr	r3, [pc, #188]	; (8002960 <app_leds_drive+0xfc>)
+ 80028a2:	2200      	movs	r2, #0
+ 80028a4:	725a      	strb	r2, [r3, #9]
 		 //LEDs_RED_LED.mode = LEDS_OFF;
 	 }
 
 
 	 //red led
 	if(_FoundError_OR)
- 80028a4:	4b2e      	ldr	r3, [pc, #184]	; (8002960 <app_leds_drive+0xfc>)
- 80028a6:	781b      	ldrb	r3, [r3, #0]
- 80028a8:	2b00      	cmp	r3, #0
- 80028aa:	d003      	beq.n	80028b4 <app_leds_drive+0x50>
+ 80028a6:	4b2f      	ldr	r3, [pc, #188]	; (8002964 <app_leds_drive+0x100>)
+ 80028a8:	781b      	ldrb	r3, [r3, #0]
+ 80028aa:	2b00      	cmp	r3, #0
+ 80028ac:	d003      	beq.n	80028b6 <app_leds_drive+0x52>
 	{
 		LEDs_RED_LED.mode = LEDS_ON;
- 80028ac:	4b2d      	ldr	r3, [pc, #180]	; (8002964 <app_leds_drive+0x100>)
- 80028ae:	2201      	movs	r2, #1
- 80028b0:	725a      	strb	r2, [r3, #9]
- 80028b2:	e036      	b.n	8002922 <app_leds_drive+0xbe>
+ 80028ae:	4b2e      	ldr	r3, [pc, #184]	; (8002968 <app_leds_drive+0x104>)
+ 80028b0:	2201      	movs	r2, #1
+ 80028b2:	725a      	strb	r2, [r3, #9]
+ 80028b4:	e037      	b.n	8002926 <app_leds_drive+0xc2>
 	}
-	else if(ChannelsStatus[0].disableInError || ChannelsStatus[1].disableInError || ChannelsStatus[1].disableInError)
- 80028b4:	4b28      	ldr	r3, [pc, #160]	; (8002958 <app_leds_drive+0xf4>)
- 80028b6:	7c9b      	ldrb	r3, [r3, #18]
- 80028b8:	2b00      	cmp	r3, #0
- 80028ba:	d109      	bne.n	80028d0 <app_leds_drive+0x6c>
- 80028bc:	4b26      	ldr	r3, [pc, #152]	; (8002958 <app_leds_drive+0xf4>)
- 80028be:	f893 3026 	ldrb.w	r3, [r3, #38]	; 0x26
- 80028c2:	2b00      	cmp	r3, #0
- 80028c4:	d104      	bne.n	80028d0 <app_leds_drive+0x6c>
- 80028c6:	4b24      	ldr	r3, [pc, #144]	; (8002958 <app_leds_drive+0xf4>)
- 80028c8:	f893 3026 	ldrb.w	r3, [r3, #38]	; 0x26
- 80028cc:	2b00      	cmp	r3, #0
- 80028ce:	d003      	beq.n	80028d8 <app_leds_drive+0x74>
+	else if(ChannelsStatus[0].disableInError || ChannelsStatus[1].disableInError || ChannelsStatus[2].disableInError)
+ 80028b6:	4b29      	ldr	r3, [pc, #164]	; (800295c <app_leds_drive+0xf8>)
+ 80028b8:	7c9b      	ldrb	r3, [r3, #18]
+ 80028ba:	2b00      	cmp	r3, #0
+ 80028bc:	d109      	bne.n	80028d2 <app_leds_drive+0x6e>
+ 80028be:	4b27      	ldr	r3, [pc, #156]	; (800295c <app_leds_drive+0xf8>)
+ 80028c0:	f893 3026 	ldrb.w	r3, [r3, #38]	; 0x26
+ 80028c4:	2b00      	cmp	r3, #0
+ 80028c6:	d104      	bne.n	80028d2 <app_leds_drive+0x6e>
+ 80028c8:	4b24      	ldr	r3, [pc, #144]	; (800295c <app_leds_drive+0xf8>)
+ 80028ca:	f893 303a 	ldrb.w	r3, [r3, #58]	; 0x3a
+ 80028ce:	2b00      	cmp	r3, #0
+ 80028d0:	d003      	beq.n	80028da <app_leds_drive+0x76>
 	{
 		LEDs_RED_LED.mode = LEDS_ON;
- 80028d0:	4b24      	ldr	r3, [pc, #144]	; (8002964 <app_leds_drive+0x100>)
- 80028d2:	2201      	movs	r2, #1
- 80028d4:	725a      	strb	r2, [r3, #9]
- 80028d6:	e024      	b.n	8002922 <app_leds_drive+0xbe>
+ 80028d2:	4b25      	ldr	r3, [pc, #148]	; (8002968 <app_leds_drive+0x104>)
+ 80028d4:	2201      	movs	r2, #1
+ 80028d6:	725a      	strb	r2, [r3, #9]
+ 80028d8:	e025      	b.n	8002926 <app_leds_drive+0xc2>
 	}
-	else if(ChannelsChange[0].restart_request || ChannelsChange[1].restart_request || ChannelsChange[1].restart_request)
- 80028d8:	4b23      	ldr	r3, [pc, #140]	; (8002968 <app_leds_drive+0x104>)
- 80028da:	78db      	ldrb	r3, [r3, #3]
- 80028dc:	2b00      	cmp	r3, #0
- 80028de:	d109      	bne.n	80028f4 <app_leds_drive+0x90>
- 80028e0:	4b21      	ldr	r3, [pc, #132]	; (8002968 <app_leds_drive+0x104>)
- 80028e2:	f893 3027 	ldrb.w	r3, [r3, #39]	; 0x27
- 80028e6:	2b00      	cmp	r3, #0
- 80028e8:	d104      	bne.n	80028f4 <app_leds_drive+0x90>
- 80028ea:	4b1f      	ldr	r3, [pc, #124]	; (8002968 <app_leds_drive+0x104>)
- 80028ec:	f893 3027 	ldrb.w	r3, [r3, #39]	; 0x27
- 80028f0:	2b00      	cmp	r3, #0
- 80028f2:	d003      	beq.n	80028fc <app_leds_drive+0x98>
+	else if(ChannelsChange[0].restart_request || ChannelsChange[1].restart_request || ChannelsChange[2].restart_request)
+ 80028da:	4b24      	ldr	r3, [pc, #144]	; (800296c <app_leds_drive+0x108>)
+ 80028dc:	78db      	ldrb	r3, [r3, #3]
+ 80028de:	2b00      	cmp	r3, #0
+ 80028e0:	d109      	bne.n	80028f6 <app_leds_drive+0x92>
+ 80028e2:	4b22      	ldr	r3, [pc, #136]	; (800296c <app_leds_drive+0x108>)
+ 80028e4:	f893 3027 	ldrb.w	r3, [r3, #39]	; 0x27
+ 80028e8:	2b00      	cmp	r3, #0
+ 80028ea:	d104      	bne.n	80028f6 <app_leds_drive+0x92>
+ 80028ec:	4b1f      	ldr	r3, [pc, #124]	; (800296c <app_leds_drive+0x108>)
+ 80028ee:	f893 304b 	ldrb.w	r3, [r3, #75]	; 0x4b
+ 80028f2:	2b00      	cmp	r3, #0
+ 80028f4:	d003      	beq.n	80028fe <app_leds_drive+0x9a>
 	{
 		LEDs_RED_LED.mode = LEDS_ON;
- 80028f4:	4b1b      	ldr	r3, [pc, #108]	; (8002964 <app_leds_drive+0x100>)
- 80028f6:	2201      	movs	r2, #1
- 80028f8:	725a      	strb	r2, [r3, #9]
- 80028fa:	e012      	b.n	8002922 <app_leds_drive+0xbe>
+ 80028f6:	4b1c      	ldr	r3, [pc, #112]	; (8002968 <app_leds_drive+0x104>)
+ 80028f8:	2201      	movs	r2, #1
+ 80028fa:	725a      	strb	r2, [r3, #9]
+ 80028fc:	e013      	b.n	8002926 <app_leds_drive+0xc2>
 	}
-	else if(ChannelsStatus[0].enable || ChannelsStatus[1].enable || ChannelsStatus[1].enable)
- 80028fc:	4b16      	ldr	r3, [pc, #88]	; (8002958 <app_leds_drive+0xf4>)
- 80028fe:	781b      	ldrb	r3, [r3, #0]
- 8002900:	2b00      	cmp	r3, #0
- 8002902:	d107      	bne.n	8002914 <app_leds_drive+0xb0>
- 8002904:	4b14      	ldr	r3, [pc, #80]	; (8002958 <app_leds_drive+0xf4>)
- 8002906:	7d1b      	ldrb	r3, [r3, #20]
- 8002908:	2b00      	cmp	r3, #0
- 800290a:	d103      	bne.n	8002914 <app_leds_drive+0xb0>
- 800290c:	4b12      	ldr	r3, [pc, #72]	; (8002958 <app_leds_drive+0xf4>)
- 800290e:	7d1b      	ldrb	r3, [r3, #20]
- 8002910:	2b00      	cmp	r3, #0
- 8002912:	d003      	beq.n	800291c <app_leds_drive+0xb8>
+	else if(ChannelsStatus[0].enable || ChannelsStatus[1].enable || ChannelsStatus[2].enable)
+ 80028fe:	4b17      	ldr	r3, [pc, #92]	; (800295c <app_leds_drive+0xf8>)
+ 8002900:	781b      	ldrb	r3, [r3, #0]
+ 8002902:	2b00      	cmp	r3, #0
+ 8002904:	d108      	bne.n	8002918 <app_leds_drive+0xb4>
+ 8002906:	4b15      	ldr	r3, [pc, #84]	; (800295c <app_leds_drive+0xf8>)
+ 8002908:	7d1b      	ldrb	r3, [r3, #20]
+ 800290a:	2b00      	cmp	r3, #0
+ 800290c:	d104      	bne.n	8002918 <app_leds_drive+0xb4>
+ 800290e:	4b13      	ldr	r3, [pc, #76]	; (800295c <app_leds_drive+0xf8>)
+ 8002910:	f893 3028 	ldrb.w	r3, [r3, #40]	; 0x28
+ 8002914:	2b00      	cmp	r3, #0
+ 8002916:	d003      	beq.n	8002920 <app_leds_drive+0xbc>
 	{
 		LEDs_RED_LED.mode = LEDS_SLOW_BLINK;
- 8002914:	4b13      	ldr	r3, [pc, #76]	; (8002964 <app_leds_drive+0x100>)
- 8002916:	2206      	movs	r2, #6
- 8002918:	725a      	strb	r2, [r3, #9]
- 800291a:	e002      	b.n	8002922 <app_leds_drive+0xbe>
+ 8002918:	4b13      	ldr	r3, [pc, #76]	; (8002968 <app_leds_drive+0x104>)
+ 800291a:	2206      	movs	r2, #6
+ 800291c:	725a      	strb	r2, [r3, #9]
+ 800291e:	e002      	b.n	8002926 <app_leds_drive+0xc2>
 	}
 	else
 	{
 		LEDs_RED_LED.mode = LEDS_OFF;
- 800291c:	4b11      	ldr	r3, [pc, #68]	; (8002964 <app_leds_drive+0x100>)
- 800291e:	2200      	movs	r2, #0
- 8002920:	725a      	strb	r2, [r3, #9]
+ 8002920:	4b11      	ldr	r3, [pc, #68]	; (8002968 <app_leds_drive+0x104>)
+ 8002922:	2200      	movs	r2, #0
+ 8002924:	725a      	strb	r2, [r3, #9]
 	}
 
 
 
 	  //leds update
 	  ledsUpadateLEDState(&LEDs_GREEN_LED1, HAL_GetTick());
- 8002922:	f003 f863 	bl	80059ec <HAL_GetTick>
- 8002926:	4603      	mov	r3, r0
- 8002928:	4619      	mov	r1, r3
- 800292a:	480a      	ldr	r0, [pc, #40]	; (8002954 <app_leds_drive+0xf0>)
- 800292c:	f001 ff7c 	bl	8004828 <ledsUpadateLEDState>
+ 8002926:	f003 f861 	bl	80059ec <HAL_GetTick>
+ 800292a:	4603      	mov	r3, r0
+ 800292c:	4619      	mov	r1, r3
+ 800292e:	480a      	ldr	r0, [pc, #40]	; (8002958 <app_leds_drive+0xf4>)
+ 8002930:	f001 ff7a 	bl	8004828 <ledsUpadateLEDState>
 	  ledsUpadateLEDState(&LEDs_GREEN_LED2, HAL_GetTick());
- 8002930:	f003 f85c 	bl	80059ec <HAL_GetTick>
- 8002934:	4603      	mov	r3, r0
- 8002936:	4619      	mov	r1, r3
- 8002938:	4808      	ldr	r0, [pc, #32]	; (800295c <app_leds_drive+0xf8>)
- 800293a:	f001 ff75 	bl	8004828 <ledsUpadateLEDState>
+ 8002934:	f003 f85a 	bl	80059ec <HAL_GetTick>
+ 8002938:	4603      	mov	r3, r0
+ 800293a:	4619      	mov	r1, r3
+ 800293c:	4808      	ldr	r0, [pc, #32]	; (8002960 <app_leds_drive+0xfc>)
+ 800293e:	f001 ff73 	bl	8004828 <ledsUpadateLEDState>
 	  ledsUpadateLEDState(&LEDs_RED_LED, HAL_GetTick());
- 800293e:	f003 f855 	bl	80059ec <HAL_GetTick>
- 8002942:	4603      	mov	r3, r0
- 8002944:	4619      	mov	r1, r3
- 8002946:	4807      	ldr	r0, [pc, #28]	; (8002964 <app_leds_drive+0x100>)
- 8002948:	f001 ff6e 	bl	8004828 <ledsUpadateLEDState>
+ 8002942:	f003 f853 	bl	80059ec <HAL_GetTick>
+ 8002946:	4603      	mov	r3, r0
+ 8002948:	4619      	mov	r1, r3
+ 800294a:	4807      	ldr	r0, [pc, #28]	; (8002968 <app_leds_drive+0x104>)
+ 800294c:	f001 ff6c 	bl	8004828 <ledsUpadateLEDState>
 
 }
- 800294c:	bf00      	nop
- 800294e:	bd80      	pop	{r7, pc}
- 8002950:	200002c0 	.word	0x200002c0
- 8002954:	200019a8 	.word	0x200019a8
- 8002958:	200019e4 	.word	0x200019e4
- 800295c:	200019bc 	.word	0x200019bc
- 8002960:	20000321 	.word	0x20000321
- 8002964:	200019d0 	.word	0x200019d0
- 8002968:	20001a20 	.word	0x20001a20
+ 8002950:	bf00      	nop
+ 8002952:	bd80      	pop	{r7, pc}
+ 8002954:	200002c0 	.word	0x200002c0
+ 8002958:	200019a8 	.word	0x200019a8
+ 800295c:	200019e4 	.word	0x200019e4
+ 8002960:	200019bc 	.word	0x200019bc
+ 8002964:	20000321 	.word	0x20000321
+ 8002968:	200019d0 	.word	0x200019d0
+ 800296c:	20001a20 	.word	0x20001a20
 
-0800296c <GetDacCoef_k>:
+08002970 <GetDacCoef_k>:
 /* @brief get K coeficient for DAC
  *
  *	@channel -> adc channel
  */
 float GetDacCoef_k(int channel)
 {
- 800296c:	b480      	push	{r7}
- 800296e:	b085      	sub	sp, #20
- 8002970:	af00      	add	r7, sp, #0
- 8002972:	6078      	str	r0, [r7, #4]
+ 8002970:	b480      	push	{r7}
+ 8002972:	b085      	sub	sp, #20
+ 8002974:	af00      	add	r7, sp, #0
+ 8002976:	6078      	str	r0, [r7, #4]
 	float *addr = ((float *)&MainParams.AdjCoef_k_ch0) + channel;
- 8002974:	687b      	ldr	r3, [r7, #4]
- 8002976:	009b      	lsls	r3, r3, #2
- 8002978:	4a06      	ldr	r2, [pc, #24]	; (8002994 <GetDacCoef_k+0x28>)
- 800297a:	4413      	add	r3, r2
- 800297c:	60fb      	str	r3, [r7, #12]
+ 8002978:	687b      	ldr	r3, [r7, #4]
+ 800297a:	009b      	lsls	r3, r3, #2
+ 800297c:	4a06      	ldr	r2, [pc, #24]	; (8002998 <GetDacCoef_k+0x28>)
+ 800297e:	4413      	add	r3, r2
+ 8002980:	60fb      	str	r3, [r7, #12]
 	return *addr;
- 800297e:	68fb      	ldr	r3, [r7, #12]
- 8002980:	681b      	ldr	r3, [r3, #0]
- 8002982:	ee07 3a90 	vmov	s15, r3
+ 8002982:	68fb      	ldr	r3, [r7, #12]
+ 8002984:	681b      	ldr	r3, [r3, #0]
+ 8002986:	ee07 3a90 	vmov	s15, r3
 }
- 8002986:	eeb0 0a67 	vmov.f32	s0, s15
- 800298a:	3714      	adds	r7, #20
- 800298c:	46bd      	mov	sp, r7
- 800298e:	f85d 7b04 	ldr.w	r7, [sp], #4
- 8002992:	4770      	bx	lr
- 8002994:	20001af8 	.word	0x20001af8
+ 800298a:	eeb0 0a67 	vmov.f32	s0, s15
+ 800298e:	3714      	adds	r7, #20
+ 8002990:	46bd      	mov	sp, r7
+ 8002992:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8002996:	4770      	bx	lr
+ 8002998:	20001af8 	.word	0x20001af8
 
-08002998 <GetDacCoef_q>:
+0800299c <GetDacCoef_q>:
 /* @brief get Q coeficient for DAC
  *
  *	@channel -> adc channel
  */
 float GetDacCoef_q(int channel)
 {
- 8002998:	b480      	push	{r7}
- 800299a:	b085      	sub	sp, #20
- 800299c:	af00      	add	r7, sp, #0
- 800299e:	6078      	str	r0, [r7, #4]
+ 800299c:	b480      	push	{r7}
+ 800299e:	b085      	sub	sp, #20
+ 80029a0:	af00      	add	r7, sp, #0
+ 80029a2:	6078      	str	r0, [r7, #4]
 	float *addr = ((float *)&MainParams.AdjCoef_q_ch0) + channel;
- 80029a0:	687b      	ldr	r3, [r7, #4]
- 80029a2:	009b      	lsls	r3, r3, #2
- 80029a4:	4a06      	ldr	r2, [pc, #24]	; (80029c0 <GetDacCoef_q+0x28>)
- 80029a6:	4413      	add	r3, r2
- 80029a8:	60fb      	str	r3, [r7, #12]
+ 80029a4:	687b      	ldr	r3, [r7, #4]
+ 80029a6:	009b      	lsls	r3, r3, #2
+ 80029a8:	4a06      	ldr	r2, [pc, #24]	; (80029c4 <GetDacCoef_q+0x28>)
+ 80029aa:	4413      	add	r3, r2
+ 80029ac:	60fb      	str	r3, [r7, #12]
 	return *addr;
- 80029aa:	68fb      	ldr	r3, [r7, #12]
- 80029ac:	681b      	ldr	r3, [r3, #0]
- 80029ae:	ee07 3a90 	vmov	s15, r3
+ 80029ae:	68fb      	ldr	r3, [r7, #12]
+ 80029b0:	681b      	ldr	r3, [r3, #0]
+ 80029b2:	ee07 3a90 	vmov	s15, r3
 }
- 80029b2:	eeb0 0a67 	vmov.f32	s0, s15
- 80029b6:	3714      	adds	r7, #20
- 80029b8:	46bd      	mov	sp, r7
- 80029ba:	f85d 7b04 	ldr.w	r7, [sp], #4
- 80029be:	4770      	bx	lr
- 80029c0:	20001b04 	.word	0x20001b04
+ 80029b6:	eeb0 0a67 	vmov.f32	s0, s15
+ 80029ba:	3714      	adds	r7, #20
+ 80029bc:	46bd      	mov	sp, r7
+ 80029be:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 80029c2:	4770      	bx	lr
+ 80029c4:	20001b04 	.word	0x20001b04
 
-080029c4 <StoreDACConstant>:
+080029c8 <StoreDACConstant>:
  * @param value -> value of coefficient
  *
  *
  */
 void StoreDACConstant(uint8_t coef, float value)
 {
- 80029c4:	b480      	push	{r7}
- 80029c6:	b085      	sub	sp, #20
- 80029c8:	af00      	add	r7, sp, #0
- 80029ca:	4603      	mov	r3, r0
- 80029cc:	ed87 0a00 	vstr	s0, [r7]
- 80029d0:	71fb      	strb	r3, [r7, #7]
+ 80029c8:	b480      	push	{r7}
+ 80029ca:	b085      	sub	sp, #20
+ 80029cc:	af00      	add	r7, sp, #0
+ 80029ce:	4603      	mov	r3, r0
+ 80029d0:	ed87 0a00 	vstr	s0, [r7]
+ 80029d4:	71fb      	strb	r3, [r7, #7]
 	float *addr = ((float *)&MainParams.AdjCoef_k_ch0) + coef;//  + (4 * channel);
- 80029d2:	79fb      	ldrb	r3, [r7, #7]
- 80029d4:	009b      	lsls	r3, r3, #2
- 80029d6:	4a06      	ldr	r2, [pc, #24]	; (80029f0 <StoreDACConstant+0x2c>)
- 80029d8:	4413      	add	r3, r2
- 80029da:	60fb      	str	r3, [r7, #12]
+ 80029d6:	79fb      	ldrb	r3, [r7, #7]
+ 80029d8:	009b      	lsls	r3, r3, #2
+ 80029da:	4a06      	ldr	r2, [pc, #24]	; (80029f4 <StoreDACConstant+0x2c>)
+ 80029dc:	4413      	add	r3, r2
+ 80029de:	60fb      	str	r3, [r7, #12]
 	*addr = value;
- 80029dc:	68fb      	ldr	r3, [r7, #12]
- 80029de:	683a      	ldr	r2, [r7, #0]
- 80029e0:	601a      	str	r2, [r3, #0]
+ 80029e0:	68fb      	ldr	r3, [r7, #12]
+ 80029e2:	683a      	ldr	r2, [r7, #0]
+ 80029e4:	601a      	str	r2, [r3, #0]
 }
- 80029e2:	bf00      	nop
- 80029e4:	3714      	adds	r7, #20
- 80029e6:	46bd      	mov	sp, r7
- 80029e8:	f85d 7b04 	ldr.w	r7, [sp], #4
- 80029ec:	4770      	bx	lr
- 80029ee:	bf00      	nop
- 80029f0:	20001af8 	.word	0x20001af8
+ 80029e6:	bf00      	nop
+ 80029e8:	3714      	adds	r7, #20
+ 80029ea:	46bd      	mov	sp, r7
+ 80029ec:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 80029f0:	4770      	bx	lr
+ 80029f2:	bf00      	nop
+ 80029f4:	20001af8 	.word	0x20001af8
 
-080029f4 <SendDACCoefficients>:
+080029f8 <SendDACCoefficients>:
 /* @brief send DAC coefficients to communication
  *
  *
  */
 void SendDACCoefficients()
 {
- 80029f4:	b590      	push	{r4, r7, lr}
- 80029f6:	b083      	sub	sp, #12
- 80029f8:	af00      	add	r7, sp, #0
+ 80029f8:	b590      	push	{r4, r7, lr}
+ 80029fa:	b083      	sub	sp, #12
+ 80029fc:	af00      	add	r7, sp, #0
 	for(int i = 0;i<6;i++)
- 80029fa:	2300      	movs	r3, #0
- 80029fc:	607b      	str	r3, [r7, #4]
- 80029fe:	e010      	b.n	8002a22 <SendDACCoefficients+0x2e>
+ 80029fe:	2300      	movs	r3, #0
+ 8002a00:	607b      	str	r3, [r7, #4]
+ 8002a02:	e010      	b.n	8002a26 <SendDACCoefficients+0x2e>
 	{
 		SendCommunication_float(cmd_dac_get_k0 + i, GetDacCoef_k(i));
- 8002a00:	687b      	ldr	r3, [r7, #4]
- 8002a02:	b2db      	uxtb	r3, r3
- 8002a04:	3345      	adds	r3, #69	; 0x45
- 8002a06:	b2dc      	uxtb	r4, r3
- 8002a08:	6878      	ldr	r0, [r7, #4]
- 8002a0a:	f7ff ffaf 	bl	800296c <GetDacCoef_k>
- 8002a0e:	eef0 7a40 	vmov.f32	s15, s0
- 8002a12:	eeb0 0a67 	vmov.f32	s0, s15
- 8002a16:	4620      	mov	r0, r4
- 8002a18:	f7ff f994 	bl	8001d44 <SendCommunication_float>
+ 8002a04:	687b      	ldr	r3, [r7, #4]
+ 8002a06:	b2db      	uxtb	r3, r3
+ 8002a08:	3345      	adds	r3, #69	; 0x45
+ 8002a0a:	b2dc      	uxtb	r4, r3
+ 8002a0c:	6878      	ldr	r0, [r7, #4]
+ 8002a0e:	f7ff ffaf 	bl	8002970 <GetDacCoef_k>
+ 8002a12:	eef0 7a40 	vmov.f32	s15, s0
+ 8002a16:	eeb0 0a67 	vmov.f32	s0, s15
+ 8002a1a:	4620      	mov	r0, r4
+ 8002a1c:	f7ff f992 	bl	8001d44 <SendCommunication_float>
 	for(int i = 0;i<6;i++)
- 8002a1c:	687b      	ldr	r3, [r7, #4]
- 8002a1e:	3301      	adds	r3, #1
- 8002a20:	607b      	str	r3, [r7, #4]
- 8002a22:	687b      	ldr	r3, [r7, #4]
- 8002a24:	2b05      	cmp	r3, #5
- 8002a26:	ddeb      	ble.n	8002a00 <SendDACCoefficients+0xc>
+ 8002a20:	687b      	ldr	r3, [r7, #4]
+ 8002a22:	3301      	adds	r3, #1
+ 8002a24:	607b      	str	r3, [r7, #4]
+ 8002a26:	687b      	ldr	r3, [r7, #4]
+ 8002a28:	2b05      	cmp	r3, #5
+ 8002a2a:	ddeb      	ble.n	8002a04 <SendDACCoefficients+0xc>
 	}
 
 }
- 8002a28:	bf00      	nop
- 8002a2a:	bf00      	nop
- 8002a2c:	370c      	adds	r7, #12
- 8002a2e:	46bd      	mov	sp, r7
- 8002a30:	bd90      	pop	{r4, r7, pc}
- 8002a32:	0000      	movs	r0, r0
- 8002a34:	0000      	movs	r0, r0
+ 8002a2c:	bf00      	nop
+ 8002a2e:	bf00      	nop
+ 8002a30:	370c      	adds	r7, #12
+ 8002a32:	46bd      	mov	sp, r7
+ 8002a34:	bd90      	pop	{r4, r7, pc}
 	...
 
 08002a38 <Get_PreRegulatorVoltage>:
@@ -5467,13 +5465,13 @@ uint16_t Get_DACValue(int dac_channel, uint16_t value)
  8002b0c:	687b      	ldr	r3, [r7, #4]
  8002b0e:	3b03      	subs	r3, #3
  8002b10:	4618      	mov	r0, r3
- 8002b12:	f7ff ff2b 	bl	800296c <GetDacCoef_k>
+ 8002b12:	f7ff ff2d 	bl	8002970 <GetDacCoef_k>
  8002b16:	ed87 0a04 	vstr	s0, [r7, #16]
 		float coef_q = GetDacCoef_q(dac_channel - 3);
  8002b1a:	687b      	ldr	r3, [r7, #4]
  8002b1c:	3b03      	subs	r3, #3
  8002b1e:	4618      	mov	r0, r3
- 8002b20:	f7ff ff3a 	bl	8002998 <GetDacCoef_q>
+ 8002b20:	f7ff ff3c 	bl	800299c <GetDacCoef_q>
  8002b24:	ed87 0a03 	vstr	s0, [r7, #12]
 
 		code = (uint16_t)(((coef_q - (float)value) / coef_k) * (float)DAC_coef);
@@ -5569,13 +5567,13 @@ uint16_t Get_DACValue_F(int dac_channel, float value)
  8002be8:	687b      	ldr	r3, [r7, #4]
  8002bea:	3b03      	subs	r3, #3
  8002bec:	4618      	mov	r0, r3
- 8002bee:	f7ff febd 	bl	800296c <GetDacCoef_k>
+ 8002bee:	f7ff febf 	bl	8002970 <GetDacCoef_k>
  8002bf2:	ed87 0a04 	vstr	s0, [r7, #16]
 		float coef_q = GetDacCoef_q(dac_channel - 3);
  8002bf6:	687b      	ldr	r3, [r7, #4]
  8002bf8:	3b03      	subs	r3, #3
  8002bfa:	4618      	mov	r0, r3
- 8002bfc:	f7ff fecc 	bl	8002998 <GetDacCoef_q>
+ 8002bfc:	f7ff fece 	bl	800299c <GetDacCoef_q>
  8002c00:	ed87 0a03 	vstr	s0, [r7, #12]
 
 		code = (uint16_t)((((float)coef_q - (float)value) / coef_k) * (float)DAC_coef);
