@@ -15,7 +15,7 @@ uint32_t	endpoint_port;
 
 wiz_NetInfo myNetInfo =
 {
-    .mac  = { 0xEA, 0x11, 0x22, 0x33, 0x44, 0xEB },
+    .mac  = { 0x21, 0x96, 0x9D, 0x03, 0x60, 0xE1 },
 	.ip = {192, 168, 0, 22},
 	.sn = {255, 255, 255, 0},
 	.gw = {192, 168, 0, 1},
@@ -202,6 +202,11 @@ void ETH_load_ip()
 	myNetInfo.gw[1] = ip_GET8(x,1);
 	myNetInfo.gw[2] = ip_GET8(x,2);
 	myNetInfo.gw[3] = ip_GET8(x,3);
+
+	myNetInfo.dns[0] = ip_GET8(x,0);
+	myNetInfo.dns[1] = ip_GET8(x,1);
+	myNetInfo.dns[2] = ip_GET8(x,2);
+	myNetInfo.dns[3] = ip_GET8(x,3);
 
 }
 
